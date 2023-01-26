@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Guillaume, currently senior security analyst within Microsoft and interested in all-things security. 
+Guillaume, from Belgium, currently senior security analyst and threat hunter within Microsoft and interested in all-things security. 
 The idea of this blog is just to share some work, research or thoughts on topics that drive me, generally around Threat Hunting, Detection and Response or what goes by in my head which could lead to interesting results. 
 
 You can find me on the usual suspects:
@@ -16,7 +16,7 @@ You can find my public repositories on GitHub:
 
 ## Other interests
 
-Crossfit (I am one of these, yes) and fitness in general
-Chess 
-Nature 
-Dogs
+Crossfit (I am one of these, yes) and fitness in general <br />
+Chess <br />
+Nature <br />
+Dogs <br />
