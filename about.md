@@ -17,6 +17,7 @@ You can find my public repositories on GitHub:
 ## Other interests
 
 Crossfit (I am one of these, yes) and fitness in general <br />
-Chess <br />
+Chess (or I try) <br />
+Gaming (a bit) <br />
 Nature <br />
 Dogs <br />
