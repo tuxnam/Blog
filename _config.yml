@@ -23,10 +23,10 @@ email: guillaume.benats@gmail.com
 
 navbar-links:
   About Me: "about"
-  Resources:
-    - Beautiful Jekyll: "https://beautifuljekyll.com"
-    - Learn markdown: "https://www.markdowntutorial.com/"
-  Author's home: "https://guillaumeben.xyz"
+  #Resources:
+  #  - Beautiful Jekyll: "https://beautifuljekyll.com"
+  #  - Learn markdown: "https://www.markdowntutorial.com/"
+  Home: "https://guillaumeben.xyz"
 
 ################
 # --- Logo --- #
