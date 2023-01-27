@@ -27,16 +27,15 @@ exclude:
 
 plugins:
   - jekyll-sitemap
-  - jekyll-include-cache
+  - jekyll-remote-theme
+  - jekyll-feed
 
 domain: guillaumeben.xyz
 url: https://guillaumeben.xyz # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 markdown: kramdown
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
-plugins:
-  - jekyll-feed
+remote_theme: mmistakes/minimal-mistakes@4.24.0
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
