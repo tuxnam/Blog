@@ -37,6 +37,7 @@ url: https://guillaumeben.xyz # the base hostname & protocol for your site, e.g.
 # Build settings
 markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes@4.24.0
+minimal_mistakes_skin: "dark"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -49,3 +50,9 @@ remote_theme: mmistakes/minimal-mistakes@4.24.0
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+title: "GuillaumeBen's Notebook"
+name: "Guillaume B."
+subtitle: "My small contribution to security"
+url: https://www.guillaumeben.xyz
+logo: "/assets/images/avatar-icon.png"
