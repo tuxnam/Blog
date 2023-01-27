@@ -1,18 +1,21 @@
 # Default YAML values (more information on Jekyll's site)
 defaults:
-  -
     scope:
       path: ""
-      type: "posts"
+      type: posts
     values:
-      layout: "post"
+      layout: single
       comments: true  # add comments to all blog posts
-      social-share: true # add social media sharing buttons to all blog posts
-  -
+      share: true # add social media sharing buttons to all blog posts
+      author_profile: true
+      read_time: true
+      related: true
+      show_date: true      
     scope:
       path: "" # any file that's not a post will be a "page" layout by default
+      type: pages
     values:
-      layout: "page"
+      layout: single
 
 # Exclude these files from production site
 exclude:
@@ -51,8 +54,27 @@ minimal_mistakes_skin: "dark"
 #   - vendor/gems/
 #   - vendor/ruby/
 
+# https://mmistakes.github.io/minimal-mistakes/docs/configuration/
+
 title: "GuillaumeBen's Notebook"
 name: "Guillaume B."
 subtitle: "My small contribution to security"
 url: https://guillaumeben.xyz
 logo: "/assets/img/avatar-icon.png"
+breadcrumbs: true  # disabled by default
+
+author:
+  name     : "Guillaume B."
+  avatar   : "/assets/img/avatar-icon.png"
+  bio      : "Security Analyst, Threat Hunter, Detection Engineering @ Microsoft."
+  location : "Somewhere, Belgium"
+  links:
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/tux_be"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/tuxnam"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/guillaume-benats-25550426/"
