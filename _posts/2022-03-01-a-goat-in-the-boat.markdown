@@ -10,11 +10,8 @@ categories: Microsoft Defender for Cloud, Azure Security, Containers Security
 <span class="subtitle">In this article, we will explore and test Defender for Containers against a vulnerable environment and see what it can detects or prevent and how we can leverage it to make our Kubernetes workloads safer.</span>
 <p></p>
 
-<p style="width: 100%; text-align: center;">
 <img src="https://github.com/tuxnam/Blog/blob/68aaefba5dbe2fc734f0b250a7794662b84f3da3/_posts/images/kuby-logo.png" alt="Defender for Containers" >
 <span style="display: block; font-size: 12px;">Source: original picture (without the intruder) is from <a href="https://www.cncf.io/phippy/#:~:text=The%20Illustrated%20Children%E2%80%99s%20Guide%20to%20Kubernetes%20The%20Illustrated,try%20to%20explain%20software%20engineering%20to%20their%20children.">Matt Butcher and his illustrated guide of Kubernetes</a></span>
- <p></p>
-</p>
  
 > The skyrocketting usage of Kubernetes and containarized workloads over the past years has led to new attack vectors. 
 > The number and sophistication of attacks targeting cloud-native environment is booming. While containers and Kubernetes security can be hard and require security professionals to update their skillsets, a bunch of tools and products have rised to target these new threats and cope with the elasticity and scalibility needs of Kubernetes workloads. 
