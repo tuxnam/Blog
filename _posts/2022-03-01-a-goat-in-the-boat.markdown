@@ -11,7 +11,7 @@ categories: Microsoft Defender for Cloud, Azure Security, Containers Security
 <p></p>
 
 <p style="width: 100%; text-align: center;">
-<img src="images/kuby-logo.png" style="align: center; margin: 5px; width: 65%;height: auto;" alt="Defender for Containers" >
+<img src="https://github.com/tuxnam/Blog/blob/68aaefba5dbe2fc734f0b250a7794662b84f3da3/_posts/images/kuby-logo.png" style="align: center; margin: 5px; width: 65%;height: auto;" alt="Defender for Containers" >
 <span style="display: block; font-size: 12px;">Source: original picture (without the intruder) is from <a href="https://www.cncf.io/phippy/#:~:text=The%20Illustrated%20Children%E2%80%99s%20Guide%20to%20Kubernetes%20The%20Illustrated,try%20to%20explain%20software%20engineering%20to%20their%20children.">Matt Butcher and his illustrated guide of Kubernetes</a></span>
  <p></p>
 </p>
