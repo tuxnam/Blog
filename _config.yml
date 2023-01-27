@@ -26,6 +26,7 @@ exclude:
   - docs/
 
 plugins:
+  - jekyll-include-cache
   - jekyll-sitemap
   - jekyll-remote-theme
   - jekyll-feed
