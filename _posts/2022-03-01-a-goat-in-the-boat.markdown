@@ -2,7 +2,7 @@
 layout: post
 title:  "Defender for Containers: a goat in the boat"
 date:   2022-03-01 00:00:00 +0100
-categories: jekyll update
+categories: Microsoft Defender for Cloud, Azure Security, Containers Security
 ---
 
 # A goat in the boat: a look at how Defender for Containers protects your clusters
