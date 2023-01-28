@@ -2,7 +2,6 @@
 layout: single 
 title: About
 permalink: /about/
-toc: false
 ---
 
 Guillaume, from Belgium, currently senior security analyst and threat hunter within Microsoft and interested in all-things security. 
