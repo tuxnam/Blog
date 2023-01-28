@@ -1,6 +1,7 @@
 ---
 layout: posts
-excerpt:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
+Excerpt:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
+title:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
 last_modified_at: 20@#-01-28T15:59:57-04:00
 ---
 
