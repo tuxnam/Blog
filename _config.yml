@@ -10,12 +10,10 @@ defaults:
       author_profile: true
       read_time: true
       related: true
-      show_date: true      
-    scope:
-      path: "" # any file that's not a post will be a "page" layout by default
-      type: pages
-    values:
-      layout: single
+      
+
+# Generic settings
+show_date: true      
 
 # Exclude these files from production site
 exclude:
