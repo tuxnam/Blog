@@ -1,6 +1,6 @@
 ---
 layout: posts
-title: A goat in the boat: a look at how Defender for Containers protects your clusters
+title: "A goat in the boat: a look at how Defender for Containers protects your clusters"
 last_modified_at: 2022-03-01T15:59:57-04:00
 ---
 
