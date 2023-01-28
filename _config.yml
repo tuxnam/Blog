@@ -284,3 +284,10 @@ defaults:
       share: true
       related: false
       show_date: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      
