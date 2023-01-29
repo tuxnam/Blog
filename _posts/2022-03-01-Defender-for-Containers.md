@@ -4,10 +4,11 @@ title: "A goat in the boat: a look at how Defender for Containers protects your 
 last_modified_at: 2022-03-01T15:59:57-04:00
 ---
 
-<span style="font-color: orange; text-decoration: italic;">This article was published in March 2022 and is potentially outdated.</span>
-
 
 **A goat in the boat: a look at how Defender for Containers protects your clusters**
+
+<span style="font-color: 'orange'; text-decoration: 'italic';">This article was published in March 2022 and is potentially outdated.</span>
+
 
 <p></p>
 <span class="subtitle">In this article, we will explore and test Defender for Containers against a vulnerable environment and see what it can detects or prevent and how we can leverage it to make our Kubernetes workloads safer.</span>
