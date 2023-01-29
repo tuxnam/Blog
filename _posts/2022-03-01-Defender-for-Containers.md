@@ -11,12 +11,10 @@ last_modified_at: 2022-03-01T15:59:57-04:00
 <span class="subtitle">In this article, we will explore and test Defender for Containers against a vulnerable environment and see what it can detects or prevent and how we can leverage it to make our Kubernetes workloads safer.</span>
 <p></p>
 
-<p style="width: 100%; text-align: center;">
-<img src="https://github.com/tuxnam/Blog/blob/55dc013023a326ba2aa1a4baf39026cc41e15ae9/assets/img/posts/kuby-logo.png" style="align: center; margin: 5px; width: 65%;height: auto;" alt="Defender for Containers" >
-<span style="display: block; font-size: 12px;">Source: original picture (without the intruder) is from <a href="https://www.cncf.io/phippy/#:~:text=The%20Illustrated%20Children%E2%80%99s%20Guide%20to%20Kubernetes%20The%20Illustrated,try%20to%20explain%20software%20engineering%20to%20their%20children.">Matt Butcher and his illustrated guide of Kubernetes</a></span>
- <p></p>
-</p>
+![image](https://user-images.githubusercontent.com/18376283/215314756-2b5b2766-afb9-4259-be76-b624bef7e1ed.png)
  
+<span style="display: block; font-size: 12px;">Source: original picture (without the intruder) is from <a href="https://www.cncf.io/phippy/#:~:text=The%20Illustrated%20Children%E2%80%99s%20Guide%20to%20Kubernetes%20The%20Illustrated,try%20to%20explain%20software%20engineering%20to%20their%20children.">Matt Butcher and his illustrated guide of Kubernetes</a></span>
+
 > The skyrocketting usage of Kubernetes and containarized workloads over the past years has led to new attack vectors. 
 > The number and sophistication of attacks targeting cloud-native environment is booming. While containers and Kubernetes security can be hard and require security professionals to update their skillsets, a bunch of tools and products have rised to target these new threats and cope with the elasticity and scalibility needs of Kubernetes workloads. 
 > Some of these products include Trivy, Qualys, Clair, Anchore, Snyk, a myriad of good open-source tools and, the one we will investigate in this post, Microsoft Defender for containers. 
