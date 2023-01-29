@@ -85,9 +85,9 @@ As an example:
 Here is an overview of the complete setup with deployed namespaces (highlighted the namespaces were pods from k8s goat are deployed): 
 <br />
 <br />
-<div style="text-align: center">
-<img src="images/Topology-goat-aks.png" style="float: center; align: center;" alt="Defender for Containers environment setup" >
-</div>
+
+![image](https://user-images.githubusercontent.com/18376283/215314944-8af4cc00-0180-408d-ab75-5c05827b9e16.png)
+
 
 <p></p>
 
