@@ -4,6 +4,8 @@ title: "A goat in the boat: a look at how Defender for Containers protects your 
 last_modified_at: 2022-03-01T15:59:57-04:00
 ---
 
+<span style="font-color: orange; text-decoration: italic;">This article was published in March 2022 and is potentially outdated.</span>
+
 
 **A goat in the boat: a look at how Defender for Containers protects your clusters**
 
