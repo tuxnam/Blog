@@ -118,7 +118,7 @@ We have accomplished three things until now:
 - (Implicitely) Created a representation of the application (identity) in our tenant, with a Service Principal
 - Assigned a role (subscription contributor) to our application identity (the service principal)
 
-**Sign-in logs**
+**Audit logs**
 
 - Creating an application
 
@@ -132,7 +132,18 @@ What information is available to the analyst?
 | ----------- | ----------- | ----------- | ----------- |
 | Correlation ID | 646966dd-acd2-4b14-a4e5-020d0193e846 | 646966dd-acd2-4b14-a4e5-020d0193e846 | e1515874-4dbc-4620-a802-7f14a54495ff |
 
+- Role assigned to the application service principal
+
+- Adding a certificate or secret
+
+- Changing Owner
+
+- Adding an application permission
 
 **Audit logs**
+
+### Application Consents
+
+
 
 ## Detecting Azure AD Application threats using Azure AD logs
