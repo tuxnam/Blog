@@ -88,5 +88,19 @@ This is where the identity part kicks in, with the infamous service principals.
 
 ### The application identity, as known as: the service principal
 
+You have an application object and settings, but how does that application actually authenticates itself to your tenant APIs or services it needs to use? How is it able to impersonate your users? How does it differ from another application? and finally, how can this application work in another tenant?
+
+In Azure AD, a security principal defines the access policy and permissions for a user/application in a Azure AD tenant. 
+Users are represented by user principals and applications are represented by service principals.
+A service principal therefore represents the **identity** of your application **inside a specific tenant**. If your application is multi-tenant (hence, allowing users from multiple tenants to use that application), it will have one service principal ID per tenant. 
+
+The applications identities, hence service principals, are in another blade of Azure AD: Enterprise Applications (well, next to Users section of course, as service  principals are users). Albeit confusing, this is the list of service principals in your tenant and their references to the applicatiob objects they represent:
+
+![image](https://user-images.githubusercontent.com/18376283/215535303-e1027372-eb6f-4b1a-9388-667e439b1658.png)
+
+
+
+
+
 
 ## Detecting Azure AD Application threats using Azure AD logs
