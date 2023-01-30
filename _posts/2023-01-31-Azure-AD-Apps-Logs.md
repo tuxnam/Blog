@@ -76,8 +76,10 @@ A few settings are also interesting to look at (all settings would be, but we ne
 | Property | Description |
 | ----------- | ----------- |
 | Owners | When an application is created by an administrative role (Global Administrator, Application Administrator etc.), it has no owner by default, this means an administrator needs to manage the application configuration. An administrator can however delegate this to someone, by assigning an owner to the application. If a non-administrator user creates an application (if such things are allowed in your tenant), he will automatically be assigned as an owner. |
-| Certificate and Secrets | |
-| Roles and administrators | |
+| Certificate and Secrets | This is where application owners would defined secrets or certificates the application can use to authenticate to remote services: Azure AD API, Microsoft 365 or other business-related services. |
+| API permissions | Applications are authorized to call APIs when they are granted permissions by users/admins as part of the consent process. |
+| App Roles | App roles are custom roles to assign permissions to users or apps. The application defines and publishes the app roles and interprets them as permissions during authorization |
+| Roles and administrators | Administrative roles are used for granting access for privileged actions in Azure AD. We recommend using these built-in roles for delegating access to manage broad application configuration permissions without granting access to manage other parts of Azure AD not related to application configuration. Assignable roles are roles that can be assigned here to allow managing this resourc |
 
 Our application now has properties and settings in the target tenant. 
 Any object in an Azure AD tenant however requires permissions to perform actions, how does this work with an application? 
