@@ -98,9 +98,41 @@ The applications identities, hence service principals, are in another blade of A
 
 ![image](https://user-images.githubusercontent.com/18376283/215535303-e1027372-eb6f-4b1a-9388-667e439b1658.png)
 
+You can then assign Azure roles (to access Azure resources) or Azure AD roles (to access Azure AD resources) to your service principal, similarly to a regular user. 
+
+![image](https://user-images.githubusercontent.com/18376283/215588766-7e884a52-8f2e-4869-872a-725f59963eed.png)
+
+### Log sources
+
+We did not really touch upon available logs yet, and the idea here is not to extensively detail the topic as it is covered by a lot of good resources (for instance x, y or z).
+The following logs will be useful for this conversation:
+- Azure AD audit logs: collect all traceable activities within your Azure AD tenant. Audit logs can be used to determine who made a change to service, user, group, or other item.
+- Azure AD sign-in logs: all sign-in activity in Azure AD. These logs have 4 different sources/categories: User sign-ins (interactive), user sign-ins (non-interactive), service principal sign-ins, managed identity sign-ins.
+- Azure AD provisionning logs: activities performed by the provisioning service.
+- Azure Unified Audit Logs (UAL): the unified audit log contains user, group, application, domain, and directory activities performed in the Microsoft 365 admin center or in the Azure management portal.
+
+### A first look at generated logs!
+
+We have accomplished three things until now:
+- Created a new application object for a single-tenant application
+- (Implicitely) Created a representation of the application (identity) in our tenant, with a Service Principal
+- Assigned a role (subscription contributor) to our application identity (the service principal)
+
+**Sign-in logs**
+
+- Creating an application
+
+What logs were created?
+
+![image](https://user-images.githubusercontent.com/18376283/215594395-d542d922-a801-4b36-9d65-d5c3a7029eec.png)
+
+What information is available to the analyst?
+
+| Activity Type | Add application | Add Owner to Application | Add Service Principal |
+| ----------- | ----------- | ----------- | ----------- |
+| Correlation ID | 646966dd-acd2-4b14-a4e5-020d0193e846 | 646966dd-acd2-4b14-a4e5-020d0193e846 | e1515874-4dbc-4620-a802-7f14a54495ff |
 
 
-
-
+**Audit logs**
 
 ## Detecting Azure AD Application threats using Azure AD logs
