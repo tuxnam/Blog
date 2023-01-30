@@ -281,6 +281,7 @@ defaults:
       share: true
       related: false
       show_date: true
+      future: false
   # _pages
   - scope:
       path: ""
