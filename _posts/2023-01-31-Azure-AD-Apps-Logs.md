@@ -5,13 +5,12 @@ title:  "Azure AD Applications - Making sense of available logs"
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
-**Azure AD applications, or application objects, can lead to several attack vectors, covered in multiple documentation pages and blogs already. It can be confusing for analysts to navigate through Azure AD terminology and logs and quickly come to a conclusion on a hunt or during incident response. In this post, I am going over relevant logs, what they mean, normal and unexpected behiaviors.**
-
+**Azure AD applications, or application objects, can lead to several attack vectors. While the topic has been covered in multiple documentation pages and blogs already (see references), it can be confusing for analysts to navigate through Azure AD terminology and logs and quickly come to a conclusion on a hunt or during incident response. In this post, I am going over relevant artifacts, what they mean, where to find them as well as understanding application behiaviors from logs.**
 
 I have broken this article into three parts: 
-- Setting the scene: a brief summary of the terminology around Azure AD applications  
-- Understanding normal: what Azure AD application events are logged and where 
-- Detecting anomalies: how threats can be identified in available logs 
+- Setting the scene: terminology, artifacts and log sources 
+- Understanding normal: a look at logs from regular Azure AD application events
+- Detecting anomalies: how threats can be identified in the same logs 
 
 ## Azure AD Applications
 
