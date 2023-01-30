@@ -46,10 +46,7 @@ The application objects for a specific tenant will appear in the **Application R
 
 ![image](https://user-images.githubusercontent.com/18376283/215504979-24a10457-4303-44a0-a5fe-17d9529b1f5d.png)
 
-
-**Step 1 - Let's create an application**
-
-In the Azure AD application registration blade, let's register an application:
+Let's create an application. In the Azure AD application registration blade, we can register an application:
 
 ![image](https://user-images.githubusercontent.com/18376283/215505119-f0677c29-c895-4b5b-89b8-9b79a988340f.png)
 
@@ -61,19 +58,26 @@ The properties are the first part of artifacts I want to describe, as they are i
 
 | Property | Description |
 | ----------- | ----------- |
-| Display Name | Title |
-| Application (client) ID | Title |
-| Object ID | Text |
-| Directory (tenant) ID | Text |
-| Supported account types | Text |
+| Display Name | This is the name of your application, nothing fancy as such |
+| Application (client) ID | This is a generated ID for your application ands uniquely identifies this application |
+| Object ID | This is also a generated ID for your application, but it represents an ID for this object (the application) in the current tenant |
+| Directory (tenant) ID | This is your tenant ID |
+| Supported account types | This tells if this application supports one or multiple tenants |
 
-A few settings are also interesting to look at:
+**Understanding Application ID and Object ID**
 
-- Owners
-- Authentication
-- Certificate and Secrets
-- API permissions 
-- Roles and administrators
+As described here above, the application ID is a unique identifier for your application, cross-tenant(s). It uniquely represents your application. 
+The object ID is a unique identifier for the object, which is your application in this case, in the Azure AD tenant. See the object ID as the identifier from an Azure AD objects standpoint amongst other Azure AD objects like Users, Groups...Example for a user:
+
+![image](https://user-images.githubusercontent.com/18376283/215521541-1e22a8f3-9265-4075-83da-6c4dc8a8dbad.png)
+
+A few settings are also interesting to look at (all settings would be, but we need to limit the length of this article, right?):
+
+| Property | Description |
+| ----------- | ----------- |
+| Owners | When an application is created by an administrative role (Global Administrator, Application Administrator etc.), it has no owner by default, this means an administrator needs to manage the application configuration. An administrator can however delegate this to someone, by assigning an owner to the application. If a non-administrator user creates an application (if such things are allowed in your tenant), he will automatically be assigned as an owner. |
+| Certificate and Secrets | |
+| Roles and administrators | |
 
 Our application now has properties and settings in the target tenant. 
 Any object in an Azure AD tenant however requires permissions to perform actions, how does this work with an application? 
