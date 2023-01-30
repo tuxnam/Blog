@@ -33,6 +33,52 @@ When an application is added to Azure Active Directory, it could be for several 
 
 ### The application settings, as known as: the application object
 
+Think of application settings as a configuration file/database for your application. It is called the **applicaton object** in Azure AD and allows to configure several aspects of your application:
+- A name, description, logo
+- Some redirect URIs which can be used during authentication flows for instance
+- Secrets and certificates 
+- Application roles
+- Exposed APIs
+- ...
+
+The application objects can be created in multiple ways, by an application administrator in a specific tenant: Azure AD GUI, PowerShell, through an IDE, from the Azure Application gallery.
+
+The application objects for a specific tenant will appear in the **Application Registrations** blade of Azure AD:
+
+![image](https://user-images.githubusercontent.com/18376283/215504979-24a10457-4303-44a0-a5fe-17d9529b1f5d.png)
+
+
+**Step 1 - Let's create an application**
+
+In the Azure AD application registration blade, let's register an application:
+
+![image](https://user-images.githubusercontent.com/18376283/215505119-f0677c29-c895-4b5b-89b8-9b79a988340f.png)
+
+We will make it single-tenant for now, and after completion, you can observe an entry has been added to the registrations as well as properties (in green) and settings (in orange) for that new application:
+
+![image](https://user-images.githubusercontent.com/18376283/215505786-ebd9e43b-b0c8-40fb-9768-5c137dff8f77.png)
+
+The properties are the first part of artifacts I want to describe, as they are important from an analyst perspective and will reflect in the available logs:
+
+| Property | Description |
+| ----------- | ----------- |
+| Display Name | Title |
+| Application (client) ID | Title |
+| Object ID | Text |
+| Directory (tenant) ID | Text |
+| Supported account types | Text |
+
+A few settings are also interesting to look at:
+
+- Owners
+- Authentication
+- Certificate and Secrets
+- API permissions 
+- Roles and administrators
+
+Our application now has properties and settings in the target tenant. 
+Any object in an Azure AD tenant however requires permissions to perform actions, how does this work with an application? 
+This is where the identity part kicks in, with the infamous service principals.
 
 
 ### The application identity, as known as: the service principal
