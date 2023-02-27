@@ -53,8 +53,7 @@ It directly shows you how easy it is to enumerate accounts using this method.
 If we run the MSOL enumeration module with TeamFiltration, and a proxy in place, such as BURP, here is what we get:
 
 The following paramenters are hardcoded (at time of writing) in the framework code for this method:
-
-'''
+```
 isOtherIdpSupported = true,
 checkPhones = false,
 isRemoteNGCSupported = true,
@@ -69,7 +68,7 @@ federationFlags = 0,
 isSignup = false,
 flowToken = "",
 isAccessPassSupported = true
-'''
+```
 
 #### How noisy is this?
 
