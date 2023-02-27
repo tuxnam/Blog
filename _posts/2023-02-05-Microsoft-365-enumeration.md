@@ -26,6 +26,26 @@ I encourage you to watch the presentation of the framework [@Def Con 30 - Taking
 
 TeamFiltration has 3 main modules: enumeration, spraying and exfiltration. Let's dive into the inner-workings...
 
+## A note on Fireprox 
+
+TeamFiltration does not trigger enumerations or spraying directly from the client IP where you execute it, it is a bit more clever and leverages a proxy utility called Fireprox. Fireprox generates pass-through proxies that rotate the source IP address with every request, leveraging the AWS API gateway behind the scenes.
+More information can be found [here](https://kalilinuxtutorials.com/fireprox-aws-api-gateway-creating-http/).
+When you execute TeamFiltration, it will actually first create a temporary AWS API gateway and corresponding endpoints.
+Example for *enum* and *--validate-msol* technique:
+
+```
+https://{API-ID}.execute-api.{YOUR-AWS-REGION}.amazonaws.com/fireprox/common/GetCredentialType
+```
+
+When called, this endpoint will simply forward requests (as a proxy) to https://login.microsoftonline.com/common/GetCredentialsType
+
+This allows users of TeamFiltration in this case to "hide" their real IPs when scanning and use IPs from AWS public IP range, which will keep on being rotated and hence avoiding a simple IP block. 
+
+From a detection standpoint, however, this also means that enumeration and spraying from AWS public IP ranges will be a signature of TeamFiltration.
+
+**Note:** the framework might evolve in the future and bring similar capabilities on Azure or GCP or even bring VPS capabilities in, but in the current state, AWS public ip ranges is a good IOC to build on.
+As the framework is open-source, attackers could easily change or remove the user of Fireprox to adapt to their own infrastructures/needs. 
+
 ## Enumeration
 
 TeamsFiltration enumeration has three parameters which allow to enter a domain for the target organization (example *contoso.net*), adding an optional list of usernames (common usernames or for instance a list gathered using OSINT, Google, LinkedIn, a company portal or other sources) or for instance using the *dehashed* (a database of compromised assets such as email accounts). The enumeration module offers three *enumeration types*: MSOL, Teams or regular logins attempts. 
