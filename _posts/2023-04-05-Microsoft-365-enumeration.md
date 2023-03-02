@@ -93,7 +93,13 @@ The MSOL API is used by Office 365 and a bunch of other Microsoft websites for a
 
 ### Enumeration using Teams (Microsoft Teams APIs)
 
-This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client.
+This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the presentation that Teams uses quite a lot of APIs, including MSOL, the one we covered just before. However the method used by TeamFiltration here is simply to use the Teams search API to search users cross-tenant.
+
+**Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search.
+
+This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. Of course you could also imagine that an attacker could use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raisong more flags in terms of detection.
+
+
 
 
 
