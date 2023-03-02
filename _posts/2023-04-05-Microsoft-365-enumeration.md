@@ -44,7 +44,7 @@ This allows users of TeamFiltration in this case to "hide" their real IPs when s
 From a detection standpoint, however, this also means that enumeration and spraying from AWS public IP ranges will be a signature of TeamFiltration.
 
 **Note:** the framework might evolve in the future and bring similar capabilities on Azure or GCP or even bring VPS capabilities in, but in the current state, AWS public ip ranges is a good IOC to build on.
-As the framework is open-source, attackers could easily change or remove the user of Fireprox to adapt to their own infrastructures/needs. 
+As the framework is open-source, attackers could change or remove the user of Fireprox to adapt to their own infrastructures/needs. 
 
 ## Enumeration
 
@@ -68,34 +68,32 @@ If we compare with an account which does not normally exists on this domain:
 The notable difference is on "IfExistsResult" where it will respectively be 0 or 1 depending if the user exist in the tenant or not. 
 It directly shows you how easy it is to enumerate accounts using this method.
 
-#### How TeamsFiltration use it
+This method (GetCredentialsType) will not work on each tenant and depends on specifics (managed or federated domains for instance), and might give some false-positives. 
+However, the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also a bit incorrect and lead to the attempt telling most of the times that this method is not supported for the target tenant. This is one of the problem (compared to the advantages it brings from a detection standpoint) to use undocumented APIs which can change often and lead to inconsistencies. <br />
+I will dive a bit more into *GetCredentialType* and how to use it for enumeration in another article, for now we will focus on TeamFiltration's capabilities.
 
-If we run the MSOL enumeration module with TeamFiltration, and a proxy in place, such as BURP, here is what we get:
+Note that, when working for your tenant, this method is throttled by Microsoft and hence slow if enumerating on a big user list.
 
-The following paramenters are hardcoded (at time of writing) in the framework code for this method:
-```
-isOtherIdpSupported = true,
-checkPhones = false,
-isRemoteNGCSupported = true,
-isCookieBannerShown = false,
-isFidoSupported = true,
-originalRequest = "",
-country = "US",
-forceotclogin = false,
-isExternalFederationDisallowed = false,
-isRemoteConnectSupported = false,
-federationFlags = 0,
-isSignup = false,
-flowToken = "",
-isAccessPassSupported = true
-```
+#### Results on our test tenant
 
-#### How noisy is this?
+When you issue the *--enum-msol* command with a target domain, TeamsFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* or based on a potential list of usernames which you pass as input:
 
+![image](https://user-images.githubusercontent.com/18376283/222366500-37bdd627-06d5-4ca6-af57-10a77f228a21.png)
 
+![image](https://user-images.githubusercontent.com/18376283/222367191-ffd4aff3-50e3-4221-b459-b6c289d260ea.png)
 
+**Note:** When you do enumeration, TeamFiltration is building up a database of previous attempts, and will skip the usernames it already tried to enum for this specific domain (database is in the --outpath parameter).
 
+As you note, the method is not supported by TeamsFiltration on our target tenant.
 
+#### Detection opportunities
+
+One of the problem for blue teams of attackers using undocumented APIs (read: APIs used by known applications or websites but not documented for development or customer use to the opposite of on-purpose APIs such as Graph API) is that most of the time, they won't be visible inside your tenant.
+The MSOL API is used by Office 365 and a bunch of other Microsoft websites for authenticating a user interractively. If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API method does not require any authentication attempt and will be blind from a Azure AD or Office 365 UAL logs standpoint. 
+
+### Enumeration using Teams (Microsoft Teams APIs)
+
+This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client.
 
 
 
