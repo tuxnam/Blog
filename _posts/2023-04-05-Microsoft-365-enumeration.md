@@ -89,7 +89,7 @@ As you note, the method is not supported by TeamsFiltration on our target tenant
 #### Detection opportunities
 
 One of the problem for blue teams of attackers using undocumented APIs (read: APIs used by known applications or websites but not documented for development or customer use to the opposite of on-purpose APIs such as Graph API) is that most of the time, they won't be visible inside your tenant.
-The MSOL API is used by Office 365 and a bunch of other Microsoft websites for authenticating a user interractively. If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API method does not require any authentication attempt and will be blind from a Azure AD or Office 365 UAL logs standpoint. 
+The MSOL API is used by Office 365 and a tons of other Microsoft apps for authenticating a user interractively. If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API method does not require any authentication attempt and will be blind from a Azure AD or Office 365 UAL logs standpoint. 
 
 ### Enumeration using Teams (Microsoft Teams APIs)
 
@@ -97,7 +97,30 @@ This enumeration method is the 'core' of the research presented at Defcon, as th
 
 **Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search.
 
-This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. Of course you could also imagine that an attacker could use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raisong more flags in terms of detection.
+This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. Of course you could also imagine that an attacker could use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raisong more flags in terms of detection and if you have already an account in the tenant, there are many ways to enumerate other users.
+
+In our case, I used a sacrificial account in a test tenant I own and this time provided a list of usernames (which, again you can gather from many sources) rather than using the brute-force enumeration available in the tool.
+
+![image](https://user-images.githubusercontent.com/18376283/222748485-0316e9e0-e639-46f7-b4b8-bebfe63debde.png)
+
+You can see a few valid accounts have been marked as such.
+
+#### Detection opportunities
+
+So this one I can detect right? Ehhh...no. This is again just enumeration using a valid cross-tenant search feature. If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration:
+
+![image](https://user-images.githubusercontent.com/18376283/222757901-ff5c9feb-f2b3-4e0d-ba38-faa63968f344.png)
+
+
+### Enumeration using Logins
+
+This method is the simplest and of course most useful one from a detection standpoint. It actually tries to login to see if the user exists or not.
+
+![image](https://user-images.githubusercontent.com/18376283/222759774-bd11bc44-3aed-409d-930b-b8ab741ca964.png)
+
+This just basically uses https://login.microsoftonline.com like you would do by simply browsing to the Office365 portal for instance. It then uses a password to test if the user exists or not.
+
+#### Detection opportunities
 
 
 
