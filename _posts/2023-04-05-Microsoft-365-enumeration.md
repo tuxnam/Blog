@@ -216,9 +216,34 @@ Let's now dive into the tool and analyse the spraying part!
 
 ### Spraying
 
-We had a good overview of the enumeration capabilities but enumeration on its own is pointless, the goal is to generally try to gain access (unless you just want to sell login data) and spraying is an efficient way to do so. Let's have a brief recap first.
+We had a good overview of the enumeration capabilities but enumeration on its own is pointless, the goal is to generally try to gain access (unless you just want to sell login data) and spraying is an efficient way to do so. 
 
-#### What is password spraying?
+If you want to know more about password spraying and how to prevent it on Azure AD, have a look [here](https://www.microsoft.com/en-us/security/blog/2020/04/23/protecting-organization-password-spray-attacks/).
+
+#### Available spraying methods
+
+TeamFIltration proposes two main methods and several options for password spraying:
+- Default method: using standard login method (regular user sign-ins)
+- Method 2: _AAD SSO_: this is a method discovered by SecureWorks, described [here](https://www.secureworks.com/research/undetected-azure-active-directory-brute-force-attacks), based on Azure AD single-sign on, and exploiting the target URI: https://autologon.microsoftazuread-sso.com//winauth/trust/2005/windowstransport.
+
+Let's explore these two methods.
+
+![image](https://user-images.githubusercontent.com/18376283/223545437-13319b3f-8ba3-4f0d-88a1-19e17b2a65ba.png)
+
+![image](https://user-images.githubusercontent.com/18376283/223545081-ceb08fb9-2045-46b7-8356-cd2470a47d44.png)
+
+There are several options, we will not explore all of them here, but here is a short summary:
+
+1. The golden rule when you spray is low-and slow, and the default TeamFiltration config is to sleep minimum 60 minutes between each round of attempts and maximum 100. Understand by that, that TeamsFiltration will attempt the list of enumerated usernames with a first password, then sleep before moving to the next password attempt. I used _--force_ here for obvious reasons, to skip the time thresholds, but this of course is needed normally to avoid locking accounts. The "recurring" spraying pattern, albeit changeable, also means a pattern for detection but TeamsFiltration nicely do the next attempts at a random time between the minimum and maximum defined. 
+2. You can define a time window when spraying should occur, for instance during business hours, to trigger less anomalies
+3. You can input a list of passwords, from a dictionnary, which is recommended. If you don't TeamFiltration generates a list of common passwords from a combination of months, years and generic words. There are several other options like top 20 common passwords for instance. 
+4. You can input a list of 'combos', meaning a list of username:password 
+5. Next to time windows for spraying, you can define the default delay between attempts
+6. There is an integration with pushover to get notifications about successful sprays, so an attacker could have big time windows and delays between attempts, running for months
+
+#### Detection
+
+
 
 #### The various methods available for spraying in TeamsFiltration
 
