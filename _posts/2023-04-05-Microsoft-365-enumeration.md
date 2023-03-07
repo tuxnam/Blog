@@ -243,7 +243,7 @@ There are several options, we will not explore all of them here, but here is a s
 
 #### Detection
 
-
+The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, FireProx being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
 
 #### The various methods available for spraying in TeamsFiltration
 
