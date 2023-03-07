@@ -116,19 +116,49 @@ So this one I can detect right? Ehhh...no. This is again just enumeration using 
 
 This method is the simplest and of course most useful one from a detection standpoint. It actually tries to login to see if the user exists or not.
 
-![image](https://user-images.githubusercontent.com/18376283/222759774-bd11bc44-3aed-409d-930b-b8ab741ca964.png)
+![image](https://user-images.githubusercontent.com/18376283/223357820-8c14ca81-8e6f-4f72-89ce-0d2ddcfbff32.png)
 
-This just basically uses https://login.microsoftonline.com like you would do by simply browsing to the Office365 portal for instance. It then uses a password to test if the user exists or not.
+It will trigger sign-ins like you would do by simply browsing to the Office365 portal for instance. It then uses a password to test if the user exists or not.
 
 #### Detection opportunities
 
+This method is of course the only enumeration method proposed by TeamsFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above.
+
+If we look at regular user sign-ins we can clearly see the attempts, as well as specifics from TeamsFiltration:
 
 
+_Wait, what with the different Application IDs and Application Display Names?_
 
+Good catch! In fact, TeamsFiltration does not always use the same APIs in this method, and rotate between several (hardcoded) APIs, but more specifically it enforced specific Application IDs which are corresponding to specific applications in any Azure AD tenant.
+The full list of applications and application IDs of Microsoft first-party applications can be found hbere: https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in#application-ids-of-commonly-used-microsoft-applications. 
 
+**APIs used:**
 
-3. Using Teams
-4. Using Office 365 Logins
+https://graph.windows.net
+https://api.spaces.skype.com/
+https://outlook.office365.com/
+https://management.core.windows.net/
+https://graph.microsoft.com/
+
+With the following Application ID, "1fec8e78-bce4-4aaf-ab1b-5451cc387264", which if you look in Azure AD, like confirmed by the above list, corresponds to Microsoft Teams (it will be the same GUID for all Azure AD tenant):
+
+![image](https://user-images.githubusercontent.com/18376283/223362726-340e4832-787f-46ad-8946-548798d8cf52.png)
+
+https://clients.config.office.net
+https://onedrive.live.com
+https://wns.windows.com
+
+With the following Application ID, "d3590ed6-52b3-4102-aeff-aad2292ab01c", which corresponds to Microsoft Office. 
+
+https://api.office.net
+https://onedrive.live.com
+https://clients.config.office.net
+https://wns.windows.com
+
+With the following Application ID, "ab9b8c07-8f02-4f72-87fa-80105867a763", which corresponds to OneDrive SyncEngine.
+
+Of course the tool will evolve, and could rotate between all application IDs available [here](https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in), so detections should not be limited to the current list.  
+
 
 ### Spraying
 
