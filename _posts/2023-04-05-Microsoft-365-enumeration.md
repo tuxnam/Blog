@@ -241,6 +241,16 @@ There are several options, we will not explore all of them here, but here is a s
 5. Next to time windows for spraying, you can define the default delay between attempts
 6. There is an integration with pushover to get notifications about successful sprays, so an attacker could have big time windows and delays between attempts, running for months
 
+Let's have two real attempts now, where we input a password list from a dictionnary of top 10000 common passwords:
+
+![image](https://user-images.githubusercontent.com/18376283/223654338-133f165e-313d-469b-b0cf-7d2e53400432.png)
+
+...and yes playing with fire, reducing the time between sprays too much and you just locked all accounts.
+
+Let's do the same, but for the purpose of this article to be done before 1 month, just with 5 passwords in the dictionnary and a bit bigger delays:
+
+
+
 #### Detection
 
 The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, FireProx being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
