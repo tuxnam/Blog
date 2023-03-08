@@ -255,11 +255,10 @@ Let's do the same, but for the purpose of this article to be done before 1 month
 
 The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, FireProx being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
 
-#### The various methods available for spraying in TeamsFiltration
-
-
-
 ### Exfiltration
+
+![image](https://user-images.githubusercontent.com/18376283/223680440-6ffe4b5d-5f4c-4ef1-98e4-2bef19db2628.png)
+
 
 ## Our Microsoft 365 test environment
 
