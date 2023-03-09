@@ -257,13 +257,26 @@ The two methods will trigger different logs: one is interractive, the other one 
 
 ### Exfiltration
 
+Ok if you have a successful spray or are able to find a valid account and credentials through any other mean, you want to exfiltrate some data potentially. This is where the exfiltration module comes handy. 
+It offers several features including:
+- Extracting info from the AAD tenant of the user, using Graph API
+- Extracting Teams chats, contacts and files through the Teams API
+- Extract cookies and authentication tokens from an exfiltrated Teams database
+- Extract files from OneDrive or SharePoint
+- Extract mails using Outlook API 
+- Exfiltrate JWT tokens to abuse SSO mechanism
+
+It also allows to exfiltrate directly from a token as an input or abuse the refresh tokens from the victim's cookies. 
+
+Let's have a deeper look:
+
 ![image](https://user-images.githubusercontent.com/18376283/223680440-6ffe4b5d-5f4c-4ef1-98e4-2bef19db2628.png)
 
+#### Detection
 
-## Our Microsoft 365 test environment
+###  The Backdoor
 
-## The attacker scenarios 
+#### Detection 
 
-## Diving into the logs
 
 ## Yara and KQL detection rules / hunting
