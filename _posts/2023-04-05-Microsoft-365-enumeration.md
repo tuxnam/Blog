@@ -278,5 +278,13 @@ Let's have a deeper look:
 
 #### Detection 
 
+## Detecting / hunting
 
-## Yara and KQL detection rules / hunting
+## Protecting 
+
+- MFA
+- CA policies
+- Spray protection
+- Password complexity 
+- AAD IP\
+- ...
