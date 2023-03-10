@@ -151,18 +151,25 @@ If we do the same attempt, with a known/valid agent:
 ![image](https://user-images.githubusercontent.com/18376283/224329234-9d5a327e-2168-4f24-8881-444c95af7c6f.png)
 
 So this is a bug in the way Azure AD logs handle the user-agent string, as an invalid or empty agent will lead to an empty _DeviceDetails_ field in the logs. 
-Do notice as well the changes of IP Address and Location. 
-This being said, as you might know, Azure AD is tighly integrated to Defender 365, and two new tables are available on Defender 365 advanced hunting blade, which are probably meant to replace the current __SignInsLogs and NonInterractiveSignInsLogs tables__ at some point:
+Do notice as well the changes of IP Address and Location. <br />
+This being said, as you might know, Azure AD is tighly integrated to Defender 365, and two new tables are available on Defender 365 advanced hunting blade (see [AADSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadsignineventsbeta-table?view=o365-worldwide) and the same for Service Principals, [AADSpnSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadspnsignineventsbeta-table?view=o365-worldwide)).
+As indicated in the documentation, these tables are temporary and all sign-in schema information will eventually move to the IdentityLogonEvents table (which is a Microsoft Defender for Identity log source originally). We can therefore expect the same in Microsoft Sentinel.
 
+First you can see that this table contains both non-interractive and interractive sign-ins, but also that the available information is spread a bit differently:
+![image](https://user-images.githubusercontent.com/18376283/224332270-69b4a002-51e0-482a-9caf-f8efd4b7d6c4.png)
 
+Let's look at the logs where user-agent was a non-existing one, it is now seen in the logd:
 
+![image](https://user-images.githubusercontent.com/18376283/224332866-23a7ad54-9f10-403b-8358-b7f9ed4196f9.png)
 
-_Wait, what with the different Application IDs and Application Display Names? (in green)_
+If no agent is specified, the default String will be: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.30866 Chrome/80.0.3987.165 Electron/8.5.1 Safari/537.36", which corresponds to Chrome browser: see [here](http://www.browser-info.net/useragent?q=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Teams%2F1.3.00.30866+Chrome%2F80.0.3987.165+Electron%2F8.5.1+Safari%2F537.36).
+
+__Wait, what with the different Application IDs and Application Display Names? (in green)__
 
 Good catch! In fact, TeamsFiltration does not always use the same APIs in this method, and rotate between several (hardcoded) APIs, but more specifically it enforced specific Application IDs which are corresponding to specific applications in any Azure AD tenant.
 The full list of applications and application IDs of Microsoft first-party applications can be found hbere: https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in#application-ids-of-commonly-used-microsoft-applications. 
 
-**APIs used:**
+**APIs used (at time of writing):**
 
 https://graph.windows.net<br/>
 https://api.spaces.skype.com<br/>
@@ -189,38 +196,11 @@ With the following Application ID, "ab9b8c07-8f02-4f72-87fa-80105867a763", which
 
 Of course the tool will evolve, and could rotate between all application IDs available [here](https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in), so detections should not be limited to the current list.  
 
-__IPs used: AWS APIs__
+__Wait a minute...__
 
-As we discussed earlier, TeamsFiltration will leverage Fireprox by default and hence the origin IPs will all be in the AWS Public IP range:
-
-![image](https://user-images.githubusercontent.com/18376283/223469741-d20742ea-f175-447a-b36d-06b38091e0fc.png)
-
-Of course, AWS IP ranges are huge and assigned based on service and region. 
-
-__User Agent__
-
-One other thing to note is the user-agent string, which in this case in "Chrome 80.0.3987". This user-agent is in fact hardcoded in the TeamFiltration configuration file and can thus be changed by any user of the tool. If no agent is specified, the default String will be: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.30866 Chrome/80.0.3987.165 Electron/8.5.1 Safari/537.36", which corresponds to Chrome browser: see [here](http://www.browser-info.net/useragent?q=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Teams%2F1.3.00.30866+Chrome%2F80.0.3987.165+Electron%2F8.5.1+Safari%2F537.36).
-
-**Let's do this one more time**
-
-If we run the same enum command again, clearing the database first (TeamsFiltration is re-using previous attempts of enumeration or spraying for efficiency and storing it all in its embedded database) but also changing the user-agent to a non-existing one:
-
-![image](https://user-images.githubusercontent.com/18376283/223472620-ede86933-1337-4c1e-a277-1e6d373e4a5b.png)
-
-If we look at the logs, we see the device details have changed, and are not available anymore, but also the AWS IP range is different, as it used new FireProx endpoints generated on-the-fly and the applications used are different as well with for instance OneDrive Sync Engine being used:
-
-![image](https://user-images.githubusercontent.com/18376283/223474014-6101ff53-f933-4013-9445-04af0a7f95c3.png)
-
-**Results of the authentication attempts**
-
-For all these attempts, unless of course the password generated by TeamsFiltration (which is one of these) is correct, it will generate the following status code: 50126 - Invalid username or password. Notice as well the location of the AWS IPs changing on the second run from FR to US:
-
-![image](https://user-images.githubusercontent.com/18376283/223475099-96208304-9bcd-4e2c-b274-d1dbe67265ce.png)
-
-**Wait a minute..."
-
-If error code is invalid username or password, how does TeamsFIltration knows these are valid accounts? 
-Well because in fact if the account does not exist at all, the response issued by the above APIs will be different.Let's try with https://outlook.office365.com:  
+In the sign-in logs, when account is not locked, error code is invalid username or password, how does TeamsFiltration knows these are valid accounts? 
+Well because in fact if the account does not exist at all, the response issued by the above APIs will be different.
+Let's try with https://outlook.office365.com:  
 
 ![image](https://user-images.githubusercontent.com/18376283/223477810-9e19eb71-5dfd-4bed-8ee0-d63da36555c8.png)
 
@@ -228,7 +208,7 @@ Notice, it uses the *GetCredentialType* we discussed at the beginning? now for a
 
 ![image](https://user-images.githubusercontent.com/18376283/223477121-d4e6cdcc-80b1-411f-b540-57e0ccae8931.png)
 
-Wait a minute, it did not even use GetCredentialsType here? Good catch! But is just because my browser had some cached credentials for this one, if I clear the cache and start again:
+Hey, it did not even use GetCredentialsType here? Good catch! But is just because my browser had some cached credentials for this one, if I clear the cache and start again:
 
 ![image](https://user-images.githubusercontent.com/18376283/223478668-b917501b-54b0-43e7-9462-9544b74ce255.png)
 
@@ -237,7 +217,7 @@ Wait a minute, it did not even use GetCredentialsType here? Good catch! But is j
 
 TeamsFiltration has an embedded database, which allows to store all enum, spraying or exfiltration attempts locally. If we look into it, we can see the results of our attempts which can be further used in the spraying module for instance!
 
-![image](https://user-images.githubusercontent.com/18376283/223480360-3bef6533-1888-4609-b7ec-6b80af0f5a07.png)
+![image](https://user-images.githubusercontent.com/18376283/224334665-b83eaea8-5c00-46e0-9e0a-08b377ebf5e6.png)
 
 
 Let's now dive into the tool and analyse the spraying part!
