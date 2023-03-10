@@ -70,65 +70,92 @@ If we compare with an account which does not normally exists on this domain:
 The notable difference is on "IfExistsResult" where it will respectively be 0 or 1 depending if the user exist in the tenant or not. 
 It directly shows you how easy it is to enumerate accounts using this method.
 
-This method (GetCredentialsType) will not work on each tenant and depends on specifics (managed or federated domains for instance), and might give some false-positives. 
-However, the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also a bit incorrect and lead to the attempt telling most of the times that this method is not supported for the target tenant. This is one of the problem (compared to the advantages it brings from a detection standpoint) to use undocumented APIs which can change often and lead to inconsistencies. <br />
-I will dive a bit more into *GetCredentialType* and how to use it for enumeration in another article, for now we will focus on TeamFiltration's capabilities.
+This method (GetCredentialsType) will not work on each tenant and depends on specifics (managed or federated domains for instance), and might give some false-positives. This is not the purpose of this article, however the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also incorrect.
+This is indeed the problem with undocumented APIs, the specification did evolve and thus the same response is not expected. 
+This lead to using *--validate-msol* method resulting in failre message: this method is not supported for the target tenant. 
+<br />
 
-Note that, when working for your tenant, this method is throttled by Microsoft and hence slow if enumerating on a big user list.
+Note that, when using this method, this is throttled by Microsoft and hence slow if enumerating on a big user list.
 
-#### Results on our test tenant
+When you issue the *--enum-msol* command with a target domain, TeamsFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* (typically, the target tenant we use has a user called John Smith, which would be a direct match) or based on a potential list of usernames which you pass as input:
 
-When you issue the *--enum-msol* command with a target domain, TeamsFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* or based on a potential list of usernames which you pass as input:
+![image](https://user-images.githubusercontent.com/18376283/224321359-6e6a7081-db3e-4f2c-8261-ff77951a3147.png)
 
-![image](https://user-images.githubusercontent.com/18376283/222366500-37bdd627-06d5-4ca6-af57-10a77f228a21.png)
-
-![image](https://user-images.githubusercontent.com/18376283/222367191-ffd4aff3-50e3-4221-b459-b6c289d260ea.png)
+![image](https://user-images.githubusercontent.com/18376283/224321851-770b7afc-c220-42e8-91d3-a7d892d0d7d9.png)
 
 **Note:** When you do enumeration, TeamFiltration is building up a database of previous attempts, and will skip the usernames it already tried to enum for this specific domain (database is in the --outpath parameter).
 
-As you note, the method is not supported by TeamsFiltration on our target tenant.
+As you notice and as discussed above, the method is not supported by TeamsFiltration on our target tenant.
 
 #### Detection opportunities
 
-One of the problem for blue teams of attackers using undocumented APIs (read: APIs used by known applications or websites but not documented for development or customer use to the opposite of on-purpose APIs such as Graph API) is that most of the time, they won't be visible inside your tenant.
-The MSOL API is used by Office 365 and a tons of other Microsoft apps for authenticating a user interractively. If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API method does not require any authentication attempt and will be blind from a Azure AD or Office 365 UAL logs standpoint. 
+One of the problem for blue teams when attackers are using undocumented APIs (understand: APIs used by known applications or websites but not documented for development or customer usage, to the opposite of APIs such as Graph API) is that most of the time, they won't be visible inside your logs or not in the way you'd expect.
+Moreover, in this case, there is no login attempt, it is just enumeration. 
+The MSOL API is used by Office 365 and a tons of other Microsoft apps for authenticating a user interractively. 
+If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API will not trigger any.
 
 ### Enumeration using Teams (Microsoft Teams APIs)
 
-This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the presentation that Teams uses quite a lot of APIs, including MSOL, the one we covered just before. However the method used by TeamFiltration here is simply to use the Teams search API to search users cross-tenant.
+This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the [Defcon presentation](https://www.youtube.com/watch?v=GpZTQHLKelg) that Teams uses quite a lot of APIs, including MSOL, the one we covered just before. However this method is leveraging the Teams search API to search users cross-tenant.
+<br />
 
-**Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search.
+**Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search. Do note it has UX impact and is enabled in most tenants. 
 
-This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. Of course you could also imagine that an attacker could use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raisong more flags in terms of detection and if you have already an account in the tenant, there are many ways to enumerate other users.
+This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. 
+Of course you could also imagine that an attacker use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raising more flags in terms of detection and, at the end, if you have already an account in the tenant, there are many other ways to enumerate users.
 
-In our case, I used a sacrificial account in a test tenant I own and this time provided a list of usernames (which, again you can gather from many sources) rather than using the brute-force enumeration available in the tool.
+In this test, I used a sacrificial account in a test tenant I own and this time provided a list of usernames (which, again attackers usually easily scrap from many sources) rather than using the brute-force enumeration available in the tool (based on the Github list of common names).
 
-![image](https://user-images.githubusercontent.com/18376283/222748485-0316e9e0-e639-46f7-b4b8-bebfe63debde.png)
+![image](https://user-images.githubusercontent.com/18376283/224323285-6f22ebb3-05c9-4044-8a7f-c3d72defc5ad.png)
 
-You can see a few valid accounts have been marked as such.
+You can see that the tool successfully validated 5 accounts from the list input.
 
 #### Detection opportunities
 
-So this one I can detect right? Ehhh...no. This is again just enumeration using a valid cross-tenant search feature. If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration:
-
-![image](https://user-images.githubusercontent.com/18376283/222757901-ff5c9feb-f2b3-4e0d-ba38-faa63968f344.png)
-
+So this one I can detect right? Ehhh...no. 
+This is again just enumeration using a valid cross-tenant search feature. 
+If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration. Remember, there is no sign-in attempts.
+One could argue for the possibility to log this in the [Unified Audit Logs (UAL)](https://learn.microsoft.com/en-us/powershell/module/exchange/search-unifiedauditlog?view=exchange-ps), but imagine the number of logs it could generate, for little value at the end. 
 
 ### Enumeration using Logins
 
-This method is the simplest and of course most useful one from a detection standpoint. It actually tries to login to see if the user exists or not.
+The last available method is the simplest and of course most useful one from a detection standpoint. It actually tries to login to see if the user exists or not.
 
-![image](https://user-images.githubusercontent.com/18376283/223357820-8c14ca81-8e6f-4f72-89ce-0d2ddcfbff32.png)
+![image](https://user-images.githubusercontent.com/18376283/224324390-5063ce29-aafe-4ed9-911b-2cc8ffdcb7b3.png)
 
-It will trigger sign-ins like you would do by simply browsing to the Office365 portal for instance. It then uses a password to test if the user exists or not.
+It will trigger sign-in attempts, like you would do by simply browsing to the Office365 portal for instance. It then uses a random password to test if the user exists or not.
 
 #### Detection opportunities
 
-This method is of course the only enumeration method proposed by TeamsFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above.
+This method is of course the only enumeration method proposed by TeamsFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above. We are interested therefore in *interractive sign-in logs of Azure AD*.
 
-If we look at regular user sign-ins we can clearly see the attempts, as well as specifics from TeamsFiltration:
+![image](https://user-images.githubusercontent.com/18376283/224325671-b1e882a9-b7d0-4245-914d-153599ff9d4f.png)
+![image](https://user-images.githubusercontent.com/18376283/224325784-f983574d-4cb9-4891-b64a-60c74fff5bae.png)
 
-![image](https://user-images.githubusercontent.com/18376283/223469262-b986a087-0af3-4521-a928-eef0ce2e001b.png)
+There is a few interesting details in the logs:
+- Location: in this case it is France, but next time it might be US, FireProx will indeed create the AWS endpoints in a random region, so this is not a IOC you could use. However, the fact that these locations might be rare in your company and rolling for each enumeration attempts, might give other detection opportunities.
+- Authentication Requirements: You can see if account enumerated has MFA enforced or not, which could higher the related incident severity
+- Conditional Access: This was not applied, as the login attempt failed at first factor
+- IP Address: This is a public IP from AWS public IP range, could be a completely different one next time, still in AWS range
+- Device detail: there is no details about the device and no user-agent mentionned
+
+**Why is there no user-agent and what would be the expected one?**
+
+The user-agent is defined in the configuration file of TeamsFiltration. However, if you indicates an agent which Azure AD cannot match, it will just be empty in the Sign-in logs. Here is the configuration file used for this attempt:
+
+![image](https://user-images.githubusercontent.com/18376283/224327113-5efe54c1-b244-41a7-949c-78f61fcf3518.png)
+
+If we do the same attempt, with a known/valid agent:
+
+![image](https://user-images.githubusercontent.com/18376283/224327400-7fe422ac-c953-4271-95a0-af57eddc27a7.png)
+![image](https://user-images.githubusercontent.com/18376283/224329234-9d5a327e-2168-4f24-8881-444c95af7c6f.png)
+
+So this is a bug in the way Azure AD logs handle the user-agent string, as an invalid or empty agent will lead to an empty _DeviceDetails_ field in the logs. 
+Do notice as well the changes of IP Address and Location. 
+This being said, as you might know, Azure AD is tighly integrated to Defender 365, and two new tables are available on Defender 365 advanced hunting blade, which are probably meant to replace the current __SignInsLogs and NonInterractiveSignInsLogs tables__ at some point:
+
+
+
 
 _Wait, what with the different Application IDs and Application Display Names? (in green)_
 
