@@ -13,6 +13,8 @@ In this article, we will look at its capabilities and how we can potentially det
 
 [TeamFiltration](https://github.com/Flangvik/TeamFiltration) is a framework developed by @flangvik from TrustedSec which allows to perform reconnaissance and gain initial access to Microsoft 365 and Azure AD tenants in order to potentially exfiltrate data or open the door to other post-exploitation activities. 
 
+**This article is based on TeamFiltration 3.5.0**
+
 ## Purpose of this article
 
 Enumeration, spraying and brute-forcing are common attack techniques for initial access ([TA000! - Initial Access](https://attack.mitre.org/tactics/TA0001/)), specifically on Cloud workloads. 
@@ -274,11 +276,24 @@ Let's have a deeper look:
 
 #### Detection
 
+OfficeActivity
+Sign-in Logs
+Non-Interractive Sign-in Logs
+Audit Logs 
+
 ###  The Backdoor
+
+As a bonus, TeamFiltration proposes a 'backdoor' module. The purpose of this module is basically to interract with the OneDrive API using a custom CLI.
+Why would you do that? Because that way you can replace a legitimate file in the user's OneDrive, by the same file with a malicious macro or a HTA file embedded. 
+You can look at dates to see how often the user is using some files, to grow chances of the payload to be executed.
+Another nice trick mentionned in the Defcon talk is that the author realized the Desktop folder is often sync'd to OneDrive by default. The desktop folder is often a set of shortcuts (LNK files). You can therefore simply replace one of the shortcut to point to a malicious payload or an executable you'd like to launch with user's privileges. 
 
 #### Detection 
 
-## Detecting / hunting
+None?
+
+
+## KQL Queries - Detecting / hunting
 
 ## Protecting 
 
