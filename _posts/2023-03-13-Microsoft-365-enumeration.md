@@ -94,11 +94,11 @@ The notable difference is on "IfExistsResult" where it will respectively be 0 or
 It directly shows you how easy it is to enumerate accounts using this method.
 
 This method (GetCredentialsType) will not work on each tenant, depends on specifics (managed or federated domains for instance), and might give some false-positives. This is not the purpose of this article, however the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also incorrect (author acknowledged this and this will surely be fixed soon).
-This is indeed the problem with undocumented APIs, the specification did evolve and thus the response payload did change. 
-This lead to using *--validate-msol* method resulting in failre message: this method is not supported for the target tenant. 
+This is indeed the problem with undocumented APIs, the specification did evolve and thus the response payload did change. <br />
+This leads to *--validate-msol* method resulting in failure message: this method is not supported for the target tenant. 
 <br />
 
-Note that, when using this method, this is throttled by Microsoft and hence slow if enumerating on a big user list.
+Note that this method is throttled by Microsoft and hence slow if enumerating on a big user list.
 
 When you issue the *--enum-msol* command with a target domain, TeamsFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* (typically, the target tenant we use has a user called John Smith, which would be a direct match) or based on a potential list of usernames which you pass as input:
 
