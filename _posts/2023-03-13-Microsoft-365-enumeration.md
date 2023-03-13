@@ -1,12 +1,12 @@
 ---
 layout: posts
-Excerpt:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
+Excerpt:  "Microsoft 365 enumeration, spraying and exfiltration - TeamFiltration in the spotlight"
 title:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
 last_modified_at: 20@#-03-13T15:59:57-04:00
 ---
 
 *TeamFiltration is self-defined as a cross-platform framework for enumerating, spraying, exfiltrating, and backdooring O365 AAD accounts. <br />
-In this article, we will look at its capabilities and how we can potentially detect related events and activities.*
+In this article, we will look at its capabilities and how we can potentially detect related events in Azure AD and Microsoft 365 logs.*
 
 
 ## Introducing TeamFiltration
@@ -27,6 +27,20 @@ TeamFiltration is written in C# and can either be used from a standalone build v
 I encourage you to watch the presentation of the framework [@Def Con 30 - Taking a Dump in the Cloud](https://www.youtube.com/watch?v=GpZTQHLKelg) for an onveriew of the framework, its foundations and a demo by the author. 
 
 TeamFiltration has 3 main modules: enumeration, spraying and exfiltration. Let's dive into the inner-workings...
+
+## A brief on logs used in this article
+
+We will focus on the main Azure AD logs and the Microsoft 365 Unified Audit Log (UAL) to observe logging events related to usage of TeamFiltration. 
+In our case, these logs are ingested into Microsoft Sentinel, but any SIEM or log concentrator could be used. You can also directly browse the logs from the Microsoft Entra portal or from Defender 365 portal for instance. 
+
+**Azure AD Logs**
+- Sign-in Logs: interractive logins attempts 
+- Non-interractive Sign-in Logs: non-interractive logins attempts 
+
+Audit, Service principal, Provisionning or managed identity logs will not bring any value in this context. 
+
+**UAL**
+- OfficeActivity (if using Microsoft Sentinel) 
 
 ## A note on Fireprox 
 
