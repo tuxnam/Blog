@@ -17,7 +17,7 @@ In this article, we will look at its capabilities and how we can potentially det
 
 ## Purpose of this article
 
-Enumeration, spraying and brute-forcing are common attack techniques for initial access ([TA000! - Initial Access](https://attack.mitre.org/tactics/TA0001/)), specifically on Cloud workloads. 
+Enumeration, spraying and brute-forcing are common attack techniques for initial access ([TA0001 - Initial Access](https://attack.mitre.org/tactics/TA0001/)), specifically on Cloud workloads. 
 While there are loads of interesting articles on post-exploitation frameworks, "post-exploitations", by definition, means there was an initial access. Detecting initial access attacks and analyzing relevant logs in Azure AD is what we strive to do in this article. 
 TeamsFiltration is of course not the only framework available for enumerating or brute-forcing Azure Active Directory (e.g.: PowerZure, Microburst, MSOLSPray and many more) but it allows to chain multiple techniques, some of them being interesting from a detection perspective.
 
