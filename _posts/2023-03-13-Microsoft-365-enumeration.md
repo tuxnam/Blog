@@ -23,7 +23,7 @@ While there are loads of interesting articles on post-exploitation frameworks (a
 TeamFiltration is of course not the only framework available for enumerating or brute-forcing Azure Active Directory (e.g.: AADInternals, PowerZure, Microburst, MSOLSPray and many more) but it allows to chain multiple techniques, some of them being interesting from a detection perspective.
 It is also because of the interesting premises of the TeamFiltration framework, which are based on the fact that Microsoft relies on a specific "version" of the OAuth flow ([On-Behalf of flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow)) for some of its office applications, in order for instance to allow Teams to have access to your Outlook calendar or your OneDrive files (more of that on the below talk). 
 
-We will divide this article in several sections, dissecting each one of the technique offered by TeamsFiltration and looking at the corresponding detection in the logs. 
+We will divide this article in several sections, dissecting each one of the technique offered by TeamFiltration and looking at the corresponding detection in the logs. 
 
 TeamFiltration is written in C# and can either be used from a standalone build version or by compiling sources from the corresponding GitHub repository.
 I encourage you to watch the presentation of the framework [@Def Con 30 - Taking a Dump in the Cloud](https://www.youtube.com/watch?v=GpZTQHLKelg) for an onveriew of the framework, its foundations and a demo by the author. 
