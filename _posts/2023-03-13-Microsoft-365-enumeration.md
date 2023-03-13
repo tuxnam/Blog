@@ -78,7 +78,7 @@ This enumeration is using a known technique based on the *login.microsoftonline.
 
 If you authenticate to https://www.office.com/, you will be able to see the OAUTH flow leveraging this specific API. 
 
-![image](https://user-images.githubusercontent.com/18376283/224754902-929fc410-7d79-4abf-b630-7b58877a2a83.png)
+![image](https://user-images.githubusercontent.com/18376283/224758822-da602e5a-5ce9-46ee-9963-a4ce45f4545a.png)
 
 The exact method used by this enumeration technique is *GetCredentialType* which gives login information, including Desktop SSO information.
 What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. <br />
