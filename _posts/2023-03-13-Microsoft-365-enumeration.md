@@ -67,7 +67,7 @@ As the framework is open-source, attackers could change or remove the user of Fi
 
 ## Enumeration
 
-TeamsFiltration enumeration has three parameters which allow to enter a domain for the target organization (example *contoso.net*), adding an optional list of usernames (common usernames or for instance a list gathered using OSINT, Google, LinkedIn, a company portal or other sources) or, yet, using the *dehashed* (a database of compromised assets such as email accounts).
+TeamFiltration enumeration has three parameters which allow to enter a domain for the target organization (example *contoso.net*), adding an optional list of usernames (common usernames or for instance a list gathered using OSINT, Google, LinkedIn, a company portal or other sources) or, yet, using the *dehashed* (a database of compromised assets such as email accounts).
 The enumeration module offers three *enumeration types*: MSOL, Teams or regular logins attempts. 
 
 ### Enumeration using MSOL (Microsoft Online module)
