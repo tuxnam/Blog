@@ -150,11 +150,11 @@ It will trigger sign-in attempts, like you would do by simply browsing to the Of
 
 This method is of course the only enumeration method proposed by TeamFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above. We are interested therefore in *interractive sign-in logs of Azure AD*.
 
-![image](https://user-images.githubusercontent.com/18376283/224325671-b1e882a9-b7d0-4245-914d-153599ff9d4f.png)
-![image](https://user-images.githubusercontent.com/18376283/224325784-f983574d-4cb9-4891-b64a-60c74fff5bae.png)
+![image](https://user-images.githubusercontent.com/18376283/224806469-ed0d7553-e16a-4cfa-bb99-e296a3b29966.png)
+![image](https://user-images.githubusercontent.com/18376283/224806781-b5730b9a-cdc2-4d3d-9cf4-7fb5bd5ad354.png)
 
-There is a few interesting details in the logs:
-- Location: in this case it is France, but next time it might be US, FireProx will indeed create the AWS endpoints in a random region, so this is not a IOC you could use. However, the fact that these locations might be rare in your company and rolling for each enumeration attempts, might give other detection opportunities.
+There are interesting details in the logs:
+- Location: in this case it is France, but next time it might be US, Fireprox will indeed create the AWS endpoints in a random region, so this is not a IOC you could use. However, the fact that these locations might be rare in your company and rolling for each enumeration attempts, might give detection opportunities.
 - Authentication Requirements: You can see if account enumerated has MFA enforced or not, which could higher the related incident severity
 - Conditional Access: This was not applied, as the login attempt failed at first factor
 - IP Address: This is a public IP from AWS public IP range, could be a completely different one next time, still in AWS range
@@ -162,7 +162,7 @@ There is a few interesting details in the logs:
 
 **Why is there no user-agent and what would be the expected one?**
 
-The user-agent is defined in the configuration file of TeamsFiltration. However, if you indicates an agent which Azure AD cannot match, it will just be empty in the Sign-in logs. Here is the configuration file used for this attempt:
+The user-agent is defined in the configuration file of TeamFiltration. However, if you indicates an agent which Azure AD cannot match, it will just be empty in the sign-in logs. Here is the configuration file used for this attempt:
 
 ![image](https://user-images.githubusercontent.com/18376283/224327113-5efe54c1-b244-41a7-949c-78f61fcf3518.png)
 
@@ -173,21 +173,21 @@ If we do the same attempt, with a known/valid agent:
 
 So this is a bug in the way Azure AD logs handle the user-agent string, as an invalid or empty agent will lead to an empty _DeviceDetails_ field in the logs. 
 Do notice as well the changes of IP Address and Location. <br />
-This being said, as you might know, Azure AD is tighly integrated to Defender 365, and two new tables are available on Defender 365 advanced hunting blade (see [AADSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadsignineventsbeta-table?view=o365-worldwide) and the same for Service Principals, [AADSpnSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadspnsignineventsbeta-table?view=o365-worldwide)).
+This being said, as you might know, Azure AD is tighly integrated to Defender 365, and two new tables are available on Defender 365 advanced hunting blade (see [AADSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadsignineventsbeta-table?view=o365-worldwide) and the same for Service Principals, [AADSpnSignInEventsBeta](https://learn.microsoft.com/en-us/microsoft-365/security/defender/advanced-hunting-aadspnsignineventsbeta-table?view=o365-worldwide)). <br />
 As indicated in the documentation, these tables are temporary and all sign-in schema information will eventually move to the IdentityLogonEvents table (which is a Microsoft Defender for Identity log source originally). We can therefore expect the same in Microsoft Sentinel.
 
-First you can see that this table contains both non-interractive and interractive sign-ins, but also that the available information is spread a bit differently:
+First you can see that this new table contains both non-interractive and interractive sign-ins, but also that the available information is formatted a bit differently:
 ![image](https://user-images.githubusercontent.com/18376283/224332270-69b4a002-51e0-482a-9caf-f8efd4b7d6c4.png)
 
-Let's look at the logs where user-agent was a non-existing one, it is now seen in the logd:
+Let's look at the logs where user-agent was a non-existing one, it is now visible in the logs:
 
 ![image](https://user-images.githubusercontent.com/18376283/224332866-23a7ad54-9f10-403b-8358-b7f9ed4196f9.png)
 
-If no agent is specified, the default String will be: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.30866 Chrome/80.0.3987.165 Electron/8.5.1 Safari/537.36", which corresponds to Chrome browser: see [here](http://www.browser-info.net/useragent?q=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Teams%2F1.3.00.30866+Chrome%2F80.0.3987.165+Electron%2F8.5.1+Safari%2F537.36).
+If no agent is specified in Teamfiltration, in the current version, the default String will be: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Teams/1.3.00.30866 Chrome/80.0.3987.165 Electron/8.5.1 Safari/537.36", which corresponds to Chrome browser: see [here](http://www.browser-info.net/useragent?q=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Teams%2F1.3.00.30866+Chrome%2F80.0.3987.165+Electron%2F8.5.1+Safari%2F537.36).
 
 __Wait, what with the different Application IDs and Application Display Names? (in green)__
 
-Good catch! In fact, TeamsFiltration does not always use the same APIs in this method, and rotate between several (hardcoded) APIs, but more specifically it enforced specific Application IDs which are corresponding to specific applications in any Azure AD tenant.
+Good catch! In fact, TeamsFiltration does not always use the same APIs in this enum method, and rotate between several (hardcoded) APIs, but more specifically it enforces specific Application IDs which correspond to specific Microsoft applications in any Azure AD tenant. <br />
 The full list of applications and application IDs of Microsoft first-party applications can be found hbere: https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in#application-ids-of-commonly-used-microsoft-applications. 
 
 **APIs used (at time of writing):**
@@ -219,7 +219,7 @@ Of course the tool will evolve, and could rotate between all application IDs ava
 
 __Wait a minute...__
 
-In the sign-in logs, when account is not locked, error code is invalid username or password, how does TeamsFiltration knows these are valid accounts? 
+In the sign-in logs, when account is not locked, error code is invalid username or password, how does TeamFiltration knows these are valid accounts? 
 Well because in fact if the account does not exist at all, the response issued by the above APIs will be different.
 Let's try with https://outlook.office365.com:  
 
@@ -229,30 +229,29 @@ Notice, it uses the *GetCredentialType* we discussed at the beginning? now for a
 
 ![image](https://user-images.githubusercontent.com/18376283/223477121-d4e6cdcc-80b1-411f-b540-57e0ccae8931.png)
 
-Hey, it did not even use GetCredentialsType here? Good catch! But is just because my browser had some cached credentials for this one, if I clear the cache and start again:
+Hey, it did not even use _GetCredentialsType_ here? Good catch! But is just because my browser had some cached credentials for this one, if I clear the cache and start again:
 
 ![image](https://user-images.githubusercontent.com/18376283/223478668-b917501b-54b0-43e7-9462-9544b74ce255.png)
 
 
 #### A note on the embedded database
 
-TeamsFiltration has an embedded database, which allows to store all enum, spraying or exfiltration attempts locally. If we look into it, we can see the results of our attempts which can be further used in the spraying module for instance!
+TeamFiltration has an embedded database, which allows to store all enum, spraying or exfiltration attempts locally. If we look into it, we can see the results of our attempts which can be further used in the spraying module for instance!
 
 ![image](https://user-images.githubusercontent.com/18376283/224334665-b83eaea8-5c00-46e0-9e0a-08b377ebf5e6.png)
-
 
 Let's now dive into the tool and analyse the spraying part!
 
 
 ### Spraying
 
-We had a good overview of the enumeration capabilities but enumeration on its own is pointless, the goal is to generally try to gain access (unless you just want to sell login data) and spraying is an efficient way to do so. 
+We had a good overview of the enumeration capabilities but enumeration on its own is pointless, the goal is to generally try to gain access (unless you just want to sell phishing/scam data) and spraying is an efficient way to do so. 
 
 If you want to know more about password spraying and how to prevent it on Azure AD, have a look [here](https://www.microsoft.com/en-us/security/blog/2020/04/23/protecting-organization-password-spray-attacks/).
 
 #### Available spraying methods
 
-TeamFIltration proposes two main methods and several options for password spraying:
+TeamFiltration proposes two main methods and several options for password spraying:
 - Default method: using standard login method (regular user sign-ins)
 - Method 2: _AAD SSO_: this is a method discovered by SecureWorks, described [here](https://www.secureworks.com/research/undetected-azure-active-directory-brute-force-attacks), based on Azure AD single-sign on, and exploiting the target URI: https://autologon.microsoftazuread-sso.com//winauth/trust/2005/windowstransport.
 
@@ -262,14 +261,13 @@ Let's explore these two methods.
 
 ![image](https://user-images.githubusercontent.com/18376283/223545081-ceb08fb9-2045-46b7-8356-cd2470a47d44.png)
 
-There are several options, we will not explore all of them here, but here is a short summary:
+There are several options, we will not test or explain all of them here, but here is a short summary:
 
-1. The golden rule when you spray is low-and slow, and the default TeamFiltration config is to sleep minimum 60 minutes between each round of attempts and maximum 100. Understand by that, that TeamsFiltration will attempt the list of enumerated usernames with a first password, then sleep before moving to the next password attempt. I used _--force_ here for obvious reasons, to skip the time thresholds, but this of course is needed normally to avoid locking accounts. The "recurring" spraying pattern, albeit changeable, also means a pattern for detection but TeamsFiltration nicely do the next attempts at a random time between the minimum and maximum defined. 
+1. The golden rule when you spray is low-and slow, and the default TeamFiltration config is to sleep minimum 60 minutes between each round of attempts and maximum 100. Understand by that, that TeamFiltration will attempt the list of enumerated usernames with a first password, then sleep before moving to the next password attempt. I used _--force_ here for obvious reasons, to skip the time thresholds, but this of course is risky and will lead to locked accounts (see details on accounts locking [here](https://learn.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-mfasettings#account-lockout)). The "recurring" spraying pattern, albeit changeable, also means a pattern for detection but TeamFiltration nicely do the next attempts at a random time between the minimum and maximum thresholds defined
 2. You can define a time window when spraying should occur, for instance during business hours, to trigger less anomalies
-3. You can input a list of passwords, from a dictionnary, which is recommended. If you don't TeamFiltration generates a list of common passwords from a combination of months, years and generic words. There are several other options like top 20 common passwords for instance. 
-4. You can input a list of 'combos', meaning a list of username:password 
-5. Next to time windows for spraying, you can define the default delay between attempts
-6. There is an integration with pushover to get notifications about successful sprays, so an attacker could have big time windows and delays between attempts, running for months
+3. You can input a list of passwords, from a dictionnary, which is recommended. If you don't TeamFiltration generates a list of common passwords from a combination of months, years and generic words. There are several other options like top 20 common passwords for instance. You can also use a list of 'combos', meaning a list of username:password
+4. Next to time windows for spraying, you can define the default delay between attempts
+5. There is an integration with pushover to get notifications about successful sprays, so an attacker could have big time windows and delays between attempts, running for months and be notified of a success
 
 Let's have two real attempts now, where we input a password list from a dictionnary of top 10000 common passwords:
 
@@ -277,23 +275,23 @@ Let's have two real attempts now, where we input a password list from a dictionn
 
 ...and yes playing with fire, reducing the time between sprays too much and you just locked all accounts.
 
-Let's do the same, but for the purpose of this article to be done before 1 month, just with 5 passwords in the dictionnary and a bit bigger delays:
+Let's do the same, but for the purpose of this article to be finished one day, just with 5 passwords in the dictionnary and a bit bigger delay:
 
 ![image](https://user-images.githubusercontent.com/18376283/224554818-bcdacc33-2de3-4739-beab-ccf82cbe0db7.png)
 
 You will note we locked some accounts in the process, because normally spraying should be low-and-slow, but we found a valid password on an account with no MFA! We also found one valid password for a MFA-enabled account, this could still be interesting for phishing or MFA fatigue type of attacks.
 
-For the second method:
+**For the second method:**
 
 Same principle but using a different method:
 
 ![image](https://user-images.githubusercontent.com/18376283/224555553-da7ae22c-9c77-48bb-a393-8dd601902115.png)
-We got AADSTS81016 as a response to all attempts, because this tenant does not use Seamless SSO (see [SecureWorks article](https://www.secureworks.com/research/undetected-azure-active-directory-brute-force-attacks), and more details here on [Seamless SSO](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso)). 
 
+We got AADSTS81016 as a response to all attempts, because this tenant does not use Seamless SSO (see [SecureWorks article](https://www.secureworks.com/research/undetected-azure-active-directory-brute-force-attacks), and more details here on [Seamless SSO](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso)). 
 
 #### Detection
 
-The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, FireProx being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
+The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, Fireprox being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
 
 **Method 1, interractive:**
 
@@ -303,9 +301,11 @@ We can see the results of the sprays in the sign-in logs, along with the failure
 ![image](https://user-images.githubusercontent.com/18376283/224555150-df9e79f8-8804-4bea-92a5-3a79bd5ea0c8.png)
 ![image](https://user-images.githubusercontent.com/18376283/224555239-98f4808d-38b7-47dd-b7c0-484fc9087836.png)
 
-Another interesting note, for one account we triggered a CA policy, which elevated the authentication requirement to MFA. It can be also used to blueprint CA policies, if no login option is available. Indeed, the reponse from TeamFiltration was "Valid but MFA (76)" which corresponds to Result Code 50076 in our logs: 
+Another interesting point, for one account we triggered a CA policy, which elevated the authentication requirement to MFA. You could also use such a tool to blueprint CA policies, if no login option is available. Indeed, the reponse from TeamFiltration was "Valid but MFA (76)" which corresponds to Result Code 50076 in our logs: 
 
 ![image](https://user-images.githubusercontent.com/18376283/224555362-b70e06b8-ff2b-4cbf-90b6-b01e48df2b89.png)
+
+CA policies are complex and often have flaws. Sometimes, MFA is enforced in all scenarios except for specific accounts or applications. BYOD is a good recurring example we see out there. 
 
 **Method 2, non-interractive:**
 
@@ -315,7 +315,9 @@ In our case, this method will fail due to users and this lab being Cloud-only bu
 
 ### Exfiltration
 
-Ok if you have a successful spray or are able to find a valid account and credentials through any other mean, you want to exfiltrate some data potentially. This is where the exfiltration module comes handy. It offers several features including:
+Ok if your spraying was successful or are able to find a valid account and credentials through any other mean, you want to exfiltrate some data potentially. This is where the exfiltration module comes handy. <br />
+
+It offers several features including:
 - Extracting info from the AAD tenant of the user, using Graph API
 - Extracting Teams chats, contacts and files through the Teams API
 - Extract cookies and authentication tokens from an exfiltrated Teams database
@@ -331,22 +333,24 @@ Let's have a deeper look and test the **aad** exfiltration:
 
 ![image](https://user-images.githubusercontent.com/18376283/224651538-2a1a937d-4d90-4145-878e-e2ec72ff454c.png)
 
-We see here it lists the accounts where the spraying was successful. We known John Smith did not have MFA, so let's us him. 
-Interesting to note here that FireProx is not used as the purpose is to exfiltrate data. Probably future iterations of TeamFiltration would allow to exfiltrate to a third-party server:
+We see here it lists the accounts where the spraying was successful. We know John Smith did not have MFA, so let's target him. 
+Interesting to note here that Fireprox is not used as the purpose is to exfiltrate data. 
+Probably future iterations of TeamFiltration would allow to exfiltrate to a third-party server:
 
 ![image](https://user-images.githubusercontent.com/18376283/224652047-9b500d1d-b579-4419-9c41-5cc895b532cf.png)
 
-Interestingly, we can see this allowed us to grap all the users of the tenant, for next spraying attempts:
+We can see this allowed us to grap all the users of the tenant, for spraying or phishing attempts:
 
 ![image](https://user-images.githubusercontent.com/18376283/224652474-91cc6f06-d82d-4e85-b33c-6ac972942fd6.png)
 
 **Method 2: All**
 
-Let's exfiltrate it all now. Before trying John Smith, where we know no MFA is enabled, let's also use Slit, were we have the password and maybe some CA policies are not see properly and MFA will not be required for all?
+Let's use the exfiltrate all method now. Before trying John Smith, where we know no MFA is enabled, let's also use Slit, were we have the password and maybe some CA policies are not set properly and MFA will not be required for all APIs?
 
 ![image](https://user-images.githubusercontent.com/18376283/224655727-657d97b6-7d6b-4a77-bfd6-4804a3dada8e.png)
 
-No luck this time! but remember this is a good way to try and bypass CA policies if, in some circumstances (thing I often see with my customers, for BYOD) MFA is not mandated in all circumstances. Now with John Smith: we can see that next to the users in the same tenant like before, we exfiltrated a lot of interesting information, including Teams chats, emails, OneDrive documents, contacts...:
+No luck this time! but remember this is a good way to try and bypass CA policies if, MFA is not mandated in all cases. 
+<br />Now with John Smith: we can see that next to the users in the same tenant like before, we exfiltrated a lot of interesting information, including Teams chats, emails, OneDrive documents, contacts...:
 
 ![image](https://user-images.githubusercontent.com/18376283/224664931-d646a8d1-4dcf-4098-8ccf-55b1a94d8443.png)
 
@@ -355,6 +359,7 @@ No luck this time! but remember this is a good way to try and bypass CA policies
 #### Detection
 
 **Method 1:**
+
 We see in the exfiltration that several APIs will be targeted, so we can directly take a look at Non-Interractive Sign-in Logs and see some interesting details, like the IP or yet the applications used:
 
 ![image](https://user-images.githubusercontent.com/18376283/224653905-d3dd99bd-1298-402f-9c2b-d3403a44a925.png)
@@ -362,6 +367,7 @@ We see in the exfiltration that several APIs will be targeted, so we can directl
 That's pretty much all you can see in the logs, no expected UAL or other audit logs involved here.
 
 **Method 2:**
+
 Now, for the other attempt, with exfiltrate --all: let's first look at what was detected for Slit:
 
 ![image](https://user-images.githubusercontent.com/18376283/224671472-f857a837-a7b6-4442-b2b8-196d5da54fd3.png)
@@ -398,7 +404,7 @@ But we can, from UAL again, see also the file being recycled and uploaded:
 
 ![image](https://user-images.githubusercontent.com/18376283/224678873-f606b507-be98-4e30-8684-8756b3715bd4.png)
 
-You notice this time FireProx can be used as there is no exfiltration. 
+You notice this time Fireprox can be used as there is no exfiltration. 
 Of course UAL triggers a tons of logs in a real environment and detections based solely on this would lead to tons of false-positives. It can however be interesting as part of a hunt, or in cross-detections scenario with spraying attempts.
 
 ## Preventing / detection
@@ -414,3 +420,11 @@ Here are a few things to get you started:
 - Azure AD Identity Protection (use CA policies and not risk/sign-in profiles in AAD IP directly) - https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection
 - Limit cross-tenant search in Teams - https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search
 - Be sure you understand Seamless SSO and how to configure it properly - https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start
+- TeamFiltration allows you to input tokens or steal them and re-use, so a fresh new feature of Azure AD which did not make enough noise according to me, will help prevent tokens theft: https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-token-protection
+
+I did not build specfic detection queries for this tool yet, but generally you want to rely on generic spraying / exfiltration detection rules, as the framework used does not matter too much at first. If you look in the official Microsoft Sentinel repository, you will find some interesting detection rules around Azure AD in general:
+https://github.com/Azure/Azure-Sentinel/tree/master/Solutions/Azure%20Active%20Directory/Analytic%20Rules 
+
+---
+
+*Great talk and work from @flangvik here (except for the missing 's' in the name of the tool which I had a hard time with :D) and I am sure we will see great improvements of the framework over time for purple teams and red teams to play with. Of course, we can also expect adversary usage in the wild like for AADInternals or PowerZure.*
