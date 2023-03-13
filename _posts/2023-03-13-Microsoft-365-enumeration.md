@@ -9,7 +9,7 @@ last_modified_at: 20@#-03-13T15:59:57-04:00
 In this article, we will look at its capabilities and how we can potentially detect related events in Azure AD and Microsoft 365 logs. 
 While the article focuses on TeamFiltration, the learnings apply to any similar toolset.*
 
-
+![image](https://user-images.githubusercontent.com/18376283/224826685-80147cf7-c618-42c2-b4bb-54f7b3eac3dc.png)
 
 
 ## Introducing TeamFiltration
