@@ -18,19 +18,21 @@ In this article, we will look at its capabilities and how we can potentially det
 ## Purpose of this article
 
 Enumeration, spraying and brute-forcing are common attack techniques for initial access ([TA0001 - Initial Access](https://attack.mitre.org/tactics/TA0001/)), specifically on Cloud workloads. 
-While there are loads of interesting articles on post-exploitation frameworks (albeit, not that much on Cloud post-exploitation), "post-exploitations", by definition, means there was an initial access. Detecting initial access attacks and analyzing relevant logs in Azure AD is what we strive to do in this article. 
-TeamsFiltration is of course not the only framework available for enumerating or brute-forcing Azure Active Directory (e.g.: PowerZure, Microburst, MSOLSPray and many more) but it allows to chain multiple techniques, some of them being interesting from a detection perspective.
+While there are loads of interesting articles on post-exploitation frameworks (albeit, not that much on Cloud post-exploitation), "post-exploitations", by definition, means there was an initial access. Detecting initial access attacks and analyzing relevant logs in Azure AD is what we attempt to do in this article. 
 
-We will divide this article in several sections, starting with disseting each one of the technique offered by TeamsFiltration and looking at the corresponding detection capabilities. 
+TeamsFiltration is of course not the only framework available for enumerating or brute-forcing Azure Active Directory (e.g.: AADInternals, PowerZure, Microburst, MSOLSPray and many more) but it allows to chain multiple techniques, some of them being interesting from a detection perspective.
+It is also because of the interesting premises of the TeamFiltration framework, which are based on the fact that Microsoft relies on a specific "version" of the OAuth flow ([On-Behalf of flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow)) for some of its office applications, in order for instance to allow Teams to have access to your Outlook calendar or your OneDrive files (more of that on the below talk). 
+
+We will divide this article in several sections, dissecting each one of the technique offered by TeamsFiltration and looking at the corresponding detection in the logs. 
 
 TeamFiltration is written in C# and can either be used from a standalone build version or by compiling sources from the corresponding GitHub repository.
 I encourage you to watch the presentation of the framework [@Def Con 30 - Taking a Dump in the Cloud](https://www.youtube.com/watch?v=GpZTQHLKelg) for an onveriew of the framework, its foundations and a demo by the author. 
 
-TeamFiltration has 3 main modules: enumeration, spraying and exfiltration. Let's dive into the inner-workings...
+TeamFiltration has 3 main modules: enumeration, spraying and exfiltration. 
 
 ## A brief on logs used in this article
 
-We will focus on the main Azure AD logs and the Microsoft 365 Unified Audit Log (UAL) to observe logging events related to usage of TeamFiltration. 
+We will focus on the main Azure AD logs and the Microsoft 365 Unified Audit Log (UAL) to observe logging events related to usage of TeamFiltration. Indeed, these logs are found in most Microsoft customers tenants without too much hassle. 
 In our case, these logs are ingested into Microsoft Sentinel, but any SIEM or log concentrator could be used. You can also directly browse the logs from the Microsoft Entra portal or from Defender 365 portal for instance. 
 
 **Azure AD Logs**
@@ -47,7 +49,8 @@ Audit, Service principal, Provisionning or managed identity logs will not bring 
 TeamFiltration does not trigger enumerations or spraying directly from the client IP where you execute it, it is a bit more clever and leverages a proxy utility called Fireprox. Fireprox generates pass-through proxies that rotate the source IP address with every request, leveraging the AWS API gateway behind the scenes.
 More information can be found [here](https://kalilinuxtutorials.com/fireprox-aws-api-gateway-creating-http/).
 When you execute TeamFiltration, it will actually first create a temporary AWS API gateway and corresponding endpoints.
-Example for *enum* and *--validate-msol* technique:
+
+**Example for *enum* and *--validate-msol* technique:**
 
 ```
 https://{API-ID}.execute-api.{YOUR-AWS-REGION}.amazonaws.com/fireprox/common/GetCredentialType
@@ -55,16 +58,17 @@ https://{API-ID}.execute-api.{YOUR-AWS-REGION}.amazonaws.com/fireprox/common/Get
 
 When called, this endpoint will simply forward requests (as a proxy) to https://login.microsoftonline.com/common/GetCredentialsType
 
-This allows users of TeamFiltration in this case to "hide" their real IPs when scanning and use IPs from AWS public IP range, which will keep on being rotated and hence avoiding a simple IP block. 
+This allows users of TeamFiltration in this case to "hide" their real IPs when scanning and rotate automatically though IPs from AWS public IP range, hence avoiding a simple IP block by the target. 
 
-From a detection standpoint, however, this also means that enumeration and spraying from AWS public IP ranges will be a signature of TeamFiltration.
+From a detection standpoint, however, this also means that enumeration and spraying from AWS public IP ranges will be a signature of Teamfiltration, in its current and vanilla version.
 
-**Note:** the framework might evolve in the future and bring similar capabilities on Azure or GCP or even bring VPS capabilities in, but in the current state, AWS public ip ranges is a good IOC to build on.
+**Note:** the framework might evolve in the future and bring similar capabilities on Azure or GCP or even bring VPS capabilities in, but in the current state, AWS public ip ranges with sign-in events could be a good IOC to build on as we will see in the following sections.
 As the framework is open-source, attackers could change or remove the user of Fireprox to adapt to their own infrastructures/needs. 
 
 ## Enumeration
 
-TeamsFiltration enumeration has three parameters which allow to enter a domain for the target organization (example *contoso.net*), adding an optional list of usernames (common usernames or for instance a list gathered using OSINT, Google, LinkedIn, a company portal or other sources) or for instance using the *dehashed* (a database of compromised assets such as email accounts). The enumeration module offers three *enumeration types*: MSOL, Teams or regular logins attempts. 
+TeamsFiltration enumeration has three parameters which allow to enter a domain for the target organization (example *contoso.net*), adding an optional list of usernames (common usernames or for instance a list gathered using OSINT, Google, LinkedIn, a company portal or other sources) or, yet, using the *dehashed* (a database of compromised assets such as email accounts).
+The enumeration module offers three *enumeration types*: MSOL, Teams or regular logins attempts. 
 
 ### Enumeration using MSOL (Microsoft Online module)
 
