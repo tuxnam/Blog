@@ -6,7 +6,10 @@ last_modified_at: 20@#-03-13T15:59:57-04:00
 ---
 
 *TeamFiltration is self-defined as a cross-platform framework for enumerating, spraying, exfiltrating, and backdooring O365 AAD accounts. <br />
-In this article, we will look at its capabilities and how we can potentially detect related events in Azure AD and Microsoft 365 logs.*
+In this article, we will look at its capabilities and how we can potentially detect related events in Azure AD and Microsoft 365 logs. 
+While the article focuses on TeamFiltration, the learnings apply to any similar toolset.*
+
+
 
 
 ## Introducing TeamFiltration
@@ -412,15 +415,15 @@ Of course UAL triggers a tons of logs in a real environment and detections based
 There are several measures you can take to detect, prevent or partially mitigate enumueration, spraying and exfiltration risks.
 Here are a few things to get you started:
 
-- MFA with Conditional Access - https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/howto-conditional-access-policy-all-users-mfa
-- Enable Unified Audit Log (UAL) - https://learn.microsoft.com/en-us/microsoft-365/compliance/audit-log-enable-disable?view=o365-worldwide
-- CA policies - Have strong CA policies in place - https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/plan-conditional-access
-- Password Spray protection - https://www.microsoft.com/en-us/security/blog/2020/04/23/protecting-organization-password-spray-attacks/
-- Password complexity and Azure AD password protection - https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-password-ban-bad-on-premises
-- Azure AD Identity Protection (use CA policies and not risk/sign-in profiles in AAD IP directly) - https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection
-- Limit cross-tenant search in Teams - https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search
-- Be sure you understand Seamless SSO and how to configure it properly - https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start
-- TeamFiltration allows you to input tokens or steal them and re-use, so a fresh new feature of Azure AD which did not make enough noise according to me, will help prevent tokens theft: https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-token-protection
+- [MFA with Conditional Access](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/howto-conditional-access-policy-all-users-mfa)
+- [Enable Unified Audit Log (UAL)](https://learn.microsoft.com/en-us/microsoft-365/compliance/audit-log-enable-disable?view=o365-worldwide)
+- [CA policies](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/plan-conditional-access) - Have strong CA policies in place
+- [Password Spray protection](https://www.microsoft.com/en-us/security/blog/2020/04/23/protecting-organization-password-spray-attacks/)
+- [Password complexity and Azure AD password protection](https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-password-ban-bad-on-premises)
+- [Azure AD Identity Protection](https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection): use CA policies and not risk/sign-in profiles in AAD IP directly
+- [Limit cross-tenant search in Teams](https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search)
+- Be sure you understand [Seamless SSO and how to configure it properly - https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start
+- TeamFiltration allows you to input tokens or steal them and re-use, so a fresh new feature of Azure AD which did not make enough noise according to me, will help prevent [tokens theft](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-token-protection)
 
 I did not build specfic detection queries for this tool yet, but generally you want to rely on generic spraying / exfiltration detection rules, as the framework used does not matter too much at first. If you look in the official Microsoft Sentinel repository, you will find some interesting detection rules around Azure AD in general:
 https://github.com/Azure/Azure-Sentinel/tree/master/Solutions/Azure%20Active%20Directory/Analytic%20Rules 
