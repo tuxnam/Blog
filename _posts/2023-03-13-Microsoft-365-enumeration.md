@@ -81,7 +81,7 @@ If you authenticate to https://www.office.com/, you will be able to see the OAUT
 ![image](https://user-images.githubusercontent.com/18376283/224758822-da602e5a-5ce9-46ee-9963-a4ce45f4545a.png)
 
 The exact method used by this enumeration technique is *GetCredentialType* which gives login information, including Desktop SSO information.
-What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. <br />
+What TeamFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. <br />
 This technique has been covered multiple times in the past. This API method expects several parameters, we can see this by simply fuzzing the endpoint with Postman and a valid username to start with:
 
 ![image](https://user-images.githubusercontent.com/18376283/224759295-ccaff878-8992-4a54-b434-1adecedb049f.png)
@@ -187,7 +187,7 @@ If no agent is specified in Teamfiltration, in the current version, the default 
 
 __Wait, what with the different Application IDs and Application Display Names? (in green)__
 
-Good catch! In fact, TeamsFiltration does not always use the same APIs in this enum method, and rotate between several (hardcoded) APIs, but more specifically it enforces specific Application IDs which correspond to specific Microsoft applications in any Azure AD tenant. <br />
+Good catch! In fact, TeamFiltration does not always use the same APIs in this enum method, and rotate between several (hardcoded) APIs, but more specifically it enforces specific Application IDs which correspond to specific Microsoft applications in any Azure AD tenant. <br />
 The full list of applications and application IDs of Microsoft first-party applications can be found hbere: https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in#application-ids-of-commonly-used-microsoft-applications. 
 
 **APIs used (at time of writing):**
