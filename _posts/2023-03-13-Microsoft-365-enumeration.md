@@ -74,9 +74,14 @@ The enumeration module offers three *enumeration types*: MSOL, Teams or regular 
 
 #### The method
 
-This enumeration is using a known technique based on the *login.microsoftonline.com* API, which is simply the API used by all users to login to Office 365. If you authenticate to https://www.office.com/, you will be able to see the OAUTH flow leveraging this specific API. 
+This enumeration is using a known technique based on the *login.microsoftonline.com* API, which is simply the API used by all users to login to Office 365. 
+
+If you authenticate to https://www.office.com/, you will be able to see the OAUTH flow leveraging this specific API. 
+
+![image](https://user-images.githubusercontent.com/18376283/224754902-929fc410-7d79-4abf-b630-7b58877a2a83.png)
+
 The exact method used by this enumeration technique is *GetCredentialType* which gives login information, including Desktop SSO information.
-What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. 
+What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. <br />
 This technique has been covered multiple times in the past. This API method expects several parameters, we can see this by simply fuzzing the endpoint with Postman and a valid username to start with:
 
 ![image](https://user-images.githubusercontent.com/18376283/224663469-5aa93a81-fa8c-423e-82b0-f9ae4e6bb611.png)
@@ -88,8 +93,8 @@ If we compare with an account which does not normally exists on this domain:
 The notable difference is on "IfExistsResult" where it will respectively be 0 or 1 depending if the user exist in the tenant or not. 
 It directly shows you how easy it is to enumerate accounts using this method.
 
-This method (GetCredentialsType) will not work on each tenant and depends on specifics (managed or federated domains for instance), and might give some false-positives. This is not the purpose of this article, however the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also incorrect.
-This is indeed the problem with undocumented APIs, the specification did evolve and thus the same response is not expected. 
+This method (GetCredentialsType) will not work on each tenant, depends on specifics (managed or federated domains for instance), and might give some false-positives. This is not the purpose of this article, however the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also incorrect (author acknowledged this and this will surely be fixed soon).
+This is indeed the problem with undocumented APIs, the specification did evolve and thus the response payload did change. 
 This lead to using *--validate-msol* method resulting in failre message: this method is not supported for the target tenant. 
 <br />
 
@@ -103,7 +108,7 @@ When you issue the *--enum-msol* command with a target domain, TeamsFiltration w
 
 **Note:** When you do enumeration, TeamFiltration is building up a database of previous attempts, and will skip the usernames it already tried to enum for this specific domain (database is in the --outpath parameter).
 
-As you notice and as discussed above, the method is not supported by TeamsFiltration on our target tenant.
+As you notice and as discussed above, the method is not supported by TeamFiltration on our target tenant.
 
 #### Detection opportunities
 
