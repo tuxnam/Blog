@@ -90,7 +90,7 @@ If we compare with an account which does not normally exists on this domain:
 
 ![image](https://user-images.githubusercontent.com/18376283/221423809-df597f7a-2c4e-4faf-8352-805987a023b6.png)
 
-The notable difference is on "IfExistsResult" where it will respectively be 0 or 1 depending if the user exist in the tenant or not. 
+The notable difference is on "IfExistsResult" where it will respectively be 0 or 1 depending if the user exists in the tenant or not. 
 It directly shows you how easy it is to enumerate accounts using this method.
 
 This method (GetCredentialsType) will not work on each tenant, depends on specifics (managed or federated domains for instance), and might give some false-positives. This is not the purpose of this article, however the current way TeamFiltration (as of v3.5.0) does validate usage of this method is also incorrect (author acknowledged this and this will surely be fixed soon).
