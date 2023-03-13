@@ -282,6 +282,7 @@ defaults:
       related: false
       show_date: true
       future: false
+      classes: wide
   # _pages
   - scope:
       path: ""
@@ -289,5 +290,6 @@ defaults:
     values:
       layout: single
       related: false
+      classes: wide
 
       
