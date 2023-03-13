@@ -127,7 +127,7 @@ Of course you could also imagine that an attacker use a single compromised accou
 
 In this test, I used a sacrificial account in a test tenant I own and this time provided a list of usernames (which, again attackers usually easily scrap from many sources) rather than using the brute-force enumeration available in the tool (based on the Github list of common names).
 
-![image](https://user-images.githubusercontent.com/18376283/224323285-6f22ebb3-05c9-4044-8a7f-c3d72defc5ad.png)
+![image](https://user-images.githubusercontent.com/18376283/224805275-4a00f6ce-7ec4-4a1d-9d1d-1ae9df0afb05.png)
 
 You can see that the tool successfully validated 5 accounts from the list passed as input.
 
@@ -135,7 +135,7 @@ You can see that the tool successfully validated 5 accounts from the list passed
 
 So this one I can detect right? Eh...no. <br /> 
 This is again just enumeration using a valid cross-tenant search feature. 
-If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration. Remember, there is no sign-in attempts yet. <br />
+If we look at _UAL_ or _sign-in logs_ or yet _non-interractive sign-in Logs_, there is no trace of such enumeration. Remember, there is no sign-in attempt yet. <br />
 One could argue for the possibility to log cross-tenant Teams searches in the [Unified Audit Logs (UAL)](https://learn.microsoft.com/en-us/microsoft-365/compliance/audit-log-enable-disable?view=o365-worldwide), but imagine the number of logs it could generate, for little value at the end. 
 
 ### Enumeration using Logins
