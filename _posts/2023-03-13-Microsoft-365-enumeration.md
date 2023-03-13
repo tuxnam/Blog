@@ -13,7 +13,7 @@ In this article, we will look at its capabilities and how we can potentially det
 
 [TeamFiltration](https://github.com/Flangvik/TeamFiltration) is a framework developed by @flangvik from TrustedSec which allows to perform reconnaissance and gain initial access to Microsoft 365 and Azure AD tenants in order to potentially exfiltrate data or open the door to other post-exploitation activities. 
 
-**This article is based on TeamFiltration 3.5.0**
+*This article is based on TeamFiltration 3.5.0*
 
 ## Purpose of this article
 
