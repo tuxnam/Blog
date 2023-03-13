@@ -258,16 +258,43 @@ Let's have two real attempts now, where we input a password list from a dictionn
 
 Let's do the same, but for the purpose of this article to be done before 1 month, just with 5 passwords in the dictionnary and a bit bigger delays:
 
+![image](https://user-images.githubusercontent.com/18376283/224554818-bcdacc33-2de3-4739-beab-ccf82cbe0db7.png)
+
+You will note we locked some accounts in the process, because normally spraying should be low-and-slow, but we found a valid password on an account with no MFA! We also found one valid password for a MFA-enabled account, this could still be interesting for phishing or MFA fatigue type of attacks.
+
+For the second method:
+
+Same principle but using a different method:
+
+![image](https://user-images.githubusercontent.com/18376283/224555553-da7ae22c-9c77-48bb-a393-8dd601902115.png)
+We got AADSTS81016 as a response to all attempts, because this tenant does not use Seamless SSO (see [SecureWorks article](https://www.secureworks.com/research/undetected-azure-active-directory-brute-force-attacks), and more details here on [Seamless SSO](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso)). 
 
 
 #### Detection
 
 The two methods will trigger different logs: one is interractive, the other one relies on non-interractive sign-ins, with of course, in both cases, FireProx being used with fresh instances for each attempt, and hence new IPs from AWS public IP ranges.
 
+**Method 1, interractive:**
+
+We can see the results of the sprays in the sign-in logs, along with the failures, account lockouts but also the API (through the application name or id) TeamFiltration used, as it is rotating between several ones, like discussed previously.
+
+![image](https://user-images.githubusercontent.com/18376283/224554763-743fa5c7-2f25-4d89-a11b-ae85baf7a9b4.png)
+![image](https://user-images.githubusercontent.com/18376283/224555150-df9e79f8-8804-4bea-92a5-3a79bd5ea0c8.png)
+![image](https://user-images.githubusercontent.com/18376283/224555239-98f4808d-38b7-47dd-b7c0-484fc9087836.png)
+
+Another interesting note, for one account we triggered a CA policy, which elevated the authentication requirement to MFA. It can be also used to blueprint CA policies, if no login option is available. Indeed, the reponse from TeamFiltration was "Valid but MFA (76)" which corresponds to Result Code 50076 in our logs: 
+
+![image](https://user-images.githubusercontent.com/18376283/224555362-b70e06b8-ff2b-4cbf-90b6-b01e48df2b89.png)
+
+**Method 2, non-interractive:**
+
+In our case, this method will fail due to users and this lab being Cloud-only but we can still see attempts in non-interractive sign-ins this time. We also note that missing Application Name or ID and the ResultType being 'Other', because the method failed for that tenant:
+
+![image](https://user-images.githubusercontent.com/18376283/224648227-d67e62c3-bc46-4c4b-b1e0-bbb04add5906.png)
+
 ### Exfiltration
 
-Ok if you have a successful spray or are able to find a valid account and credentials through any other mean, you want to exfiltrate some data potentially. This is where the exfiltration module comes handy. 
-It offers several features including:
+Ok if you have a successful spray or are able to find a valid account and credentials through any other mean, you want to exfiltrate some data potentially. This is where the exfiltration module comes handy. It offers several features including:
 - Extracting info from the AAD tenant of the user, using Graph API
 - Extracting Teams chats, contacts and files through the Teams API
 - Extract cookies and authentication tokens from an exfiltrated Teams database
@@ -277,16 +304,39 @@ It offers several features including:
 
 It also allows to exfiltrate directly from a token as an input or abuse the refresh tokens from the victim's cookies. 
 
-Let's have a deeper look:
+**Method 1: AAD**
 
-![image](https://user-images.githubusercontent.com/18376283/223680440-6ffe4b5d-5f4c-4ef1-98e4-2bef19db2628.png)
+Let's have a deeper look and test the **aad** exfiltration:
+
+![image](https://user-images.githubusercontent.com/18376283/224651538-2a1a937d-4d90-4145-878e-e2ec72ff454c.png)
+
+We see here it lists the accounts where the spraying was successful. We known John Smith did not have MFA, so let's us him. 
+Interesting to note here that FireProx is not used as the purpose is to exfiltrate data. Probably future iterations of TeamFiltration would allow to exfiltrate to a third-party server:
+
+![image](https://user-images.githubusercontent.com/18376283/224652047-9b500d1d-b579-4419-9c41-5cc895b532cf.png)
+
+Interestingly, we can see this allowed us to grap all the users of the tenant, for next spraying attempts:
+
+![image](https://user-images.githubusercontent.com/18376283/224652474-91cc6f06-d82d-4e85-b33c-6ac972942fd6.png)
+
+**Method 2: All**
+
+Let's exfiltrate it all now. Before trying John Smith, where we know no MFA is enabled, let's also use Slit, were we have the password and maybe some CA policies are not see properly and MFA will not be required for all?
+
+![image](https://user-images.githubusercontent.com/18376283/224655727-657d97b6-7d6b-4a77-bfd6-4804a3dada8e.png)
+
+No luck this time! but remember this is a good way to try and bypass CA policies if, in some circumstances (thing I often see with my customers, for BYOD) MFA is not mandated in all circumstances.
+
+
 
 #### Detection
+We see in the exfiltration that several APIs will be targeted, so we can directly take a look at Non-Interractive Sign-in Logs and see some interestind details, like the IP or yet the applications used:
 
-OfficeActivity
-Sign-in Logs
-Non-Interractive Sign-in Logs
-Audit Logs 
+![image](https://user-images.githubusercontent.com/18376283/224653905-d3dd99bd-1298-402f-9c2b-d3403a44a925.png)
+
+That's pretty much all you can see in the logs, no expected UAL or other audit logs involved here.
+
+
 
 ###  The Backdoor
 
