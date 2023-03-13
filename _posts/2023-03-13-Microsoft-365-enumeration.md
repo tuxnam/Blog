@@ -102,12 +102,11 @@ Note that this method is throttled by Microsoft and hence slow if enumerating on
 
 When you issue the *--enum-msol* command with a target domain, TeamFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* (typically, the target tenant we use has a user called John Smith, which would be a direct match) or based on a potential list of usernames which you pass as input:
 
-![image](https://user-images.githubusercontent.com/18376283/224321359-6e6a7081-db3e-4f2c-8261-ff77951a3147.png)
+![image](https://user-images.githubusercontent.com/18376283/224760280-5608fef8-7adc-48c4-a7f8-032114343cd7.png)
 
-![image](https://user-images.githubusercontent.com/18376283/224321851-770b7afc-c220-42e8-91d3-a7d892d0d7d9.png)
+![image](https://user-images.githubusercontent.com/18376283/224760361-610f2c2a-1bb4-4873-8ec1-827caea1fd88.png)
 
 **Note:** When you do enumeration, TeamFiltration is building up a database of previous attempts, and will skip the usernames it already tried to enum for this specific domain (database is in the --outpath parameter).
-
 As you notice and as discussed above, the method is not supported by TeamFiltration on our target tenant.
 
 #### Detection opportunities
