@@ -2,7 +2,7 @@
 layout: posts
 Excerpt:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
 title:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
-last_modified_at: 20@#-03-28T15:59:57-04:00
+last_modified_at: 20@#-03-13T15:59:57-04:00
 ---
 
 *TeamFiltration is self-defined as a cross-platform framework for enumerating, spraying, exfiltrating, and backdooring O365 AAD accounts. <br />
@@ -380,15 +380,16 @@ But we can, from UAL again, see also the file being recycled and uploaded:
 You notice this time FireProx can be used as there is no exfiltration. 
 Of course UAL triggers a tons of logs in a real environment and detections based solely on this would lead to tons of false-positives. It can however be interesting as part of a hunt, or in cross-detections scenario with spraying attempts.
 
+## Preventing / detection
 
-## KQL Queries - Detecting / hunting
+There are several measures you can take to detect, prevent or partially mitigate enumueration, spraying and exfiltration risks.
+Here are a few things to get you started:
 
-## Protecting 
-
-- MFA
-- - UAL and Sentinel
-- CA policies
-- Spray protection
-- Password complexity 
-- AAD IP\
-- ...
+- MFA with Conditional Access - https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/howto-conditional-access-policy-all-users-mfa
+- Enable Unified Audit Log (UAL) - https://learn.microsoft.com/en-us/microsoft-365/compliance/audit-log-enable-disable?view=o365-worldwide
+- CA policies - Have strong CA policies in place - https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/plan-conditional-access
+- Password Spray protection - https://www.microsoft.com/en-us/security/blog/2020/04/23/protecting-organization-password-spray-attacks/
+- Password complexity and Azure AD password protection - https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-password-ban-bad-on-premises
+- Azure AD Identity Protection (use CA policies and not risk/sign-in profiles in AAD IP directly) - https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection
+- Limit cross-tenant search in Teams - https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search
+- Be sure you understand Seamless SSO and how to configure it properly - https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start
