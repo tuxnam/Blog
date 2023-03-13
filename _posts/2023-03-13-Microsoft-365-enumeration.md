@@ -84,7 +84,7 @@ The exact method used by this enumeration technique is *GetCredentialType* which
 What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. <br />
 This technique has been covered multiple times in the past. This API method expects several parameters, we can see this by simply fuzzing the endpoint with Postman and a valid username to start with:
 
-![image](https://user-images.githubusercontent.com/18376283/224663469-5aa93a81-fa8c-423e-82b0-f9ae4e6bb611.png)
+![image](https://user-images.githubusercontent.com/18376283/224759295-ccaff878-8992-4a54-b434-1adecedb049f.png)
 
 If we compare with an account which does not normally exists on this domain:
 
