@@ -1,7 +1,7 @@
 ---
 layout: posts
 Excerpt:  "Microsoft 365 enumeration, spraying and exfiltration - TeamFiltration in the spotlight"
-title:  "Detecting Microsoft 365 enumeration - TeamFiltration in the spotlight"
+title:  "Microsoft 365 enumeration, spraying and exfiltration - TeamFiltration in the spotlight"
 last_modified_at: 20@#-03-13T15:59:57-04:00
 ---
 
@@ -427,4 +427,4 @@ https://github.com/Azure/Azure-Sentinel/tree/master/Solutions/Azure%20Active%20D
 
 ---
 
-*Great talk and work from @flangvik here (except for the missing 's' in the name of the tool which I had a hard time with :D) and I am sure we will see great improvements of the framework over time for purple teams and red teams to play with. Of course, we can also expect adversary usage in the wild like for AADInternals or PowerZure.*
+*Great talk and work from [@flangvik](https://twitter.com/Flangvik) here (except for the missing 's' in the name of the tool which I had a hard time with :D) and I am sure we will see great improvements of the framework over time for purple teams and red teams to play with. Of course, we can also expect adversary usage in the wild like for AADInternals or PowerZure.*
