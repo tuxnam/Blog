@@ -120,23 +120,23 @@ If the authentication happens successfully, sign-in logs will of course appear i
 This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the [Defcon presentation](https://www.youtube.com/watch?v=GpZTQHLKelg) that Teams uses quite a lot of APIs. This method is leveraging the Teams search API to search users cross-tenant.
 <br />
 
-**Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search. Do note it has UX impact and is enabled in most tenants. 
+**Hint for blues:** you can limit the cross-tenant search in [Teams Administration](https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search).  
 
-This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. 
+This method *does require* a so-called sacrificial O365 account, which is simply an Office 365 user account with at least Teams enabled, in order to do cross-tenant enumeration. <br />
 Of course you could also imagine that an attacker use a single compromised account from your own organization to do the same, hence removing the need for the cross-tenant setting, but potentially raising more flags in terms of detection and, at the end, if you have already an account in the tenant, there are many other ways to enumerate users.
 
 In this test, I used a sacrificial account in a test tenant I own and this time provided a list of usernames (which, again attackers usually easily scrap from many sources) rather than using the brute-force enumeration available in the tool (based on the Github list of common names).
 
 ![image](https://user-images.githubusercontent.com/18376283/224323285-6f22ebb3-05c9-4044-8a7f-c3d72defc5ad.png)
 
-You can see that the tool successfully validated 5 accounts from the list input.
+You can see that the tool successfully validated 5 accounts from the list passed as input.
 
 #### Detection opportunities
 
-So this one I can detect right? Ehhh...no. 
+So this one I can detect right? Eh...no. <br /> 
 This is again just enumeration using a valid cross-tenant search feature. 
-If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration. Remember, there is no sign-in attempts.
-One could argue for the possibility to log this in the [Unified Audit Logs (UAL)](https://learn.microsoft.com/en-us/powershell/module/exchange/search-unifiedauditlog?view=exchange-ps), but imagine the number of logs it could generate, for little value at the end. 
+If we look at _OfficeActivity_ or _SigninLogs_ or yet _NonInterractiveSigninLogs_, there is no trace of such enumeration. Remember, there is no sign-in attempts yet. <br />
+One could argue for the possibility to log cross-tenant Teams searches in the [Unified Audit Logs (UAL)](https://learn.microsoft.com/en-us/microsoft-365/compliance/audit-log-enable-disable?view=o365-worldwide), but imagine the number of logs it could generate, for little value at the end. 
 
 ### Enumeration using Logins
 
