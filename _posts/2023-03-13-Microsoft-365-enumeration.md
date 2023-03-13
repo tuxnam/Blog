@@ -100,7 +100,7 @@ This leads to *--validate-msol* method resulting in failure message: this method
 
 Note that this method is throttled by Microsoft and hence slow if enumerating on a big user list.
 
-When you issue the *--enum-msol* command with a target domain, TeamsFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* (typically, the target tenant we use has a user called John Smith, which would be a direct match) or based on a potential list of usernames which you pass as input:
+When you issue the *--enum-msol* command with a target domain, TeamFiltration will ask you for an expected email format, so it can then "brute-force" enumeration based on a list of common names (John Smith, Sarah Parker...), pulled from *[statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)* (typically, the target tenant we use has a user called John Smith, which would be a direct match) or based on a potential list of usernames which you pass as input:
 
 ![image](https://user-images.githubusercontent.com/18376283/224321359-6e6a7081-db3e-4f2c-8261-ff77951a3147.png)
 
