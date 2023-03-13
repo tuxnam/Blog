@@ -148,7 +148,7 @@ It will trigger sign-in attempts, like you would do by simply browsing to the Of
 
 #### Detection opportunities
 
-This method is of course the only enumeration method proposed by TeamsFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above. We are interested therefore in *interractive sign-in logs of Azure AD*.
+This method is of course the only enumeration method proposed by TeamFiltration which we can detect as this basically attempt to login with either the provided list of usernames, either by attempting the list of common usernames described above. We are interested therefore in *interractive sign-in logs of Azure AD*.
 
 ![image](https://user-images.githubusercontent.com/18376283/224325671-b1e882a9-b7d0-4245-914d-153599ff9d4f.png)
 ![image](https://user-images.githubusercontent.com/18376283/224325784-f983574d-4cb9-4891-b64a-60c74fff5bae.png)
