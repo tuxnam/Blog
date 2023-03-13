@@ -52,11 +52,11 @@ When you execute TeamFiltration, it will actually first create a temporary AWS A
 
 **Example for *enum* and *--validate-msol* technique:**
 
-```
-https://{API-ID}.execute-api.{YOUR-AWS-REGION}.amazonaws.com/fireprox/common/GetCredentialType
-```
+`https://{API-ID}.execute-api.{YOUR-AWS-REGION}.amazonaws.com/fireprox/common/GetCredentialType`
 
-When called, this endpoint will simply forward requests (as a proxy) to https://login.microsoftonline.com/common/GetCredentialsType
+When called, this endpoint will simply forward requests (as a proxy) to 
+
+`https://login.microsoftonline.com/common/GetCredentialsType`
 
 This allows users of TeamFiltration in this case to "hide" their real IPs when scanning and rotate automatically though IPs from AWS public IP range, hence avoiding a simple IP block by the target. 
 
