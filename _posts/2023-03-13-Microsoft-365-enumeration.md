@@ -113,7 +113,6 @@ As you notice and as discussed above, the method is not supported by TeamFiltrat
 
 One of the problem for blue teams when attackers are using undocumented APIs (understand: APIs used by known applications or websites but not documented for development or customer usage, to the opposite of APIs such as Graph API) is that most of the time, they won't be visible inside your logs or not in the way you'd expect.
 Moreover, in this case, there is no login attempt, it is just enumeration. 
-The MSOL API is used by Office 365 and a tons of other Microsoft apps for authenticating a user interractively. 
 If the authentication happens successfully, sign-in logs will of course appear in Azure AD but the *GetCredentialsType* API will not trigger any.
 
 ### Enumeration using Teams (Microsoft Teams APIs)
