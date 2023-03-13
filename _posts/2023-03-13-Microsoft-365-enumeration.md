@@ -117,7 +117,7 @@ If the authentication happens successfully, sign-in logs will of course appear i
 
 ### Enumeration using Teams (Microsoft Teams APIs)
 
-This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the [Defcon presentation](https://www.youtube.com/watch?v=GpZTQHLKelg) that Teams uses quite a lot of APIs, including MSOL, the one we covered just before. However this method is leveraging the Teams search API to search users cross-tenant.
+This enumeration method is the 'core' of the research presented at Defcon, as the author did an extensive analysis of how Teams authentication works and what APIs are called by the Teams client. You can see from the [Defcon presentation](https://www.youtube.com/watch?v=GpZTQHLKelg) that Teams uses quite a lot of APIs. This method is leveraging the Teams search API to search users cross-tenant.
 <br />
 
 **Hint for blues:** you can disable the cross-tenant search in Teams Administration pages: https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search. Do note it has UX impact and is enabled in most tenants. 
