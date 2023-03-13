@@ -61,7 +61,7 @@ The exact method used by this enumeration technique is *GetCredentialType* which
 What TeamsFiltration will do, when you use this method, is generating a random username (in the domain of the target organization), and validating it against *GetCredentialType*. 
 This technique has been covered multiple times in the past. This API method expects several parameters, we can see this by simply fuzzing the endpoint with Postman and a valid username to start with:
 
-![image](https://user-images.githubusercontent.com/18376283/221423725-21fc7136-e52d-4d6b-9ad3-1a2a239a6fa7.png)
+![image](https://user-images.githubusercontent.com/18376283/224663469-5aa93a81-fa8c-423e-82b0-f9ae4e6bb611.png)
 
 If we compare with an account which does not normally exists on this domain:
 
@@ -325,17 +325,37 @@ Let's exfiltrate it all now. Before trying John Smith, where we know no MFA is e
 
 ![image](https://user-images.githubusercontent.com/18376283/224655727-657d97b6-7d6b-4a77-bfd6-4804a3dada8e.png)
 
-No luck this time! but remember this is a good way to try and bypass CA policies if, in some circumstances (thing I often see with my customers, for BYOD) MFA is not mandated in all circumstances.
+No luck this time! but remember this is a good way to try and bypass CA policies if, in some circumstances (thing I often see with my customers, for BYOD) MFA is not mandated in all circumstances. Now with John Smith: we can see that next to the users in the same tenant like before, we exfiltrated a lot of interesting information, including Teams chats, emails, OneDrive documents, contacts...:
 
+![image](https://user-images.githubusercontent.com/18376283/224664931-d646a8d1-4dcf-4098-8ccf-55b1a94d8443.png)
 
+![image](https://user-images.githubusercontent.com/18376283/224673416-42fad9ce-d1fa-46f9-881e-cdfdd432078f.png)
 
 #### Detection
-We see in the exfiltration that several APIs will be targeted, so we can directly take a look at Non-Interractive Sign-in Logs and see some interestind details, like the IP or yet the applications used:
+
+**Method 1:**
+We see in the exfiltration that several APIs will be targeted, so we can directly take a look at Non-Interractive Sign-in Logs and see some interesting details, like the IP or yet the applications used:
 
 ![image](https://user-images.githubusercontent.com/18376283/224653905-d3dd99bd-1298-402f-9c2b-d3403a44a925.png)
 
 That's pretty much all you can see in the logs, no expected UAL or other audit logs involved here.
 
+**Method 2:**
+Now, for the other attempt, with exfiltrate --all: let's first look at what was detected for Slit:
+
+![image](https://user-images.githubusercontent.com/18376283/224671472-f857a837-a7b6-4442-b2b8-196d5da54fd3.png)
+
+Nothing in non-interractive sign-in logs? Why is that? because the CA policy kicked in and asked additional factors, hence triggering interraction with the user:
+
+![image](https://user-images.githubusercontent.com/18376283/224671322-c1cc02df-665e-48cc-ab2a-136fbb6ff040.png)
+
+If we look at John Smith now, we can see all the non-interractive sign-ins and the applications used:
+
+![image](https://user-images.githubusercontent.com/18376283/224672884-307c1481-9a99-46bf-a7c2-6cd67bc81d1e.png)
+
+In this specific case however, it is not only about AAD and we triggered as well some interesting audit logs, in UAL (or OfficeActivity in Microsoft Sentinel):
+
+![image](https://user-images.githubusercontent.com/18376283/224675037-19d269d2-f0c8-4d5a-8444-6eb72caba80b.png)
 
 
 ###  The Backdoor
@@ -345,9 +365,20 @@ Why would you do that? Because that way you can replace a legitimate file in the
 You can look at dates to see how often the user is using some files, to grow chances of the payload to be executed.
 Another nice trick mentionned in the Defcon talk is that the author realized the Desktop folder is often sync'd to OneDrive by default. The desktop folder is often a set of shortcuts (LNK files). You can therefore simply replace one of the shortcut to point to a malicious payload or an executable you'd like to launch with user's privileges. 
 
+![image](https://user-images.githubusercontent.com/18376283/224676260-24d76593-15d7-40df-b43c-0799765dc8ea.png)
+
+
 #### Detection 
 
-None?
+The backdoor will generate sign-in events, like the exfiltration module. Interestingly showing up as Teams app (due to the OAuth 'trick' explained in the talk):
+![image](https://user-images.githubusercontent.com/18376283/224677303-9e2304d7-1aea-4e37-ac3f-fe5474d3527f.png)
+
+But we can, from UAL again, see also the file being recycled and uploaded:
+
+![image](https://user-images.githubusercontent.com/18376283/224678873-f606b507-be98-4e30-8684-8756b3715bd4.png)
+
+You notice this time FireProx can be used as there is no exfiltration. 
+Of course UAL triggers a tons of logs in a real environment and detections based solely on this would lead to tons of false-positives. It can however be interesting as part of a hunt, or in cross-detections scenario with spraying attempts.
 
 
 ## KQL Queries - Detecting / hunting
@@ -355,6 +386,7 @@ None?
 ## Protecting 
 
 - MFA
+- - UAL and Sentinel
 - CA policies
 - Spray protection
 - Password complexity 
