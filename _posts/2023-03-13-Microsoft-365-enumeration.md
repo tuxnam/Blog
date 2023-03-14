@@ -423,11 +423,12 @@ Here are a few things to get you started:
 - [Password complexity and Azure AD password protection](https://learn.microsoft.com/en-us/azure/active-directory/authentication/concept-password-ban-bad-on-premises)
 - [Azure AD Identity Protection](https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/overview-identity-protection): use CA policies and not risk/sign-in profiles in AAD IP directly
 - [Limit cross-tenant search in Teams](https://learn.microsoft.com/en-us/microsoftteams/teams-scoped-directory-search)
-- Be sure you understand [Seamless SSO and how to configure it properly - https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start
+- Be sure you understand [Seamless SSO and how to configure it properly](https://learn.microsoft.com/en-us/azure/active-directory/hybrid/how-to-connect-sso-quick-start)
 - TeamFiltration allows you to input tokens or steal them and re-use, so a fresh new feature of Azure AD which did not make enough noise according to me, will help prevent [tokens theft](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-token-protection)
+<br/>
 
-I did not build specfic detection queries for this tool yet, but generally you want to rely on generic spraying / exfiltration detection rules, as the framework used does not matter too much at first. If you look in the official Microsoft Sentinel repository, you will find some interesting detection rules around Azure AD in general:
-https://github.com/Azure/Azure-Sentinel/tree/master/Solutions/Azure%20Active%20Directory/Analytic%20Rules 
+I did not build specfic detection queries for this tool yet, but generally you want to rely on generic spraying / exfiltration detection rules, as the framework used does not matter too much at first. If you look in the official Microsoft Sentinel [repository](:
+https://github.com/Azure/Azure-Sentinel/tree/master/Solutions/Azure%20Active%20Directory/Analytic%20Rules), you will find some interesting detection rules around Azure AD in general.
 
 ---
 
