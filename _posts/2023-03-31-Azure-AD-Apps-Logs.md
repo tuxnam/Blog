@@ -1,7 +1,7 @@
 ---
 layout: posts
 Excerpt:  "Azure AD Applications - Making sense of available logs"
-title:  "Azure AD Applications - Making sense of available logs"
+title:  "Quish Me If You Can: How to detect QR Code phishing emails using computer vision"
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
