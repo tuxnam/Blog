@@ -9,7 +9,7 @@ last_modified_at: 20@#-01-30T13:59:57-04:00
 > A recent trend in phishing campaigns is to leverage QR codes to trick users towards malicious links. 
 > There are many defenses against malicious URLs or malicious attachements in enterprise email world today, but very few solutions (as of the day of writing) have the ability to analyze the content of an image or PDF file to detect usage of QRCode, resolve the URL and classify an email accordingly.
 > While security companies are working on resolving this shortcoming, leveraging ML models in their existing solutions, attackers benefit of a step forward to gain access to user credentials. 
-> In this article, I am exploring, on a pure (self-)educational purpose, how Computer Vision can help to detect QRCodes in email attachments through multi-label prediction model, and eventually take action based on the results.
+> In this article, I am exploring, on a pure (self-)educational purpose, how Computer Vision can help to detect QRCodes in email attachments using image classification, or one step furtger with object detection and eventually take action based on the results.
 
 <div style="text-align:center">
 <img src="https://i.pinimg.com/736x/2c/ef/ed/2cefed8eff6c9389d9322c1e1d6ebebc--marvel.jpg" width="400px" />
