@@ -17,35 +17,32 @@ last_modified_at: 20@#-01-30T13:59:57-04:00
 <img src="https://i.pinimg.com/736x/2c/ef/ed/2cefed8eff6c9389d9322c1e1d6ebebc--marvel.jpg" width="400px" />
 </div>
 
+## A recap on Quishing or QRCode Phishing 
+
+QR Code phishing, or _quishing_, is...
+
+### References
+### Mitigations
+
+## A brief on this (educational) solution 
+
 ## Forewords
 
-This solution is not meant to be production-grade or used as such within an enterprise environment. The idea was to explore customer-ready computer vision solutions available to users today, and leverage it in a concrete example which could give food for thoughts on people actually trying to fight that new phishing trend. 
-A small disclaimer is therefore necessary:
-- The code is intentionnally using C# for self-learning purposes, but I am not a professional C# developer. The code indeed lacks a lot of error and exceptions handling, is not scalable and the overall approach lacks some strong security mechanismns around usage of APIs.
-- The model used for labeling and detecting QR Codes was trained on a minimalistic dataset, and a professional model should of course have thousands of training data and evaluate model perfornances accordingly
-- The solution is a standalone C# program acting on a specific mailbox: the idea is for instance to leverage such a solution along with Safe Link () or to monitor a quarantine mailbox before taking action on an email
-- The model can easily be bypassed easily, for instance using PDF files amonst many other things, the purpose of this exercise is educationnal
+- This solution is not meant to be production-grade or used as such within an enterprise environment. It is just food-for-thought
+- The solution leverages Azure Computer Vision as a ML engine due to its ease of use, but any ML solution could do the trick
+- Machine Learning is not a requirement for QRCode detection and/or decoding, libraries exist to detect and decode QRCodes in images based on QRCode specification (). ML was used in a learning perspective, and also because attackers could deviate from official specifications, while having still a readable QRCode. Training a model can thus be an interesting alternative
+- The code is intentionnally written in C# for self-learning purposes, but I am not a professional C# developer (neither a developer anymore): the code is definitely not scalable neither security-proof. A simple REST client has been preferred over Azure SDK for Graph API but both could be used interchangeably.  
+- The model used for labeling and detecting QR Codes was trained on a minimalistic dataset, and a professional model should have thousands of training data and several iterations to optimise model perfornances
+- The solution is a standalone C# program acting on a specific mailbox, a few ideas to leverage it (for learning/testing purposes) are: (1) Monitor a quarantine mailbox (example taken in this article), (2) Add-on to Exchange anti-spam policies or Office 365 Safe Links, (3) A logic app which would act based on the results, or create an incident in a SIEM, or yet (4) a simple scheduled task on a server
+- The model can be bypassed easily, for instance using PDF files amongst many other things, the purpose is educationnal
 
-The pproposed solution is exploring two scenarios: 1. Using multi-label prediction to give return the probability of an email attachment being a QR code and 2. Detecting coordinates of a QRCode inside a successfuly classified image to actually resolve the URL behind it and assess its maliciousness.
 
+## Implementation Details
 
-## A quick recap on Quishing techniques
+### The ML model 
 
-The embedded link resolved by the QR code application will then takes the user to a credentials harvesting website for instance, or yet trigger the download of malicious software. 
+### The code 
 
-### What is it?
+## How to integrate?
 
-The goal of this article is not to cover the subject of Quishing, its mitigations and the recent campaigns many companies have suffered from, as there are already many article on the subject (see section References). However, it is always good to do a recap. 
-
-### How does it work?
-### A few examples
-### Additional indicators 
-### References
-
-## The proposed solution
-
-## Details of the approach 
-
-## Repository 
-
-## Ideas for improvment 
+## Features to explore 
