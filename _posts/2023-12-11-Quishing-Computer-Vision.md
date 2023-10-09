@@ -14,7 +14,7 @@ The pproposed solution is exploring two scenarios: 1. Using multi-label predicti
 **
 
 <div style="text-align:center">
-<img src="https://user-images.githubusercontent.com/18376283/224830681-ff326f42-5966-4c50-a353-0f5b55df62da.png" width="400px" />
+<img src="https://i.pinimg.com/736x/2c/ef/ed/2cefed8eff6c9389d9322c1e1d6ebebc--marvel.jpg" width="400px" />
 </div>
 
 ## Forewords
