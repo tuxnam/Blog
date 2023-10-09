@@ -5,11 +5,13 @@ title:  "Quish Me If You Can: Detect QR Code phishing emails in Exchange using c
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
-> Phishing attacks are still a major attack vector targeting companies and individuals worldwide, and while being a constant mean to achieve initial access, techniques have always evolved over time to lure users and bypass enterprise detections. 
-> A recent trend in phishing campaigns is to leverage QR codes to trick users towards malicious links. 
-> There are many defenses against malicious URLs or malicious attachements in enterprise email world today, but very few solutions (as of the day of writing) have the ability to analyze the content of an image or PDF file to detect usage of QRCode, resolve the URL and classify an email accordingly.
-> While security companies are working on resolving this shortcoming, leveraging ML models in their existing solutions, attackers benefit of a step forward to gain access to user credentials. 
-> In this article, I am exploring, on a pure (self-)educational purpose, how Computer Vision can help to detect QRCodes in email attachments using image classification, or one step furtger with object detection and eventually take action based on the results.
+> Phishing attacks are a prevalent threat to the security of both organizations and individuals worldwide.
+> These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments that can compromise their credentials or systems.
+> However, as email security solutions have become more sophisticated in detecting and blocking such attacks, phishing techniques have also evolved to evade them.
+> One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
+> Unlike plain text URLs or attachments, QR codes are not easily analyzed by most email security solutions (as of the date of writing), and require the use of machine learning models to extract and classify their content.
+> This gives the attackers an advantage in bypassing the existing defenses and gaining initial access to the target network.
+> In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection, and how to take appropriate actions based on the results.
 
 <div style="text-align:center">
 <img src="https://i.pinimg.com/736x/2c/ef/ed/2cefed8eff6c9389d9322c1e1d6ebebc--marvel.jpg" width="400px" />
