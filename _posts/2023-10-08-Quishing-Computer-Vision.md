@@ -66,6 +66,13 @@ This is just a simple, random example I tested in 2 minutes, so imagine what cle
 This is where Machine Learning can come handy. 
 Machine learning is not a magic, bullet-proof solution either, but it offers a novel approach based on probabilistic determination (is that even a thing? Mathematicians, be gentle here), rather than specifications, and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture, in a complementary way and next to the above existing phishing detection patterns. 
 
+### What do I mean by Machine Learning?
+
+I am not an ML/AI expert and the idea was also to learn and leverage these tools for the domain I know, security. Nowadays, with the avenant of ML tools, it is easy to have access to powerful models which have already been "tweaked" (i.e.: parametrized) to fit the most common use cases, you just basically have to train them and use them. 
+The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition or object detection, behind others. 
+
+These models fit perfectly with our goal: detecting the presence of QR Code inside a picture file.
+
 ## The approach 
 
 ### The model
