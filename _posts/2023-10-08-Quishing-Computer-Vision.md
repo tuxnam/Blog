@@ -69,15 +69,49 @@ Machine learning is not a magic, bullet-proof solution either, but it offers a n
 ### What do I mean by Machine Learning?
 
 I am not an ML/AI expert and the idea was also to learn and leverage these tools for the domain I know, security. Nowadays, with the avenant of ML tools, it is easy to have access to powerful models which have already been "tweaked" (i.e.: parametrized) to fit the most common use cases, you just basically have to train them and use them. 
-The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition or object detection, behind others. 
-
-These models fit perfectly with our goal: detecting the presence of QR Code inside a picture file.
+The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning behind others. 
+While building such a model from scratch is complex and requires very specific skills, the availability of tools today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QR Code inside a picture file. 
 
 ## The approach 
 
+The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exhcange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts for instance), identify attachments which could be QR codes, submit them to a computer vision model and export the results for further analysis. The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. The decoding steps is quite basic and limited to the drawback explained above, it could fail to decode the QR Code. Here, however, we could imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and way outside of my non-existent ML skills.
+In this proof-of-concept, I decided to use Azure Computer Vision service, but the same approach would work with Google Vision AI, AWS Rekognition or any other service of your choosing. You could even build your own service using TensorFLow and the like. 
+
+The proof-of-concept is there solely for learning purpose and could be extended in many ways:
+- Automated actions on the identified suspicious emails
+- Integration in a serverless context to be leveraged for instance with Azure Logic Apps and a SIEM, as a SOAR playbook to analyze a specific email entity (think of users reported emails for instance)
+- ...
+
+**Notes**
+- The PoC was written in C# just because I wanted to learn C# but it can easily be done in Python and for instance use in a Jupyter Notebook for threat hunting purposes
+- The code is not production-ready, 'clean' or bullet-proof - it exists for the sole purpose of learning
+- A deep-learning model is as efficient as the number of resources you used to train it. I did train the model only with a few dozens of labelled images.
+- You could imagine re-using the results of the PoC to feed the model in a new learning iteration
+- The most recent Computer Vision services now combine Vision AI and LLMs, which will descirbe an image without having to pre-train a model yourself: open-world classification (being trained based on biilions of images) vs closed world training methods (trained by your own input)
+ 
 ### The model
 
+Building the model is easy, I just followed Azure Computer Vision documentation: https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/.
+The Computer Vision project built therefore contains two parts: a classification model and a prediction model. You can leverage either the GUI (Azure Vision Studio) or the SDK to consume both models. 
+The first step was to train a create a project, train the model with labeled data (QR Codes in our case) and train it. This is using multi-labeling classification between two labels: QRCODE or NOCODE.
+Once the model is trained, it can be used for predictions (hear, a propbability) of an image being labeled as a QRCODE or not. 
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/6c335d87-3ad3-41e9-9b63-247b2412bd28)
+
+When you train a model, you are supposed to do several iterations, assess your model performances, review parameters or configuration and keep tuning it until you obtain satisfying metrics: precision and recall level mostly (similar to detection engineering in security if you think about it!) or yet Average Precision (AP) or Mean Average Precision (MAP). 
+In this case, I kept it simple with a single iteration and only a few images, just for the sake of proof-of-concept:
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/292ce036-2a65-46d4-bda1-c9f1aa1224e7)
+
+Once the model was trained and I was satisfied (ok, I was quickly satisfied in this case...) of the performances, I simply could leverage the Prediction API to identify the label of a new image (you can guess I debugged my code over and over with the same sample picture).
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/42658bbc-e7b4-42eb-86a1-c411a19f10b3)
+
+Ok, with that, I had my prediction API and our model, I could start building a program to target Exchange emails and see the results. 
+
 ### The proof-of-concept (C#)
+
+
 
 ## Going further
 
