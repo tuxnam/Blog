@@ -37,6 +37,12 @@ Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-atta
 
 This is not an exhaustive list of mitigations, but rather a list I would recommend. Bear in mind however than the first mitigation is **user awareness**! While you can potentially detect Quishing today, it will be something else tomorrow. Phishing is about luring users, and this evolves with societal trends and time. 
 
+-
+-
+-
+-
+-
+
 ## Why Machine Learning?
 
 There are multiple existing (complementary) ways to attempt to detect phishing emails which could apply to quishing, a non-exhaustive list:
