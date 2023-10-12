@@ -68,7 +68,7 @@ Machine learning is not a magic, bullet-proof solution either, but it offers a n
 
 ### What do I mean by Machine Learning?
 
-I am not an ML/AI expert and the idea was also to learn and leverage these tools for the domain I know, security. Nowadays, with the avenant of ML tools, it is easy to have access to powerful models which have already been "tweaked" (i.e.: parametrized) to fit the most common use cases, you just basically have to train them and use them. 
+I am not an ML/AI expert and the idea was also to learn and leverage these tools for the domain I know, security. Nowadays, with the rising of ML tools, it is easy to have access to powerful models which have already been "tuned" (i.e.: algorithms chosen wisely and parametrized) to fit the most common use cases, you just basically have to train them and use them. 
 The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning behind others. 
 While building such a model from scratch is complex and requires very specific skills, the availability of tools today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QR Code inside a picture file. 
 
