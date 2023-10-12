@@ -111,19 +111,18 @@ With that, I had my prediction API and the corresponding trained model, I could 
 
 ### The proof-of-concept (C#)
 
+The program's goal is to connect to Exchange through <a href="https://developer.microsoft.com/en-us/graph">Graph API</a>, and analyze emails in a mailbox, a list of mailboxes or resulting from a <a href="https://learn.microsoft.com/en-us/graph/filter-query-parameter?tabs=http">filter query</a>. 
+All emails with attachments are filtered out to keep only images content-types. 
+Resulting attachments are downloaded, send to the Computer Vision prediction model built above, and based on the results (probably threshold defined in a configuration file), defined as suspicious or not. 
+Suspicious attachments are further decoded by a QRCode library and the resulting URL is added to the resulting analysis. 
+The program outputs a _.csv_ file with all the emails analyzed which contains a potentially malicious QR Code. 
 
+**Notes and improvement ideas:**
 
-## Going further
-
-
-
-## Forewords
-
-- This solution is not meant to be production-grade or used as such within an enterprise environment. It is just food-for-thought
-- The solution leverages Azure Computer Vision as a ML engine due to its ease of use, but any ML solution could do the trick
-- Machine Learning is not a requirement for QRCode detection and/or decoding, libraries exist to detect and decode QRCodes in images based on QRCode specification (). ML was used in a learning perspective, and also because attackers could deviate from official specifications, while having still a readable QRCode. Training a model can thus be an interesting alternative
-- The code is intentionnally written in C# for self-learning purposes, but I am not a professional C# developer (neither a developer anymore): the code is definitely not scalable neither security-proof. A simple REST client has been preferred over Azure SDK for Graph API but both could be used interchangeably.  
-- The model used for labeling and detecting QR Codes was trained on a minimalistic dataset, and a professional model should have thousands of training data and several iterations to optimise model perfornances
-- The solution is a standalone C# program acting on a specific mailbox, a few ideas to leverage it (for learning/testing purposes) are: (1) Monitor a quarantine mailbox (example taken in this article), (2) Add-on to Exchange anti-spam policies or Office 365 Safe Links, (3) A logic app which would act based on the results, or create an incident in a SIEM, or yet (4) a simple scheduled task on a server
-- The model can be bypassed easily, for instance using PDF files amongst many other things, the purpose is educationnal
+The program is just a proof-of-concept made for learning purposes, but here are some ideas for improvment:
+ 
+- The PoC only performs analysis on images attachments (inline or enclosed) but QRCodes could be embedded into PDF files or other documents in such attacks
+- The resultset is based on the presence of QRCode, but some of them could be legitimate. THe ideal scenario is to add more constraints/checks and combine the resulting information with such constraints (DMARC, keywords...)
+- The PoC is for now a standalone C# program but would probably suit better in a serverless fashion with triggers from a SIEM or a threat hunt
+- The program only outputs a _.csv_ file, it could be interesting to take actions on the emails directly, through Graph API as well
 
