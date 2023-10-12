@@ -33,6 +33,10 @@ Perception-point - QR Code Red: Quishing Attacks and How to Prevent Them - https
 Malware Bytes - Targeted phishing campaigns - https://www.malwarebytes.com/blog/news/2023/08/qr-codes-deployed-in-targeted-phishing-campaigns
 Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-attacks-use-qr-codes-to-steal-banking-credentials/
 
+### Mitigations
+
+This is not an exhaustive list of mitigations, but rather a list I would recommend. Bear in mind however than the first mitigation is **user awareness**! While you can potentially detect Quishing today, it will be something else tomorrow. Phishing is about luring users, and this evolves with societal trends and time. 
+
 ## Why Machine Learning?
 
 There are multiple existing (complementary) ways to attempt to detect phishing emails which could apply to quishing, a non-exhaustive list:
