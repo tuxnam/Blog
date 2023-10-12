@@ -59,7 +59,7 @@ For instance, take a random QRCode analyzer online, like https://scanqr.org/, it
 
 And, yet, with the mobile device:
 
-![image](https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756)
+<img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756)" width="600px" />
 
 This is just a simple, random example I tested in 2 minutes, so imagine what clever phishers could come up with? 
 
