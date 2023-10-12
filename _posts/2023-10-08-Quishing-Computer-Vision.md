@@ -14,7 +14,7 @@ last_modified_at: 20@#-01-30T13:59:57-04:00
 > In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. I have written a proof-of-concept in C# which can be adapted to your own (experimentation) needs.
 
 <div style="text-align:center">
-<img src="https://i.pinimg.com/736x/2c/ef/ed/2cefed8eff6c9389d9322c1e1d6ebebc--marvel.jpg" width="400px" />
+  <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
 </div>
 
 ## A recap on Quishing or QRCode Phishing 
