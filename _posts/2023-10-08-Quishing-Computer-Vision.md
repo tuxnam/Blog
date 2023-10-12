@@ -55,7 +55,7 @@ For instance, take a random QRCode analyzer online, like https://scanqr.org/, it
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1" width="200px" />
 
-<img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1)" width="200px" />
+<img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1)" width="400px" />
 
 And, yet, with the mobile device:
 
