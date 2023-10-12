@@ -33,7 +33,6 @@ Perception-point - QR Code Red: Quishing Attacks and How to Prevent Them - https
 Malware Bytes - Targeted phishing campaigns - https://www.malwarebytes.com/blog/news/2023/08/qr-codes-deployed-in-targeted-phishing-campaigns
 Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-attacks-use-qr-codes-to-steal-banking-credentials/
 
-
 ## Why Machine Learning?
 
 There are multiple existing (complementary) ways to attempt to detect phishing emails which could apply to quishing, a non-exhaustive list:
@@ -46,16 +45,32 @@ There are multiple existing (complementary) ways to attempt to detect phishing e
 
 Most modern email security solutions generally offer a *detonating* capability for emails which do not match, or complementary to, any of the above pattern in a sandbox for further analysis. Dwtonation allows to trigger attachments, investigate URL redirections, analyze email content and match multiple signatures generally hosted and maintained by the security provider. <br />
 
-QR Codes are simple images without any apparent threat (from a signature perspective) and for which most security solutions, at time of writing, are not able to detect efficiently. 
-A lot of existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to read QR Codes already in attachments, but these have some limitations. 
-One of these limitations is that QRCode detection generally works by decoding the image and match it to the QRCode ISO standard: 
-The ISO/IEC 18004:2015 standard defines the requirements for the symbology known as QR Code. It specifies the QR Code symbology characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a mobile-readable QRCode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. This is where Machine Learning can come handy. 
+QR Codes are simple images without any apparent threat (from a signature perspective) and for which most security solutions, at time of writing, are not able to detect efficiently. <br />
 
-Machine learning is not a magic, bullet-proof solution either, but it offers a novel approach based on probabilistic determination, rather than specifications, and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture. 
+Is this really the case? <br />
+A lot of existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to read QR Codes already in attachments, but this can have some limitations. 
+One of these limitations is that QRCode detection generally works by decoding the image and match it to the QRCode ISO standard: The ISO/IEC 18004:2015 standard defines the requirements for the symbology known as QR Code. It specifies the QR Code symbology characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a mobile-readable QRCode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. 
+
+For instance, take a random QRCode analyzer online, like https://scanqr.org/, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1)
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1)
+
+And, yet, with the mobile device:
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756)
+
+This is just a simple, random example I tested in 2 minutes, so imagine what clever phishers could come up with? 
+
+This is where Machine Learning can come handy. 
+Machine learning is not a magic, bullet-proof solution either, but it offers a novel approach based on probabilistic determination (is that even a thing? Mathematicians, be gentle here), rather than specifications, and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture, in a complementary way and next to the above existing phishing detection patterns. 
 
 ## The approach 
 
-## The proof-of-concept (C#)
+### The model
+
+### The proof-of-concept (C#)
 
 ## Going further
 
