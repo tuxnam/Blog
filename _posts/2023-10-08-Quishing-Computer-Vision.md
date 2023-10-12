@@ -53,7 +53,7 @@ One of these limitations is that QRCode detection generally works by decoding th
 
 For instance, take a random QRCode analyzer online, like https://scanqr.org/, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
 
-<img src="https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1" width="200px" />
+<img src="https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1" width="100px" />
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1)" width="400px" />
 
