@@ -117,6 +117,30 @@ Resulting attachments are downloaded, send to the Computer Vision prediction mod
 Suspicious attachments are further decoded by a QRCode library and the resulting URL is added to the resulting analysis. 
 The program outputs a _.csv_ file with all the emails analyzed which contains a potentially malicious QR Code. 
 
+The permissions model to Graph API and Exchange works by using a Service Principal (Azure AD application) having permissions to read emails, and the client credentials grant type (https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow).
+As having a read capability to all mailboxes of an organization within a single application could be dangerous, it is advised to add an <a hraf="https://learn.microsoft.com/en-us/graph/auth-limit-mailbox-access">Exchange policy</a> limiting the permissions of the application. In my case, the application can only read from _quarantine@guillaumeben.xyz_. 
+
+Here is a sample test results:
+
+#### 1. Send malicious and non-malicious emails to a test mailbox
+
+These emails have either QRCodes as attachments, "safe"attachments, no attachments or embedded QRCodes. 
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/24bfd656-7f86-48e1-aad0-094b89e8291e)
+
+#### 2. Configure the program 
+
+The PoC uses a simple configuration file for all things required which is described in the GitHub repositor's README.md file.
+  
+![image](https://github.com/tuxnam/Blog/assets/18376283/00012e8f-bd49-4564-8290-31037e8a5bfa)
+
+#### 3. Run
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/15bb6ba1-fa2f-40a8-8fda-abb42f7f5341)
+
+
+#### 4. Analyze Output
+
 **Notes and improvement ideas:**
 
 The program is just a proof-of-concept made for learning purposes, but here are some ideas for improvment:
