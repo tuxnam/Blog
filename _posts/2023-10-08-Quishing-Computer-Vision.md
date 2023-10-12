@@ -51,7 +51,7 @@ QR Codes are simple images without any apparent threat (from a signature perspec
 A lot of existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to read QR Codes already in attachments, but this can have some limitations. 
 One of these limitations is that QRCode detection generally works by decoding the image and match it to the QRCode ISO standard: The ISO/IEC 18004:2015 standard defines the requirements for the symbology known as QR Code. It specifies the QR Code symbology characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a mobile-readable QRCode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. 
 
-For instance, take a random QRCode analyzer online, like https://scanqr.org/, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
+For instance, take a random QRCode analyzer online, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1" width="150px" />
 
