@@ -5,13 +5,13 @@ title:  "Quish Me If You Can: Detect QR Code phishing emails in Exchange using c
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
-> Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide.
-> These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or <a href="https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/">authentication tokens</a>.
-> However, as email security solutions have become more sophisticated in detecting and blocking such attacks or following Microosft's decision to <a href="https://learn.microsoft.com/en-us/deployoffice/security/internet-macros-blocked">block Office macros by default</a>, phishing techniques have also evolved to evade them.
-> One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
-> Unlike plain text URLs or attachments, QR codes are not easily analyzed by most email security solutions, and are an interesting learning use case for the recent democratization of machine learning models to extract and classify inage content.
-> Ways to leverage machine learning models are numerous but sometimes complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.
-> In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. I have written a proof-of-concept in C# which can be adapted to your own (experimentation) needs.
+* Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide.
+These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or <a href="https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/">authentication tokens</a>.
+However, as email security solutions have become more sophisticated in detecting and blocking such attacks or following Microosft's decision to <a href="https://learn.microsoft.com/en-us/deployoffice/security/internet-macros-blocked">block Office macros by default</a>, phishing techniques have also evolved to evade them.
+One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
+Unlike plain text URLs or attachments, QR codes are not easily analyzed by most email security solutions, and are an interesting learning use case for the recent democratization of machine learning models to extract and classify inage content.
+Ways to leverage machine learning models are numerous but sometimes complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.
+In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. I have written a proof-of-concept in C# which can be adapted to your own (experimentation) needs.*
 
 <div style="text-align:center">
   <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
