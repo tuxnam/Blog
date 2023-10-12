@@ -55,11 +55,11 @@ For instance, take a random QRCode analyzer online, it will be able to decode mo
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/7d5ae045-6ae0-45a2-8b89-886e3637c1c1" width="150px" />
 
-<img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1" width="400px" />
+<img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1" width="600px" />
 
 And, yet, with the mobile device:
 
-<img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756" width="400px" />
+<img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756" width="300px" />
 
 This is just a simple, random example I tested in 2 minutes, so imagine what clever phishers could come up with? 
 
