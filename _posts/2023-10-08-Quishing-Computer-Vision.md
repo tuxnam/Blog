@@ -107,7 +107,7 @@ Once the model was trained and I was satisfied (ok, I was quickly satisfied in t
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/42658bbc-e7b4-42eb-86a1-c411a19f10b3)
 
-Ok, with that, I had my prediction API and our model, I could start building a program to target Exchange emails and see the results. 
+With that, I had my prediction API and the corresponding trained model, I could start building a program to target Exchange emails and see the results. 
 
 ### The proof-of-concept (C#)
 
