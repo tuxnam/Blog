@@ -5,7 +5,7 @@ title:  "Quish Me If You Can: Detect QR Code phishing emails in Exchange using c
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
-* Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide.
+*Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide.
 These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or <a href="https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/">authentication tokens</a>.
 However, as email security solutions have become more sophisticated in detecting and blocking such attacks or following Microosft's decision to <a href="https://learn.microsoft.com/en-us/deployoffice/security/internet-macros-blocked">block Office macros by default</a>, phishing techniques have also evolved to evade them.
 One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
