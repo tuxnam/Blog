@@ -9,9 +9,11 @@ last_modified_at: 20@#-01-30T13:59:57-04:00
 These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or <a href="https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/">authentication tokens</a>.
 As email security solutions have become more sophisticated in detecting and blocking such attacks, additionally to Microsoft's decision to <a href="https://learn.microsoft.com/en-us/deployoffice/security/internet-macros-blocked">block Office macros by default</a>, phishing techniques have also evolved to evade them. <br />
 One of the emerging trends (although, already observed before 2020) in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
-Unlike plain text URLs or attachments, QR codes are not easily analyzed by most email security solutions, and are an interesting learning use case for the recent democratization of machine learning models to extract and classify inage content.
+Unlike plain text URLs or attachments, QR codes are not easily filtered out by most email security solutions. 
+The problematic was the occasion for me to experiment with Machine Learning as this is an interesting use case for the recent democratization of ML models to detect, label or describe inage content.
 Ways to leverage machine learning models are numerous but sometimes complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.
-In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. I have written a proof-of-concept in C# which can be adapted to your own (experimentation) needs.*
+In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. 
+The post is accompagnied with a proof-of-concept wrtiten in C# which can be adapted to your own (experimentation) needs.*
 
 <div style="text-align:center">
   <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
