@@ -68,18 +68,20 @@ For instance, take a random QRCode analyzer online, it will be able to decode mo
 And, yet, scanning the same image with your mobile device result in the QRCode being decoded:
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756" width="225px" />
+<br />
 
 This is just a simple, random example I found in a few minutes of testing, so imagine what clever phishers could come up with? 
 
 **This is where Machine Learning can come handy!**
 
-Machine learning is not a magic, bullet-proof solution either, but it offers a novel approach based on probabilistic determination (is that even a thing? No. Let's stick to probabilistic prediction, Mathematicians if your lost your way, be gentle here), rather than formal specifications (ISO), and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture, in a complementary way and next to the above existing phishing detection patterns. 
+Machine learning is not a magic, bullet-proof solution either, but it offers an interesting approach based on probabilistic labeling (is that even a thing? Data scientists, if your lost your way, be gentle here), rather than formal specifications (ISO), and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QRCode in a picture, in a complementary way and next to the above existing phishing detection patterns. 
 
-### What do I mean by Machine Learning?
+### What kin of Machine Learning?
 
-I am not an ML/AI expert and the idea was also to learn and leverage these tools for the domain I know, security. Nowadays, with the rising of ML tools, it is easy to have access to powerful models which have already been "tuned" (i.e.: algorithms chosen wisely and parametrized) to fit the most common use cases, you just basically have to train them and use them. 
-The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning behind others. 
-While building such a model from scratch is complex and requires very specific skills, the availability of tools today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QR Code inside a picture file. 
+I am not an ML/AI expert and the idea was also to learn and leverage available tools for the domain I know, security. 
+Nowadays, with the rise of ML tools, it is easy to have access to powerful models which have been "tuned" for purpose (i.e.: algorithms chosen wisely and parametrized), you just basically have to know which type to use, create and train a model. 
+The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning (behind others). 
+While building such a model from scratch is complex, the availability of ML products today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QRCode inside an email. 
 
 ## The approach 
 
