@@ -61,7 +61,9 @@ One of them is that QRCode detection generally works by decoding an image based 
 
 For instance, take a random QRCode analyzer online, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
 
-![image](https://github.com/tuxnam/Blog/assets/18376283/d3644f52-e12e-4e2e-b69c-9c0806ade701) ![image](https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1)
+<p>
+<img src="https://github.com/tuxnam/Blog/assets/18376283/d3644f52-e12e-4e2e-b69c-9c0806ade701" /><img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1" />
+</p>
 
 And, yet, scanning the same image with your mobile device:
 
