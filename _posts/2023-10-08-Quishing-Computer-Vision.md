@@ -5,15 +5,11 @@ title:  "Quish Me If You Can: Detect QR Code phishing emails in Exchange using c
 last_modified_at: 20@#-01-30T13:59:57-04:00
 ---
 
-*Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide.
-These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or <a href="https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/">authentication tokens</a>.
-As email security solutions have become more sophisticated in detecting and blocking such attacks, additionally to Microsoft's decision to <a href="https://learn.microsoft.com/en-us/deployoffice/security/internet-macros-blocked">block Office macros by default</a>, phishing techniques have also evolved to evade them. <br />
-One of the emerging trends (although, already observed before 2020) in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites.
-Unlike plain text URLs or attachments, QR codes are not easily filtered out by most email security solutions. 
-The problematic was the occasion for me to experiment with Machine Learning as this is an interesting use case for the recent democratization of ML models to detect, label or describe inage content.
-Ways to leverage machine learning models are numerous but sometimes complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.
-In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. 
-The post is accompagnied with a proof-of-concept wrtiten in C# which can be adapted to your own (experimentation) needs.*
+*Phishing attacks are still a prevalent threat to the security of both organizations and individuals worldwide. These attacks often rely on deceiving users into clicking on malicious links or opening malicious attachments to harvest credentials or authentication tokens. However, email security solutions have become more sophisticated in detecting and blocking such attacks. Moreover, Microsoft’s decision to block Office macros by default has made it harder for attackers to execute malicious code. Therefore, phishing techniques have also evolved to evade them.
+
+One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites. Unlike plain text URLs or attachments, QR codes are not easily filtered out by most email security solutions. This problematics was the occasion for me to experiment with Machine Learning as this is an interesting use case for the recent democratization of ML models to detect, label or describe image content. There are many ways to leverage machine learning models, but they can be complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.
+
+In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. These are two common computer vision tasks that can be performed by various machine learning models. The post is accompanied with a proof-of-concept written in C# which can be adapted to your own (experimentation) needs.*
 
 <div style="text-align:center">
   <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
@@ -21,16 +17,19 @@ The post is accompagnied with a proof-of-concept wrtiten in C# which can be adap
 
 ## A recap on Quishing or QRCode Phishing 
 
-Quishing, or QR Code phishing, is a phishing attack technique that emerged around mid-2023 and has been increasing ever since. It involves an attacker sending an email to a victim and enticing them to scan a QR Code embedded in the email using their mobile device. 
-The email usually mimics a legitimate company and creates a sense of urgency or appeals to the victim’s emotions (such as password reset, financial gain, police statement, secret document, etc.). 
-When the victim scans the QR Code, they are redirected (often through multiple layers of redirection to evade endpoint or mobile protections, with open redirects for instance) to a malicious website that steals their credentials or other sensitive information. 
-The attacker can then leverage this information for initial compromise. <br />
-The purpose of this article is not to explain the technique, the mitigations, or the observed campaigns in detail, but it was worth starting with a brief recap. Below are some interesting references on the attack, its detection, and its mitigations.
-Bear in mind that Quishing is just another type of phishing and user awareness remains the first priority. Attackers will always find ways to circumvant detections, through QRCode phishing today and using something else tomorrow.
-A reminder of important phishing mitigations can be found <a href="https://www.bing.com/ck/a?!&&p=2d1250c2f19ff83cJmltdHM9MTY5NzI0MTYwMCZpZ3VpZD0wNTk2MjcxMi1kNmYwLTZhMGYtMzUyYi0zNDhjZDdiODZiZjQmaW5zaWQ9NTIxMw&ptn=3&hsh=3&fclid=05962712-d6f0-6a0f-352b-348cd7b86bf4&psq=phishing+mitigations+microsoft&u=a1aHR0cHM6Ly93d3cubWljcm9zb2Z0LmNvbS9lbi11cy9zZWN1cml0eS9ibG9nLzIwMjAvMDgvMjUvZGV0ZWN0LW1pdGlnYXRlLXBoaXNoaW5nLXJpc2tzLW1pY3Jvc29mdC1zZWN1cml0eS8&ntb=1">here</a> amongst many other sources. 
-In the case of Quishing and phishing in general, another important aspect, outside of regular mitigations, which I do not see enough focus one is device management. 
-It is important to ensure mobile devices are company-managed (if they contain work-related data), and prevent access to known bad URLs but also have detections in place for authentication of users with unmanaged devices or devices with unfamiliar properties (attackers having had a successful phishing attempt).  
-Finally, bear in mind that this article is focusing on Quishing but other bad things could happen from users scanning an unknown QR Code (for instance by using a QRCode application with vulnerabilities), do some research on QR Code fuzzing for more details. 
+Here is my rewritten paragraph for you:
+
+Quishing, or QR Code phishing, is a type of phishing attack that became more popular since mid-2023. It uses a QR Code in an email to trick the victim into scanning it with their mobile device. The email pretends to be from a trusted company and tries to persuade the victim to act quickly or emotionally (for example, by offering a reward, asking for a password reset, mentioning a police statement, etc.).
+When the victim scans the QR Code, they are taken (often through several redirections to avoid detection, using open redirects on trusted domains) to a malicious website that steals their credentials or other personal data. 
+The attacker can then use this data to compromise the victim’s account or device.
+
+This article does not aim to provide a detailed analysis of the technique, the countermeasures, or the observed campaigns, but rather to reflect on opportunities offered by ML for modern phishing attacks. 
+You can find some useful references on the attack, its detection, and its prevention below. However, remember that Quishing is just one form of phishing and user education is still the most important factor. 
+Attackers will always find new ways to bypass detection, whether it is with QR Codes today or something else tomorrow. You can also check <a href="https://www.bing.com/ck/a?!&&p=2d1250c2f19ff83cJmltdHM9MTY5NzI0MTYwMCZpZ3VpZD0wNTk2MjcxMi1kNmYwLTZhMGYtMzUyYi0zNDhjZDdiODZiZjQmaW5zaWQ9NTIxMw&ptn=3&hsh=3&fclid=05962712-d6f0-6a0f-352b-348cd7b86bf4&psq=phishing+mitigations+microsoft&u=a1aHR0cHM6Ly93d3cubWljcm9zb2Z0LmNvbS9lbi11cy9zZWN1cml0eS9ibG9nLzIwMjAvMDgvMjUvZGV0ZWN0LW1pdGlnYXRlLXBoaXNoaW5nLXJpc2tzLW1pY3Jvc29mdC1zZWN1cml0eS8&ntb=1">this link</a> for some general phishing prevention tips. 
+
+Finally, note that this article focuses on Quishing but there are other risks associated with scanning unknown QR Codes (such as using a vulnerable QR Code app), which you can learn more about by researching QR Code fuzzing.
+
+Note: another aspect that I think deserves more attention is device management. It is crucial to ensure that mobile devices are managed by the company (if they contain work-related data), and block access to known malicious URLs as well as detect suspicious authentication attempts from unmanaged or unfamiliar devices (which could indicate a successful phishing attack).
 
 ### References
 
