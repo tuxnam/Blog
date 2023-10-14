@@ -171,3 +171,8 @@ The program outputs the downloaded attachment and a corresponding csv file with 
 
 ## Conclusion 
 
+Exploring the opportunities offered Machine Learning in concreate security threats can help alleviate some of the fuzz around these techniaues.
+We explored how a "modern" phishing technique that uses QRCodes to lure victims to malicious websites can be detected using simple computer vision models. 
+Quishing is a serious threat that orgnanizations have to face with today and ML cam help alleviate the inherent difficulty or products limitations in detecting such threats.
+However, there are limitations and challenges to the approach, such as the usual suspects (false positives, false negatives) and how well the model is trained. 
+Readers should also keep in mind that Quishing is just one of the many forms of phishing, attackers will keep coming with new and clever techniques over time. Despite a need to have strong detections and mitigations in place, Users vigileance will always be the first (or last) line of defense. 
