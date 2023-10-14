@@ -81,12 +81,19 @@ Machine learning is not a magic, bullet-proof solution either, but it offers an 
 I am not an ML/AI expert and the idea was also to learn and leverage available tools for the domain I know, security. 
 Nowadays, with the rise of ML tools, it is easy to have access to powerful models which have been "tuned" for purpose (i.e.: algorithms chosen wisely and parametrized), you just basically have to know which type to use, create and train a model. 
 The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning (behind others). 
+
 While building such a model from scratch is complex, the availability of ML products today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QRCode inside an email. 
 
 ## The approach 
 
-The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exhcange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts for instance). What I tested in this case is Use <a href="https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fexchange%2Fsecurity-and-compliance%2Fmail-flow-rules%2Finspect-message-attachments&data=05%7C01%7Cgbenats%40microsoft.com%7C9d12e40f00e5422d5eb908dbc7138454%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638322659099496432%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=0ijKV7Es8xq7QRgHGOheFYJL99byLhl5ukBQlCeBxTU%3D&reserved=0">mail flow rules to inspect message attachments in Exchange Online</a>, identify attachments which could be QR codes, submit them to a computer vision model and export the results for further analysis. The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. The decoding steps is quite basic and limited to the drawback explained above, it could fail to decode the QR Code. Here, however, we could imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and way outside of my non-existent ML skills.
-In this proof-of-concept, I decided to use Azure Computer Vision service, but the same approach would work with Google Vision AI, AWS Rekognition or any other service of your choosing. You could even build your own service using TensorFLow and the like. 
+The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exchange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts mailboxes for instance) to find potential Quishing targeted emails. 
+
+What I tested in this case is using <a href="https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fexchange%2Fsecurity-and-compliance%2Fmail-flow-rules%2Finspect-message-attachments&data=05%7C01%7Cgbenats%40microsoft.com%7C9d12e40f00e5422d5eb908dbc7138454%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638322659099496432%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=0ijKV7Es8xq7QRgHGOheFYJL99byLhl5ukBQlCeBxTU%3D&reserved=0">email flow rules to inspect message attachments in Exchange Online</a>, identify attachments which could be QR codes and *submit them to a computer vision model*.  
+The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. 
+The decoding steps is quite basic and limited to the drawback explained above (ISO deviation), it could fail to decode the QR Code. 
+We can imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and is way outside of my current ML skills.
+
+In this proof-of-concept, I decided to use **Azure Computer Vision service**, but the same approach would work with Google Vision AI, AWS Rekognition or any other service of your choosing. You could even build your own service using TensorFLow and the like. 
 
 The proof-of-concept is there solely for learning purpose and could be extended in many ways:
 - Automated actions on the identified suspicious emails
@@ -94,15 +101,16 @@ The proof-of-concept is there solely for learning purpose and could be extended 
 - ...
 
 **Notes**
-- The PoC was written in C# just because I wanted to learn C# but it can easily be done in Python and for instance use in a Jupyter Notebook for threat hunting purposes
-- The code is not production-ready, 'clean' or bullet-proof - it exists for the sole purpose of learning
-- A deep-learning model is as efficient as the number of resources you used to train it. I did train the model only with a few dozens of labelled images.
-- You could imagine re-using the results of the PoC to feed the model in a new learning iteration
-- The most recent Computer Vision services now combine Vision AI and LLMs, which will descirbe an image without having to pre-train a model yourself: open-world classification (being trained based on biilions of images) vs closed world training methods (trained by your own input)
+- The PoC was written in C# (just because I wanted to "learn" C# and was a bit bored of Python) but it can easily be done in any other language (this leverages REST APIs mostly) and for instance use in a Jupyter Notebook for threat hunting purposes.
+- The code is not production-ready, 'clean' or bullet-proof - it exists for the sole purpose of learning.
+- A deep-learning model is as efficient as the number of labeled objects you used to train it. I did train the model only with a few dozens images.
+- You could imagine re-using the results of each prediction to feed the model in iterations.
+- The most recent Computer Vision services now combine Vision AI and Large Language Models (LLMs), which will descirbe an image without having to pre-train a model yourself: open-world classification (being trained based on biilions of images) vs closed world training methods (trained by your own input)
  
 ### The model
 
 Building the model is easy, I just followed Azure Computer Vision documentation: https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/.
+
 The Computer Vision project built therefore contains two parts: a classification model and a prediction model. You can leverage either the GUI (Azure Vision Studio) or the SDK to consume both models. 
 The first step was to train a create a project, train the model with labeled data (QR Codes in our case) and train it. This is using multi-labeling classification between two labels: QRCODE or NOCODE.
 Once the model is trained, it can be used for predictions (hear, a propbability) of an image being labeled as a QRCODE or not. 
@@ -161,12 +169,5 @@ The program outputs the downloaded attachment and a corresponding csv file with 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/53df5dc1-06e6-4895-b6d5-e69895e766d8)
 
 
-**Notes and improvement ideas:**
-
-The program is just a proof-of-concept made for learning purposes, but here are some ideas for improvment:
- 
-- The PoC only performs analysis on images attachments (inline or enclosed) but QRCodes could be embedded into PDF files or other documents in such attacks
-- The resultset is based on the presence of QRCode, but some of them could be legitimate. THe ideal scenario is to add more constraints/checks and combine the resulting information with such constraints (DMARC, keywords...)
-- The PoC is for now a standalone C# program but would probably suit better in a serverless fashion with triggers from a SIEM or a threat hunt
-- The program only outputs a _.csv_ file, it could be interesting to take actions on the emails directly, through Graph API as well
+## Conclusion 
 
