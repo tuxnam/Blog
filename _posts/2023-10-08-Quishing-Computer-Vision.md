@@ -23,8 +23,12 @@ Quishing, or QR Code phishing, is a phishing attack technique that emerged aroun
 The email usually mimics a legitimate company and creates a sense of urgency or appeals to the victim’s emotions (such as password reset, financial gain, police statement, secret document, etc.). 
 When the victim scans the QR Code, they are redirected (often through multiple layers of redirection to evade endpoint or mobile protections, with open redirects for instance) to a malicious website that steals their credentials or other sensitive information. 
 The attacker can then leverage this information for initial compromise. <br />
-The purpose of this article is not to explain the technique, the mitigations, or the observed campaigns in detail, but it is worth starting with a brief recap. 
-Below are some interesting references on the attack, its detection, and its prevention.
+The purpose of this article is not to explain the technique, the mitigations, or the observed campaigns in detail, but it was worth starting with a brief recap. Below are some interesting references on the attack, its detection, and its mitigations.
+Bear in mind that Quishing is just another type of phishing and user awareness remains the first priority. Attackers will always find ways to circumvant detections, through QRCode phishing today and using something else tomorrow.
+A reminder of important phishing mitigations can be found <a href="https://www.bing.com/ck/a?!&&p=2d1250c2f19ff83cJmltdHM9MTY5NzI0MTYwMCZpZ3VpZD0wNTk2MjcxMi1kNmYwLTZhMGYtMzUyYi0zNDhjZDdiODZiZjQmaW5zaWQ9NTIxMw&ptn=3&hsh=3&fclid=05962712-d6f0-6a0f-352b-348cd7b86bf4&psq=phishing+mitigations+microsoft&u=a1aHR0cHM6Ly93d3cubWljcm9zb2Z0LmNvbS9lbi11cy9zZWN1cml0eS9ibG9nLzIwMjAvMDgvMjUvZGV0ZWN0LW1pdGlnYXRlLXBoaXNoaW5nLXJpc2tzLW1pY3Jvc29mdC1zZWN1cml0eS8&ntb=1">here</a> amongst many other sources. 
+In the case of Quishing and phishing in general, another important aspect, outside of regular mitigations, which I do not see enough focus one is device management. 
+It is important to ensure mobile devices are company-managed (if they contain work-related data), and prevent access to known bad URLs but also have detections in place for authentication of users with unmanaged devices or devices with unfamiliar properties (attackers having had a successful phishing attempt).  
+Finally, bear in mind that this article is focusing on Quishing but other bad things could happen from users scanning an unknown QR Code (for instance by using a QRCode application with vulnerabilities), do some research on QR Code fuzzing for more details. 
 
 ### References
 
@@ -32,16 +36,7 @@ Any.run - New phishing tactics - https://any.run/cybersecurity-blog/new-phishing
 Perception-point - QR Code Red: Quishing Attacks and How to Prevent Them - https://perception-point.io/blog/qr-code-red-quishing-attacks-and-how-to-prevent-them/
 Malware Bytes - Targeted phishing campaigns - https://www.malwarebytes.com/blog/news/2023/08/qr-codes-deployed-in-targeted-phishing-campaigns
 Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-attacks-use-qr-codes-to-steal-banking-credentials/
-
-### Mitigations
-
-This is not an exhaustive list of mitigations, but rather a list I would recommend. Bear in mind however than the first mitigation is **user awareness**! While you can potentially detect Quishing today, it will be something else tomorrow. Phishing is about luring users, and this evolves with societal trends and time. 
-
--
--
--
--
--
+Identify Quishing Emails using Sentinel - https://rodtrent.substack.com/p/microsoft-sentinel-soc-101-how-to-b94
 
 ## Why Machine Learning?
 
@@ -84,7 +79,7 @@ While building such a model from scratch is complex and requires very specific s
 
 ## The approach 
 
-The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exhcange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts for instance), identify attachments which could be QR codes, submit them to a computer vision model and export the results for further analysis. The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. The decoding steps is quite basic and limited to the drawback explained above, it could fail to decode the QR Code. Here, however, we could imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and way outside of my non-existent ML skills.
+The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exhcange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts for instance). What I tested in this case is Use <a href="https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fexchange%2Fsecurity-and-compliance%2Fmail-flow-rules%2Finspect-message-attachments&data=05%7C01%7Cgbenats%40microsoft.com%7C9d12e40f00e5422d5eb908dbc7138454%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638322659099496432%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=0ijKV7Es8xq7QRgHGOheFYJL99byLhl5ukBQlCeBxTU%3D&reserved=0">mail flow rules to inspect message attachments in Exchange Online</a>, identify attachments which could be QR codes, submit them to a computer vision model and export the results for further analysis. The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. The decoding steps is quite basic and limited to the drawback explained above, it could fail to decode the QR Code. Here, however, we could imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and way outside of my non-existent ML skills.
 In this proof-of-concept, I decided to use Azure Computer Vision service, but the same approach would work with Google Vision AI, AWS Rekognition or any other service of your choosing. You could even build your own service using TensorFLow and the like. 
 
 The proof-of-concept is there solely for learning purpose and could be extended in many ways:
@@ -148,8 +143,17 @@ The PoC uses a simple configuration file for all things required which is descri
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/15bb6ba1-fa2f-40a8-8fda-abb42f7f5341)
 
+![image](https://github.com/tuxnam/Blog/assets/18376283/f9218a37-1fa0-45e7-9399-99c62b290e87)
+
 
 #### 4. Analyze Output
+
+The program outputs the downloaded attachment and a corresponding csv file with the results. You notice both inline attachments and enclosed attachments are analyzed. Most Quishing emails seen to date are using inline attachments. 
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/6f90a396-57dc-467e-b154-c02130f68216)
+
+![image](https://github.com/tuxnam/Blog/assets/18376283/53df5dc1-06e6-4895-b6d5-e69895e766d8)
+
 
 **Notes and improvement ideas:**
 
