@@ -65,7 +65,7 @@ For instance, take a random QRCode analyzer online, it will be able to decode mo
 <img src="https://github.com/tuxnam/Blog/assets/18376283/d3644f52-e12e-4e2e-b69c-9c0806ade701" width="200px" /><img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1" width="600px" />
 </p>
 
-And, yet, scanning the same image with your mobile device:
+And, yet, scanning the same image with your mobile device result in the QRCode being decoded:
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756" width="225px" />
 
