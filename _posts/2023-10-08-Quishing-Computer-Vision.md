@@ -120,12 +120,13 @@ With that, I had my prediction API and the corresponding trained model, I could 
 ### The proof-of-concept (C#)
 
 The program's goal is to connect to Exchange through <a href="https://developer.microsoft.com/en-us/graph">Graph API</a>, and analyze emails in a mailbox, a list of mailboxes or resulting from a <a href="https://learn.microsoft.com/en-us/graph/filter-query-parameter?tabs=http">filter query</a>. 
-All emails with attachments are filtered out to keep only images content-types. 
-Resulting attachments are downloaded, send to the Computer Vision prediction model built above, and based on the results (probably threshold defined in a configuration file), defined as suspicious or not. 
-Suspicious attachments are further decoded by a QR Code library and the resulting URL is added to the resulting analysis. 
-The program outputs a _.csv_ file with all the emails analyzed which contains a potentially malicious QR Code. 
+All emails with attachments are filtered out to keep only image content types. 
 
-The permissions model to Graph API and Exchange works by using a Service Principal (Azure AD application) having permissions to read emails, and the client credentials grant type (https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow).
+Resulting attachments are downloaded, sent to the Computer Vision prediction model built above, and based on the results (probably threshold defined in a configuration file), defined as suspicious or not. 
+Suspicious attachments are further decoded by a QR Code library and the resulting URL is added to the output. 
+The program outputs a _.csv_ file with all the emails analyzed which contain a potentially malicious QR Code. 
+
+The permissions model to Graph API and Exchange works by using a Service Principal (Azure AD application) having permissions to read emails, and the client <a href="https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow">credentials grant type</a>.
 As having a read capability to all mailboxes of an organization within a single application could be dangerous, it is advised to add an <a hraf="https://learn.microsoft.com/en-us/graph/auth-limit-mailbox-access">Exchange policy</a> limiting the permissions of the application. In my case, the application can only read from _quarantine@guillaumeben.xyz_. 
 
 Here is a sample test results:
@@ -134,17 +135,17 @@ Here is a sample test results:
 
 These emails have either QR Codes as attachments, "safe"attachments, no attachments or embedded QR Codes. 
 
-![image](https://github.com/tuxnam/Blog/assets/18376283/24bfd656-7f86-48e1-aad0-094b89e8291e)
+![image](https://github.com/tuxnam/Blog/assets/18376283/74c501d0-a51f-4280-a8a3-58697752b9ca)
 
 #### 2. Configure the program 
 
-The PoC uses a simple configuration file for all things required which is described in the GitHub repositor's README.md file.
+The PoC uses a simple configuration file for all things required which is described in the GitHub repository's README.md file.
   
 ![image](https://github.com/tuxnam/Blog/assets/18376283/00012e8f-bd49-4564-8290-31037e8a5bfa)
 
 #### 3. Run
 
-![image](https://github.com/tuxnam/Blog/assets/18376283/15bb6ba1-fa2f-40a8-8fda-abb42f7f5341)
+![image](https://github.com/tuxnam/Blog/assets/18376283/6b8ffa11-558e-4c7a-acc6-2f46bbff7f71)
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/f9218a37-1fa0-45e7-9399-99c62b290e87)
 
@@ -155,7 +156,8 @@ The program outputs the downloaded attachment and a corresponding csv file with 
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/6f90a396-57dc-467e-b154-c02130f68216)
 
-![image](https://github.com/tuxnam/Blog/assets/18376283/53df5dc1-06e6-4895-b6d5-e69895e766d8)
+![image](https://github.com/tuxnam/Blog/assets/18376283/136a148e-db8f-4604-a3fe-4d00129ecaa4)
+![image](https://github.com/tuxnam/Blog/assets/18376283/916d70de-0dca-49c2-8106-3f60a7ff3240)
 
 
 ## Conclusion 
