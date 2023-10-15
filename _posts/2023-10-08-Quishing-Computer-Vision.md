@@ -112,7 +112,7 @@ The code is available here: https://github.com/tuxnam/QRCodeEater.
 The program's goal is to connect to Exchange through <a href="https://developer.microsoft.com/en-us/graph">Graph API</a>, and analyze emails in a mailbox, a list of mailboxes or resulting from a <a href="https://learn.microsoft.com/en-us/graph/filter-query-parameter?tabs=http">filter query</a>. 
 All emails with attachments are filtered out to keep only image content types. 
 
-Resulting attachments are downloaded, sent to the Computer Vision prediction model built above, and based on the results (probably threshold defined in a configuration file), defined as suspicious or not. 
+Resulting attachments are downloaded, sent to the Computer Vision prediction model built above, and based on the results (probability threshold defined in a configuration file), defined as suspicious or not. 
 Suspicious attachments are further decoded by a QR Code library and the resulting URL is added to the output. 
 The program outputs a _.csv_ file with all the emails analyzed which contain a potentially malicious QR Code. 
 
