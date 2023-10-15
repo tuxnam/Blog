@@ -64,7 +64,7 @@ This is just a simple, random example I found in a few minutes of testing, so im
 
 Machine learning is not a magic, bullet-proof solution either, but it offers an interesting approach based on probabilistic labeling (is that even a thing? Data scientists, if your lost your way, be gentle here), rather than formal specifications (ISO), and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture. The latter can then be combined with standard phishing detection patterns discussed above. 
 
-### What kin of Machine Learning?
+### What type of Machine Learning?
 
 I am not an ML/AI expert and the idea was also to learn and leverage available tools for the domain I know, security. 
 Nowadays, with the rise of ML tools, it is easy to have access to powerful models which have been "tuned" for purpose (i.e.: algorithms chosen wisely and parametrized), you just basically have to know which type to use, create and train a model. 
