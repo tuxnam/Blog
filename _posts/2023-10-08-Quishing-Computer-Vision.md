@@ -89,23 +89,24 @@ The proof-of-concept is there solely for learning purpose and could be extended 
 - ...
 
 **Notes**
-- The PoC was written in C# (just because I wanted to "learn" C# and was a bit bored of Python) but it can easily be done in any other language (this leverages REST APIs mostly) and for instance use in a Jupyter Notebook for threat hunting purposes.
+- The PoC was written in C# (just because I wanted to "learn" C# and was a bit bored of Python) but it can easily be done in any other language (this leverages REST APIs mostly) and for instance apply the same approach in a Jupyter Notebook for threat hunting purposes.
 - The code is not production-ready, 'clean' or bullet-proof - it exists for the sole purpose of learning.
-- A deep-learning model is as efficient as the number of labeled objects you used to train it. I did train the model only with a few dozens images.
-- You could imagine re-using the results of each prediction to feed the model in iterations.
-- The most recent Computer Vision services now combine Vision AI and Large Language Models (LLMs), which will descirbe an image without having to pre-train a model yourself: open-world classification (being trained based on biilions of images) vs closed world training methods (trained by your own input)
+- A prediction labeling model is as efficient as the number of labeled objects you used to train it. I did train the model only with a few dozens images.
+- You could imagine re-using the results of each prediction to feed the model in multiple iterations.
+- The most recent Computer Vision services now combine Vision AI and Large Language Models (LLMs), which will describe an image without having to pre-train a model yourself: open-world classification (being trained based on biilions of images) vs closed world training methods (trained by your own input). 
  
 ### The model
 
-Building the model is easy, I just followed Azure Computer Vision documentation: https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/.
+Building the model is easy, I just followed <a href="https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/">Azure Computer Vision documentation</a>.
 
-The Computer Vision project built therefore contains two parts: a classification model and a prediction model. You can leverage either the GUI (Azure Vision Studio) or the SDK to consume both models. 
-The first step was to train a create a project, train the model with labeled data (QR Codes in our case) and train it. This is using multi-labeling classification between two labels: QR Code or NOCODE.
-Once the model is trained, it can be used for predictions (hear, a propbability) of an image being labeled as a QR Code or not. 
+The Computer Vision project built therefore contains two parts: a classification model and a prediction model. <br />You can leverage either the GUI (Azure Vision Studio) or the SDK to consume both models. 
+The first step was create a project, train the model with labeled data (QR Codes in our case) and train it. I used multi-labeling classification, with two labels: QRCODE or NOCODE. <br />
+Once the model is trained, it can be used for predictions (resulting in a propbability) of an image being labeled as a QR Code or not. 
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/6c335d87-3ad3-41e9-9b63-247b2412bd28)
 
-When you train a model, you are supposed to do several iterations, assess your model performances, review parameters or configuration and keep tuning it until you obtain satisfying metrics: precision and recall level mostly (similar to detection engineering in security if you think about it!) or yet Average Precision (AP) or Mean Average Precision (MAP). 
+When you train a model, you are supposed to do several iterations, assess your model performances, review parameters or configuration and keep tuning it until you obtain satisfying metrics: precision and recall level mostly (similar to detection engineering in security if you think about it!) or yet Average Precision (AP) or Mean Average Precision (MAP). <br />
+
 In this case, I kept it simple with a single iteration and only a few images, just for the sake of proof-of-concept:
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/292ce036-2a65-46d4-bda1-c9f1aa1224e7)
