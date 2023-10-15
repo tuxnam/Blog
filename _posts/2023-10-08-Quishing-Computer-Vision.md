@@ -15,7 +15,7 @@ In this article, I will explore, for purely educational purposes, how computer v
   <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
 </div>
 
-## A recap on Quishing or QRCode Phishing 
+## A recap on Quishing or QR Code Phishing 
 
 Quishing, or QR Code phishing, is a type of phishing attack that became more popular since mid-2023. It uses a QR Code in an email to trick the victim into scanning it with their mobile device. The email pretends to be from a trusted company and tries to persuade the victim to act quickly or emotionally (for example, by offering a reward, asking for a password reset, mentioning a police statement, etc.).
 When the victim scans the QR Code, they are taken (often through several redirections to avoid detection, using open redirects on trusted domains) to a malicious website that steals their credentials or other personal data. 
@@ -45,15 +45,15 @@ There are multiple existing ways to attempt to detect phishing emails which coul
 Most modern email security solutions generally offer a detonation capability for emails, in addition to any of the above detections, which allows them to analyze emails in a sandbox for further investigation. Detonation can trigger attachments, follow URL redirections, examine email content and compare multiple signatures that are usually hosted, maintained and updated by the security provider. However, QR Codes are simple images that do not pose any obvious threat (from a signature perspective) and that most security solutions, at the time of writing, are not able to detect efficiently. <br />
 
 The latter is not entierly correct, a few existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to detect and read QR Codes already in attachments, but this has some limitations. <br />
-QRCode detection generally works by decoding an image based on QRCode ISO standard: <a href='https://www.iso.org/standard/62021.html'>ISO 18004:2015</a> The standard defines the requirements for the symbology known as QR Code. It specifies the QR Code characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a QRCode which most QRCode application readers will be able to decode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. 
+QR Code detection generally works by decoding an image based on QR Code ISO standard: <a href='https://www.iso.org/standard/62021.html'>ISO 18004:2015</a> The standard defines the requirements for the symbology known as QR Code. It specifies the QR Code characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters.<br /> It is however possible to deviate slighly from the specification and still obtain a mobile readable QR Code, or find ways to be undetected by most QR Code reading libraries but still being able to be read by a native mobile device camera or specific QR code reading application (it is also recommended to advise users to use the native reader rather than any 3rd party application). 
 
-For instance, take a random QRCode analyzer online, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
+For instance, if I take a random QR Code analyzer online, it will be able to decode most of the QR Codes you would challenge him too and return the encoded string, but what about this one:
 
 <p>
 <img src="https://github.com/tuxnam/Blog/assets/18376283/d3644f52-e12e-4e2e-b69c-9c0806ade701" width="198px" />&nbsp;&nbsp;<img src="https://github.com/tuxnam/Blog/assets/18376283/53beda1c-0964-4f96-85ec-6657f42c0de1" width="650px" />
 </p>
 
-And, yet, scanning the same image with your mobile device result in the QRCode being decoded:
+And, yet, scanning the same image with your mobile device result in the QR Code being decoded:
 
 <img src="https://github.com/tuxnam/Blog/assets/18376283/1019d33e-9169-4286-ab07-f6b1e0501756" width="225px" />
 <br />
@@ -62,7 +62,7 @@ This is just a simple, random example I found in a few minutes of testing, so im
 
 **This is where Machine Learning can come handy!**
 
-Machine learning is not a magic, bullet-proof solution either, but it offers an interesting approach based on probabilistic labeling (is that even a thing? Data scientists, if your lost your way, be gentle here), rather than formal specifications (ISO), and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QRCode in a picture, in a complementary way and next to the above existing phishing detection patterns. 
+Machine learning is not a magic, bullet-proof solution either, but it offers an interesting approach based on probabilistic labeling (is that even a thing? Data scientists, if your lost your way, be gentle here), rather than formal specifications (ISO), and the more the model is trained (based om regular QR codes, QR codes from known attack campaigns), the more efficient it will be at validating the presence of a QR Code in a picture, in a complementary way and next to the above existing phishing detection patterns. 
 
 ### What kin of Machine Learning?
 
@@ -70,16 +70,16 @@ I am not an ML/AI expert and the idea was also to learn and leverage available t
 Nowadays, with the rise of ML tools, it is easy to have access to powerful models which have been "tuned" for purpose (i.e.: algorithms chosen wisely and parametrized), you just basically have to know which type to use, create and train a model. 
 The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning (behind others). 
 
-While building such a model from scratch is complex, the availability of ML products today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QRCode inside an email. 
+While building such a model from scratch is complex, the availability of ML products today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QR Code inside an email. 
 
 ## The approach 
 
 The idea is to be able to 'scan' one or multiple Exchange mailboxes (through an Exchange search filter, or by monitoring a quarantine shared inbox or yet VIP users accounts mailboxes for instance) to find potential Quishing targeted emails. 
 
 What I tested in this case is using <a href="https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fexchange%2Fsecurity-and-compliance%2Fmail-flow-rules%2Finspect-message-attachments&data=05%7C01%7Cgbenats%40microsoft.com%7C9d12e40f00e5422d5eb908dbc7138454%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C638322659099496432%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=0ijKV7Es8xq7QRgHGOheFYJL99byLhl5ukBQlCeBxTU%3D&reserved=0">email flow rules to inspect message attachments in Exchange Online</a>, identify attachments which could be QR codes and *submit them to a computer vision model*.  
-The proof-of-concept includes actually decoding the QRCode which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. 
+The proof-of-concept includes actually decoding the QR Code which allows to scan the decoded URLs through usual suspects such as VirusTotal, MDO Safe Links or Hybrid Analysis for instance. 
 The decoding steps is quite basic and limited to the drawback explained above (ISO deviation), it could fail to decode the QR Code. 
-We can imagine also leveraging ML models to make a 'clean' QRCode out of a 'non-compliant' one, but that would be another research on its own, and is way outside of my current ML skills.
+We can imagine also leveraging ML models to make a 'clean' QR Code out of a 'non-compliant' one, but that would be another research on its own, and is way outside of my current ML skills.
 
 In this proof-of-concept, I decided to use **Azure Computer Vision service**, but the same approach would work with Google Vision AI, AWS Rekognition or any other service of your choosing. You could even build your own service using TensorFLow and the like. 
 
@@ -100,8 +100,8 @@ The proof-of-concept is there solely for learning purpose and could be extended 
 Building the model is easy, I just followed Azure Computer Vision documentation: https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/.
 
 The Computer Vision project built therefore contains two parts: a classification model and a prediction model. You can leverage either the GUI (Azure Vision Studio) or the SDK to consume both models. 
-The first step was to train a create a project, train the model with labeled data (QR Codes in our case) and train it. This is using multi-labeling classification between two labels: QRCODE or NOCODE.
-Once the model is trained, it can be used for predictions (hear, a propbability) of an image being labeled as a QRCODE or not. 
+The first step was to train a create a project, train the model with labeled data (QR Codes in our case) and train it. This is using multi-labeling classification between two labels: QR Code or NOCODE.
+Once the model is trained, it can be used for predictions (hear, a propbability) of an image being labeled as a QR Code or not. 
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/6c335d87-3ad3-41e9-9b63-247b2412bd28)
 
@@ -121,7 +121,7 @@ With that, I had my prediction API and the corresponding trained model, I could 
 The program's goal is to connect to Exchange through <a href="https://developer.microsoft.com/en-us/graph">Graph API</a>, and analyze emails in a mailbox, a list of mailboxes or resulting from a <a href="https://learn.microsoft.com/en-us/graph/filter-query-parameter?tabs=http">filter query</a>. 
 All emails with attachments are filtered out to keep only images content-types. 
 Resulting attachments are downloaded, send to the Computer Vision prediction model built above, and based on the results (probably threshold defined in a configuration file), defined as suspicious or not. 
-Suspicious attachments are further decoded by a QRCode library and the resulting URL is added to the resulting analysis. 
+Suspicious attachments are further decoded by a QR Code library and the resulting URL is added to the resulting analysis. 
 The program outputs a _.csv_ file with all the emails analyzed which contains a potentially malicious QR Code. 
 
 The permissions model to Graph API and Exchange works by using a Service Principal (Azure AD application) having permissions to read emails, and the client credentials grant type (https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow).
@@ -131,7 +131,7 @@ Here is a sample test results:
 
 #### 1. Send malicious and non-malicious emails to a test mailbox
 
-These emails have either QRCodes as attachments, "safe"attachments, no attachments or embedded QRCodes. 
+These emails have either QR Codes as attachments, "safe"attachments, no attachments or embedded QR Codes. 
 
 ![image](https://github.com/tuxnam/Blog/assets/18376283/24bfd656-7f86-48e1-aad0-094b89e8291e)
 
@@ -160,7 +160,7 @@ The program outputs the downloaded attachment and a corresponding csv file with 
 ## Conclusion 
 
 Exploring the opportunities offered Machine Learning in concreate security threats can help alleviate some of the fuzz around these techniaues.
-We explored how a "modern" phishing technique that uses QRCodes to lure victims to malicious websites can be detected using simple computer vision models. 
+We explored how a "modern" phishing technique that uses QR Codes to lure victims to malicious websites can be detected using simple computer vision models. 
 Quishing is a serious threat that orgnanizations have to face with today and ML cam help alleviate the inherent difficulty or products limitations in detecting such threats.
 However, there are limitations and challenges to the approach, such as the usual suspects (false positives, false negatives) and how well the model is trained. 
 Readers should also keep in mind that Quishing is just one of the many forms of phishing, attackers will keep coming with new and clever techniques over time. Despite a need to have strong detections and mitigations in place, Users vigileance will always be the first (or last) line of defense. 
