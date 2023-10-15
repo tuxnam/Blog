@@ -17,8 +17,6 @@ In this article, I will explore, for purely educational purposes, how computer v
 
 ## A recap on Quishing or QRCode Phishing 
 
-Here is my rewritten paragraph for you:
-
 Quishing, or QR Code phishing, is a type of phishing attack that became more popular since mid-2023. It uses a QR Code in an email to trick the victim into scanning it with their mobile device. The email pretends to be from a trusted company and tries to persuade the victim to act quickly or emotionally (for example, by offering a reward, asking for a password reset, mentioning a police statement, etc.).
 When the victim scans the QR Code, they are taken (often through several redirections to avoid detection, using open redirects on trusted domains) to a malicious website that steals their credentials or other personal data. 
 The attacker can then use this data to compromise the victim’s account or device.
@@ -30,16 +28,6 @@ Attackers will always find new ways to bypass detection, whether it is with QR C
 Finally, note that this article focuses on Quishing but there are other risks associated with scanning unknown QR Codes (such as using a vulnerable QR Code app), which you can learn more about by researching QR Code fuzzing.
 
 Note: another aspect that I think deserves more attention is device management. It is crucial to ensure that mobile devices are managed by the company (if they contain work-related data), and block access to known malicious URLs as well as detect suspicious authentication attempts from unmanaged or unfamiliar devices (which could indicate a successful phishing attack).
-
-### References on Quishing
-
-There are numerous references on the subject, here are some of them:
-
-Any.run - New phishing tactics - https://any.run/cybersecurity-blog/new-phishing-tactics/
-Perception-point - QR Code Red: Quishing Attacks and How to Prevent Them - https://perception-point.io/blog/qr-code-red-quishing-attacks-and-how-to-prevent-them/
-Malware Bytes - Targeted phishing campaigns - https://www.malwarebytes.com/blog/news/2023/08/qr-codes-deployed-in-targeted-phishing-campaigns
-Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-attacks-use-qr-codes-to-steal-banking-credentials/
-Identify Quishing Emails using Sentinel - https://rodtrent.substack.com/p/microsoft-sentinel-soc-101-how-to-b94
 
 ## Why Machine Learning?
 
@@ -56,8 +44,8 @@ There are multiple existing ways to attempt to detect phishing emails which coul
 
 Most modern email security solutions generally offer a detonation capability for emails, in addition to any of the above detections, which allows them to analyze emails in a sandbox for further investigation. Detonation can trigger attachments, follow URL redirections, examine email content and compare multiple signatures that are usually hosted, maintained and updated by the security provider. However, QR Codes are simple images that do not pose any obvious threat (from a signature perspective) and that most security solutions, at the time of writing, are not able to detect efficiently. <br />
 
-The latter is not entierly correct, a few existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to detect and read QR Codes already in attachments, but this has some limitations. 
-One of them is that QRCode detection generally works by decoding an image based on QRCode ISO standard: <a href='https://www.iso.org/standard/62021.html'>ISO 18004:2015</a> The standard defines the requirements for the symbology known as QR Code. It specifies the QR Code characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a QRCode which most QRCode application readers will be able to decode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. 
+The latter is not entierly correct, a few existing vendors will detect Quishing based on the above bullets (mainly IOCs), some of them are also trying to detect and read QR Codes already in attachments, but this has some limitations. <br />
+QRCode detection generally works by decoding an image based on QRCode ISO standard: <a href='https://www.iso.org/standard/62021.html'>ISO 18004:2015</a> The standard defines the requirements for the symbology known as QR Code. It specifies the QR Code characteristics, data character encoding methods, symbol formats, dimensional characteristics, error correction rules, reference decoding algorithm, production quality requirements, and user-selectable application parameters. It is however possible to deviate slighly from these specifications and still having a QRCode which most QRCode application readers will be able to decode, or find ways to be undetected by most QRCode reading libraries but still being able to be read by a mobile device camera. 
 
 For instance, take a random QRCode analyzer online, it will be able to decode most of the QRCodes you would challenge him too and return the encoded string, but what about this one:
 
@@ -176,3 +164,14 @@ We explored how a "modern" phishing technique that uses QRCodes to lure victims 
 Quishing is a serious threat that orgnanizations have to face with today and ML cam help alleviate the inherent difficulty or products limitations in detecting such threats.
 However, there are limitations and challenges to the approach, such as the usual suspects (false positives, false negatives) and how well the model is trained. 
 Readers should also keep in mind that Quishing is just one of the many forms of phishing, attackers will keep coming with new and clever techniques over time. Despite a need to have strong detections and mitigations in place, Users vigileance will always be the first (or last) line of defense. 
+
+
+## References on Quishing
+
+There are numerous references on the subject, here are some of them:
+
+Any.run - New phishing tactics - https://any.run/cybersecurity-blog/new-phishing-tactics/
+Perception-point - QR Code Red: Quishing Attacks and How to Prevent Them - https://perception-point.io/blog/qr-code-red-quishing-attacks-and-how-to-prevent-them/
+Malware Bytes - Targeted phishing campaigns - https://www.malwarebytes.com/blog/news/2023/08/qr-codes-deployed-in-targeted-phishing-campaigns
+Bleeping Computer - https://www.bleepingcomputer.com/news/security/phishing-attacks-use-qr-codes-to-steal-banking-credentials/
+Identify Quishing Emails using Sentinel - https://rodtrent.substack.com/p/microsoft-sentinel-soc-101-how-to-b94
