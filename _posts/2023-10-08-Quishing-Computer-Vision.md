@@ -9,7 +9,7 @@ last_modified_at: 20@#-01-30T13:59:57-04:00
 
 *One of the emerging trends in phishing campaigns is the use of QR codes embedded in images or PDF files to direct users to malicious websites. Unlike plain text URLs or attachments, QR codes are not easily filtered out by most email security solutions. This problematics was the occasion for me to experiment with Machine Learning as this is an interesting use case for the recent democratization of ML models to detect, label or describe image content. There are many ways to leverage machine learning models, but they can be complex. Starting with a concrete modern security issue can hopefully help alleviate some of the complexity and give initial thoughts for further exploration.*
 
-*In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. These are two common computer vision tasks that can be performed by various machine learning models. The post is accompanied with a proof-of-concept written in C# which can be adapted to your own (experimentation) needs.*
+In this article, I will explore, for purely educational purposes, how computer vision can help to detect QR codes in email attachments using image classification or object detection. These are two common computer vision tasks that can be performed by various machine learning models. The post is accompanied with a proof-of-concept written in C# which can be adapted to your own (experimentation) needs.
 
 <div style="text-align:center">
   <img src="https://github.com/tuxnam/Blog/assets/18376283/7e5d2374-e6bf-48f7-bde9-f404fddfbddd" width="400px" />
