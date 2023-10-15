@@ -18,7 +18,7 @@ In this article, I will explore, for purely educational purposes, how computer v
 ## A recap on Quishing or QR Code Phishing 
 
 Quishing, or QR Code phishing, is a type of phishing attack that became more popular since mid-2023. It uses a QR Code in an email to trick the victim into scanning it with their mobile device. The email pretends to be from a trusted company and tries to persuade the victim to act quickly or emotionally (for example, by offering a reward, asking for a password reset, mentioning a police statement, etc.).
-When the victim scans the QR Code, they are taken (often through several redirections to avoid detection, using open redirects on trusted domains) to a malicious website that steals their credentials or other personal data. 
+When the victim scans the QR Code, he is taken (often through several redirections to avoid detection, using open redirects on trusted domains) to a malicious website that steals their credentials or other personal data. <br />
 The attacker can then use this data to compromise the victim’s account or device.
 
 This article does not aim to provide a detailed analysis of the technique, the countermeasures, or the observed campaigns, but rather to reflect on opportunities offered by ML for modern phishing attacks. 
