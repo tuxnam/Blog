@@ -66,11 +66,11 @@ Machine learning is not a magic, bullet-proof solution either, but it offers an 
 
 ### What type of Machine Learning?
 
-I am not an ML/AI expert and the idea was also to learn and leverage available tools for the domain I know, security. 
+I am not an ML/AI expert and the idea was also to learn and leverage available tools for the domain I know, security. <br />
 Nowadays, with the rise of ML tools, it is easy to have access to powerful models which have been "tuned" for purpose (i.e.: algorithms chosen wisely and parametrized), you just basically have to know which type to use, create and train a model. 
-The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, mmodel composition, object detection, or yet, few-shot learning (behind others). 
 
-While building such a model from scratch is complex, the availability of ML products today makes it easier to do simple tasks, such as the one we are interested in: detecting the presence of QR Code inside an email. 
+The models used behind computer vision are based on deep learning, and more specifically techniques such as transfer learning, model composition, object detection, or yet, few-shot learning (behind others). 
+While building such a model from scratch is complex, the availability of ML services today abstracts the complexity and makes it easier to do simple tasks, such as detecting the presence of QR Code inside an email. 
 
 ## The approach 
 
