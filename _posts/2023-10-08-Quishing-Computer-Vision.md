@@ -34,11 +34,10 @@ __Note:__ another aspect that I think deserves more attention is device manageme
 There are multiple existing ways to attempt to detect phishing emails which could apply to quishing, a non-exhaustive (and complementary) list:
 - DMARC, DKIM, SPF checks
 - Keywords in the content or the header of the email (password, MFA, urgent, payment...) 
-- Threat intelligence IOCs (IP addresses, domain names, behavior, subject...)
+- Threat intelligence IOCs (IP addresses, domain names, TTPs...)
 - Recently registered domains
 - Malicious or suspicious attachments or links
 - Heuristics and models based on multiple patterns
-- Attachments analysis
 - URLs scanning
 - ...
 
